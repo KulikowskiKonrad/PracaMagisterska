@@ -1,0 +1,47 @@
+﻿@using PracaMagisterska.BazaDanych
+@using PracaMagisterska.Models
+@model EdytujUzytkownikaViewModel
+
+
+<h2>Edytuj - @User.Identity.Name</h2>
+
+
+@using (Html.BeginForm("EdytujGracza", "Uzytkownik", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-sm-5 col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Haslo)
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                    @Html.PasswordFor(x => x.Haslo, new
+               {
+                   @class = "form-control",
+                   placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(x => x.Haslo).ToHtmlString())
+               })
+                </div>
+                @Html.ValidationMessageFor(x => x.Haslo)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5 col-md-3">
+            <div class="form-group ">
+                @Html.LabelFor(x => x.PowtorzoneHaslo)
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                    @Html.PasswordFor(x => x.PowtorzoneHaslo, new
+               {
+                   @class = "form-control",
+                   placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(x => x.PowtorzoneHaslo).ToHtmlString())
+               })
+                </div>
+                @Html.ValidationMessageFor(x => x.PowtorzoneHaslo)
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-default">Zapisz</button>
+    @Html.ActionLink("Anuluj", "Index", "Home", null, new { @class = "btn btn-default" })
+}
+
+

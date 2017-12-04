@@ -1,0 +1,87 @@
+﻿@using PracaMagisterska.BazaDanych
+@model List<Gracz>
+@using PracaMagisterska.Enums
+
+<h2>Lista graczy</h2>
+<script>
+    $(document).ready(function () {
+        $('.btn-usun').click(function () {
+            var btn = $(this);
+            swal({
+                title: 'Na pewno chcesz to usunąć?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Tak,chcę to usunąć!',
+                cancelButtonText: 'Anuluj'
+            }).then(function () {
+                $(btn).closest('form').submit();
+            })
+        });
+    });
+</script>
+
+@Html.ActionLink("Dodaj gracza", "DetaleGracza", "Gracz", null, new { @class = "btn btn-default" })
+<div class=" row">
+    <div class="col-sm-12">
+        <table class="table table-striped" style="margin-top:20px;">
+            <tr>
+                <th>
+                    Imię
+                </th>
+                <th>
+                    Nazwisko
+                </th>
+                <th>
+                    Nr licencji
+                </th>
+                <th>
+                    Pozycja
+                </th>
+                <th>
+                    Klub
+                </th>
+                <th style="width:100px;"></th>
+            </tr>
+            @foreach (Gracz gracz in Model)
+            {
+                <tr>
+                    <td>
+                        @gracz.Imie
+                    </td>
+                    <td>
+                        @gracz.Nazwisko
+                    </td>
+                    <td>
+                        @gracz.NrLicencji
+                    </td>
+                    <td>
+                        @(((PozycjaGracza)gracz.Pozycja).PobierzOpisEnuma())
+                    </td>
+                    @if (gracz.KlubId != null)
+                    {
+                        <td>
+                            @gracz.Klub.Nazwa
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>
+                        <a href="@Url.Action("DetaleGracza","Gracz", new { id = gracz.Id })" class="btn btn-default btn-sm pull-left" style="margin-right:10px;"><span class="glyphicon glyphicon-cog"></span></a>
+                        @*to jest zamiana actionLink na a*@
+                        @using (Html.BeginForm("Usun", "Gracz", FormMethod.Post, new { @class = "pull-left" }))
+                        {
+                            @Html.Hidden("id", gracz.Id)  @*nazwa ma byc tak jak nazwa parametru w kontrolerze , a wartosc pobieramy z konkretnego elementu modelu*@
+                            <button type="button" class="btn btn-default btn-sm btn-usun">
+                                <span class="glyphicon glyphicon-trash "></span>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PracaMagisterskaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Gracz">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nazwisko" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NrLicencji" Type="varchar" MaxLength="50" />
+          <Property Name="Pozycja" Type="tinyint" Nullable="false" />
+          <Property Name="CzyUsuniety" Type="bit" Nullable="false" />
+          <Property Name="KlubId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Klub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Miejscowosc" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Haslo" Type="char" MaxLength="32" Nullable="false" />
+          <Property Name="Rola" Type="tinyint" Nullable="false" />
+          <Property Name="CzyUsuniety" Type="bit" Nullable="false" />
+          <Property Name="Sol" Type="char" MaxLength="36" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Gracz_Klub">
+          <End Role="Klub" Type="Self.Klub" Multiplicity="0..1" />
+          <End Role="Gracz" Type="Self.Gracz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klub">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gracz">
+              <PropertyRef Name="KlubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PracaMagisterskaModelStoreContainer">
+          <EntitySet Name="Gracz" EntityType="Self.Gracz" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klub" EntityType="Self.Klub" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Gracz_Klub" Association="Self.FK_Gracz_Klub">
+            <End Role="Klub" EntitySet="Klub" />
+            <End Role="Gracz" EntitySet="Gracz" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PracaMagisterskaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PracaMagisterskaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Gracz" EntityType="PracaMagisterskaModel.Gracz" />
+          <EntitySet Name="Klub" EntityType="PracaMagisterskaModel.Klub" />
+          <EntitySet Name="Uzytkownik" EntityType="PracaMagisterskaModel.Uzytkownik" />
+          <AssociationSet Name="FK_Gracz_Klub" Association="PracaMagisterskaModel.FK_Gracz_Klub">
+            <End Role="Klub" EntitySet="Klub" />
+            <End Role="Gracz" EntitySet="Gracz" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Gracz">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nazwisko" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NrLicencji" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Pozycja" Type="Byte" Nullable="false" />
+          <Property Name="CzyUsuniety" Type="Boolean" Nullable="false" />
+          <Property Name="KlubId" Type="Int64" />
+          <NavigationProperty Name="Klub" Relationship="PracaMagisterskaModel.FK_Gracz_Klub" FromRole="Gracz" ToRole="Klub" />
+        </EntityType>
+        <EntityType Name="Klub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Miejscowosc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Gracz" Relationship="PracaMagisterskaModel.FK_Gracz_Klub" FromRole="Klub" ToRole="Gracz" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Haslo" Type="String" Nullable="false" MaxLength="32" FixedLength="true" Unicode="false" />
+          <Property Name="Rola" Type="Byte" Nullable="false" />
+          <Property Name="CzyUsuniety" Type="Boolean" Nullable="false" />
+          <Property Name="Sol" Type="String" Nullable="false" MaxLength="36" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Gracz_Klub">
+          <End Type="PracaMagisterskaModel.Klub" Role="Klub" Multiplicity="0..1" />
+          <End Type="PracaMagisterskaModel.Gracz" Role="Gracz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klub">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gracz">
+              <PropertyRef Name="KlubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PracaMagisterskaModelStoreContainer" CdmEntityContainer="PracaMagisterskaEntities">
+          <EntitySetMapping Name="Gracz">
+            <EntityTypeMapping TypeName="PracaMagisterskaModel.Gracz">
+              <MappingFragment StoreEntitySet="Gracz">
+                <ScalarProperty Name="KlubId" ColumnName="KlubId" />
+                <ScalarProperty Name="CzyUsuniety" ColumnName="CzyUsuniety" />
+                <ScalarProperty Name="Pozycja" ColumnName="Pozycja" />
+                <ScalarProperty Name="NrLicencji" ColumnName="NrLicencji" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Klub">
+            <EntityTypeMapping TypeName="PracaMagisterskaModel.Klub">
+              <MappingFragment StoreEntitySet="Klub">
+                <ScalarProperty Name="Miejscowosc" ColumnName="Miejscowosc" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uzytkownik">
+            <EntityTypeMapping TypeName="PracaMagisterskaModel.Uzytkownik">
+              <MappingFragment StoreEntitySet="Uzytkownik">
+                <ScalarProperty Name="Sol" ColumnName="Sol" />
+                <ScalarProperty Name="CzyUsuniety" ColumnName="CzyUsuniety" />
+                <ScalarProperty Name="Rola" ColumnName="Rola" />
+                <ScalarProperty Name="Haslo" ColumnName="Haslo" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
