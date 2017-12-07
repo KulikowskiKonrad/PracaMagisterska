@@ -12,24 +12,21 @@ namespace PracaMagisterska.BazaDanych
     using System;
     using System.Collections.Generic;
     
-    public partial class Gracz
+    public partial class Gra
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Gracz()
+        public Gra()
         {
-            this.UczestnikGry = new HashSet<UczestnikGry>();
+            this.UczestnicyGry = new HashSet<UczestnikGry>();
         }
     
         public long Id { get; set; }
-        public string Imie { get; set; }
-        public string Nazwisko { get; set; }
-        public string NrLicencji { get; set; }
-        public byte Pozycja { get; set; }
-        public bool CzyUsuniety { get; set; }
-        public Nullable<long> KlubId { get; set; }
+        public byte Typ { get; set; }
+        public string Miejsce { get; set; }
+        public bool CzyUsuniete { get; set; }
+        public System.DateTime Data { get; set; }
     
-        public virtual Klub Klub { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UczestnikGry> UczestnikGry { get; set; }
+        public virtual ICollection<UczestnikGry> UczestnicyGry { get; set; }
     }
 }

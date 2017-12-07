@@ -1,0 +1,60 @@
+﻿@model EdytujGreViewModel
+
+@*<script type="text/javascript">
+        jQuery(function ($) {
+            $.validator.addMethod('date',
+                function (value, element) {
+                    return this.optional(element) || moment(value, 'DD.MM.YYYY HH:mm').isValid();
+                });
+        });
+
+        $(document).ready(function () {
+            $('.input-group.date-time').datetimepicker({
+                locale: 'pl'
+            });
+        });
+    </script>*@
+
+<h2>Dodaj gre</h2>
+
+@using (Html.BeginForm("ZapiszDetaleGry", "Gra", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.Id)
+    <div class="row">
+        <div class="col-sm-12 col-md-5">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Miejsce)
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-home"></span></div>
+                    @Html.TextBoxFor(x => x.Miejsce, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Miejsce) })
+                </div>
+                @Html.ValidationMessageFor(x => x.Miejsce)
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+            <div class="form-group ">
+                @Html.LabelFor(x => x.Data)
+                <div class='input-group date-time'>
+                    @Html.TextBoxFor(x => x.Data, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Data) })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(x => x.Data)
+            </div>
+        </div>
+        <div class="col-sm-8 col-md-4">
+            <div class=" form-group">
+                @Html.LabelFor(x => x.TypGry)
+                <div class=" input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>
+                    @Html.DropDownListFor(x => x.TypGry, Model.ListaTypowGry, "Wybierz typ rozgrywek", new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(x => x.TypGry)
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-default">Zapisz</button>
+    @Html.ActionLink("Anuluj", "ListaGier", "Gra", null, new { @class = "btn btn-default" });
+}

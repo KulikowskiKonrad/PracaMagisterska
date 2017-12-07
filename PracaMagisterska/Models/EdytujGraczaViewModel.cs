@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PracaMagisterska.Extensions;
 
 namespace PracaMagisterska.Models
 {
@@ -52,12 +53,12 @@ namespace PracaMagisterska.Models
             ListaPozycji = new List<SelectListItem>();
             ListaPozycji.Add(new SelectListItem()
             {
-                Text = PozycjaGracza.Wybijajacy.ToString(),
-                Value=((byte)PozycjaGracza.Wybijajacy).ToString()
+                Text = PozycjaGracza.Wybijajacy.PobierzOpisEnuma(),
+                Value = ((byte)PozycjaGracza.Wybijajacy).ToString()
             });
             ListaPozycji.Add(new SelectListItem()
             {
-                Text = PozycjaGracza.Rzucajacy.ToString(),
+                Text = PozycjaGracza.Rzucajacy.PobierzOpisEnuma(),
                 Value = ((byte)PozycjaGracza.Rzucajacy).ToString()
             });
         }

@@ -30,11 +30,20 @@
             }
         });
 
+        jQuery(function ($) {
+            $.validator.addMethod('date',
+                function (value, element) {
+                    return this.optional(element) || moment(value, 'DD.MM.YYYY HH:mm').isValid();
+                });
+        });
 
         $(document).ready(function () {
             autosize($('textarea'));
             $('#link-wyloguj').click(function () {
                 $('#form-wyloguj').submit();
+            });
+            $('.input-group.date-time').datetimepicker({
+                locale: 'pl'
             });
         });
 
@@ -53,12 +62,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
-                        @if (Request.IsAuthenticated == true)
-                        {
-                            <li>
-                                @Html.ActionLink("Lista graczy", "ListaGraczy", "Gracz")
-                            </li>
-                        }
+                    @if (Request.IsAuthenticated == true)
+                    {
+                        <li>
+                            @Html.ActionLink("Lista graczy", "ListaGraczy", "Gracz")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Lista gier", "ListaGier", "Gra")
+                        </li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>

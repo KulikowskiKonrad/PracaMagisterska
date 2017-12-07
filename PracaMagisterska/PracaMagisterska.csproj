@@ -189,6 +189,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BazaDanych\Gra.cs">
+      <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="BazaDanych\Gracz.cs">
       <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
     </Compile>
@@ -210,25 +213,32 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PracaMagisterskaModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="BazaDanych\UczestnikGry.cs">
+      <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="BazaDanych\Uzytkownik.cs">
       <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\GraController.cs" />
     <Compile Include="Controllers\GraczController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UzytkownikController.cs" />
     <Compile Include="Enums\PozycjaGracza.cs" />
     <Compile Include="Enums\RolaUzytkownika.cs" />
+    <Compile Include="Enums\TypGry.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MD5Helper.cs" />
+    <Compile Include="Models\EdytujGreViewModel.cs" />
     <Compile Include="Models\EdytujUzytkownikaViewModel.cs" />
     <Compile Include="Models\LogowanieViewModel.cs" />
     <Compile Include="Models\EdytujGraczaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repozytoria\GraczRepozytorium.cs" />
+    <Compile Include="Repozytoria\GraRepozytorium.cs" />
     <Compile Include="Repozytoria\KlubRepozytorium.cs" />
     <Compile Include="Repozytoria\UzytkownikRepozytorium.cs" />
     <Compile Include="Startup.cs" />
@@ -244,6 +254,7 @@
       <DependentUpon>PracaMagisterskaModel.edmx</DependentUpon>
       <LastGenOutput>PracaMagisterskaModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\sweetalert2.css" />
     <Content Include="favicon.ico" />
@@ -251,6 +262,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\autosize.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -258,6 +270,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\sweetalert2.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -299,6 +312,8 @@
     <Content Include="Views\Gracz\ListaGraczy.cshtml" />
     <Content Include="Views\Gracz\DetaleGracza.cshtml" />
     <Content Include="Views\Gracz\DodajGracza.cshtml" />
+    <Content Include="Views\Gra\ListaGier.cshtml" />
+    <Content Include="Views\Gra\DetaleGry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

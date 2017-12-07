@@ -13,12 +13,15 @@ namespace PracaMagisterska
                            "~/Scripts/jquery.validate*",
                            "~/Scripts/bootstrap.js",
                            "~/Scripts/autosize.js",
-                           "~/Scripts/sweetalert2.js"
+                           "~/Scripts/sweetalert2.js",
+                           "~/Scripts/moment-with-locales.js",
+                           "~/Scripts/bootstrap-datetimepicker.js"
                         ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/sweetalert2.css",
+                      "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/site.css"));
         }
     }

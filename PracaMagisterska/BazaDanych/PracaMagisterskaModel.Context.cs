@@ -28,5 +28,7 @@ namespace PracaMagisterska.BazaDanych
         public virtual DbSet<Gracz> Gracz { get; set; }
         public virtual DbSet<Klub> Klub { get; set; }
         public virtual DbSet<Uzytkownik> Uzytkownik { get; set; }
+        public virtual DbSet<Gra> Gra { get; set; }
+        public virtual DbSet<UczestnikGry> UczestnikGry { get; set; }
     }
 }

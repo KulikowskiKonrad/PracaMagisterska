@@ -7,7 +7,7 @@
 {
     @Html.HiddenFor(x => x.Id)
     <div class="row">
-        <div class="col-sm-5 col-md-3">
+        <div class="col-sm-6 col-md-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.Imie)
                 <div class="input-group">
@@ -17,10 +17,7 @@
                 @Html.ValidationMessageFor(x => x.Imie)
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-5 col-md-3">
+        <div class="col-sm-6 col-md-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.Nazwisko)
                 <div class="input-group">
@@ -33,7 +30,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-5 col-md-3">
+        <div class="col-sm-6 col-md-6">
             <div class="form-group ">
                 @Html.LabelFor(x => x.NrLicencji)
                 <div class="input-group">
@@ -43,10 +40,7 @@
                 @Html.ValidationMessageFor(x => x.NrLicencji)
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-6 col-md-6">
             <div class=" form-group">
                 @Html.LabelFor(x => x.Pozycja)
                 <div class=" input-group">
@@ -58,8 +52,9 @@
         </div>
     </div>
 
+
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-12 col-md-12">
             <div class=" form-group">
                 @Html.LabelFor(x => x.KlubId)
                 <div class=" input-group">
@@ -70,6 +65,8 @@
             </div>
         </div>
     </div>
+
+
 
     <button class="btn btn-default">Zapisz</button>
     @Html.ActionLink("Anuluj", "ListaGraczy", "Gracz", null, new { @class = "btn btn-default" });
