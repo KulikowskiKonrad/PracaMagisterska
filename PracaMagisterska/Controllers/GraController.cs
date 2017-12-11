@@ -12,6 +12,28 @@ namespace PracaMagisterska.Controllers
 {
     public class GraController : Controller
     {
+        [Authorize]
+        [HttpPost]
+        public ActionResult Usun(long id)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    GraRepozytorium graRepozytorium = new GraRepozytorium();
+                    bool rezultatUsuniecia = graRepozytorium.Usun(id);
+                    return RedirectToAction("ListaGier");
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
 
         [Authorize]
         [HttpGet]
@@ -52,26 +74,47 @@ namespace PracaMagisterska.Controllers
             }
         }
 
-        //[Authorize]
-        //[HttpPost]
-        //public ActionResult ZapiszDetaleGry(EdytujGreViewModel model)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-
-        //        }
-        //        else
-        //        {
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return View("Error");
-        //    }
-        //}
+        [Authorize]
+        [HttpPost]
+        public ActionResult ZapiszDetaleGry(EdytujGreViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    GraRepozytorium graRepozytorium = new GraRepozytorium();
+                    Gra gra = null;
+                    if (model.Id.HasValue)
+                    {
+                        gra = graRepozytorium.Pobierz(model.Id.Value);
+                    }
+                    else
+                    {
+                        gra = new Gra();
+                    }
+                    gra.Miejsce = model.Miejsce;
+                    gra.Typ = (byte)model.TypGry;
+                    gra.Data = (DateTime)model.Data;
+                    long? rezultatZapisu = graRepozytorium.Zapisz(gra);
+                    if (rezultatZapisu != null)
+                    {
+                        return RedirectToAction("ListaGier", model);
+                    }
+                    else
+                    {
+                        return View("Error");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("DetaleGry", model);
+                }
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
 
 
     }
