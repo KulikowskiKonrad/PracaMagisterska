@@ -65,6 +65,20 @@ namespace PracaMagisterska.Controllers
                     model.Data = pobranaGra.Data;
                     model.Miejsce = pobranaGra.Miejsce;
                     model.TypGry = (TypGry)pobranaGra.Typ;
+                    if (pobranaGra.UczestnicyGry.Any())
+                    {
+                        model.ListaUczestnikow.Clear();
+                    }
+                    foreach (UczestnikGry uczestnik in pobranaGra.UczestnicyGry)
+                    {
+                        model.ListaUczestnikow.Add(new UczestnikGryViewModel()
+                        {
+                            GraczId = uczestnik.GraczId,
+                            ImiePrzeciwnika = uczestnik.ImiePrzeciwnika,
+                            NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika,
+                            Id = uczestnik.Id
+                        });
+                    }
                 }
                 return View(model);
             }
@@ -96,6 +110,24 @@ namespace PracaMagisterska.Controllers
                     gra.Typ = (byte)model.TypGry;
                     gra.Data = (DateTime)model.Data;
                     long? rezultatZapisu = graRepozytorium.Zapisz(gra);
+                    UczestnikGry uczestnikGry = null;
+                    UczestnikGryRepozytorium uczestnikGryRepozytorium = new UczestnikGryRepozytorium();
+                    foreach (UczestnikGryViewModel uczestnik in model.ListaUczestnikow)
+                    {
+                        if (uczestnik.Id.HasValue)
+                        {
+                            uczestnikGry = uczestnikGryRepozytorium.Pobierz(uczestnik.Id.Value);
+                        }
+                        else
+                        {
+                            uczestnikGry = new UczestnikGry();
+                            uczestnikGry.GraId = gra.Id;
+                        }
+                        uczestnikGry.ImiePrzeciwnika = uczestnik.ImiePrzeciwnika;
+                        uczestnikGry.NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika;
+                        uczestnikGry.GraczId = uczestnik.GraczId.Value;//uczestnik gry jest z tabeli a uczestnik jest z ViewModel czyli tego co podal uzytkownik
+                        long? rezultatZapisuUczestnika = uczestnikGryRepozytorium.Zapisz(uczestnikGry);
+                    }
                     if (rezultatZapisu != null)
                     {
                         return RedirectToAction("ListaGier", model);

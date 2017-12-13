@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PracaMagisterska.Extensions;
+using PracaMagisterska.BazaDanych;
+using PracaMagisterska.Repozytoria;
 
 namespace PracaMagisterska.Models
 {
@@ -28,8 +30,27 @@ namespace PracaMagisterska.Models
 
         public List<SelectListItem> ListaTypowGry { get; set; }
 
+        public List<SelectListItem> ListaGraczy { get; set; }
+
+        public List<UczestnikGryViewModel> ListaUczestnikow { get; set; }
+
         public EdytujGreViewModel()
         {
+            ListaUczestnikow = new List<UczestnikGryViewModel>();
+            ListaUczestnikow.Add(new UczestnikGryViewModel());
+            ListaUczestnikow.Add(new UczestnikGryViewModel());
+
+            ListaGraczy = new List<SelectListItem>();
+            GraczRepozytorium graczRepozytorium = new GraczRepozytorium();
+            List<Gracz> pobraniGracze = graczRepozytorium.PobierzWszystkich();
+            foreach (Gracz gracz in pobraniGracze)
+            {
+                ListaGraczy.Add(new SelectListItem()
+                {
+                    Text = gracz.Imie.ToString() + " " + gracz.Nazwisko.ToString(),
+                    Value = gracz.Id.ToString()
+                });
+            }
             ListaTypowGry = new List<SelectListItem>();
             ListaTypowGry.Add(new SelectListItem()
             {
@@ -57,5 +78,24 @@ namespace PracaMagisterska.Models
                 Value = TypGry.Trening.ToString()
             });
         }
+    }
+    public class UczestnikGryViewModel
+    {
+
+        public long? Id { get; set; }
+
+        [Display(Name = "Imię przeciwnika")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Niepoprawna ilość znaków")]
+        [Required(ErrorMessage = "Pole wymagane")]
+        public string ImiePrzeciwnika { get; set; }
+
+        [Display(Name = "Nazwisko przeciwnika")]
+        [Required(ErrorMessage = "Pole wymagane")]
+        [StringLength(20, MinimumLength = 4, ErrorMessage = "Niepoprawna ilość znaków")]
+        public string NazwiskoPrzeciwnika { get; set; }
+
+        [Display(Name = "Gracz")]
+        [Required(ErrorMessage = "Pole wymagane")]
+        public long? GraczId { get; set; }
     }
 }

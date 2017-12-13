@@ -17,7 +17,7 @@ namespace PracaMagisterska.Repozytoria
                 List<Gra> listaGier = null;
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
-                    listaGier = baza.Gra.Where(x => !x.CzyUsuniete).ToList();
+                    listaGier = baza.Gra.Include(x => x.UczestnicyGry).Where(x => !x.CzyUsuniete).ToList();
                 }
                 return listaGier;
             }
@@ -34,7 +34,7 @@ namespace PracaMagisterska.Repozytoria
                 Gra rezultat = null;
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
-                    rezultat = baza.Gra.Where(x => x.Id == id).Single();
+                    rezultat = baza.Gra.Include(x => x.UczestnicyGry).Where(x => x.Id == id).Single();
                     return rezultat;
                 }
             }

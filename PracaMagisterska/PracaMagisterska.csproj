@@ -240,6 +240,7 @@
     <Compile Include="Repozytoria\GraczRepozytorium.cs" />
     <Compile Include="Repozytoria\GraRepozytorium.cs" />
     <Compile Include="Repozytoria\KlubRepozytorium.cs" />
+    <Compile Include="Repozytoria\UczestnikGryRepozytorium.cs" />
     <Compile Include="Repozytoria\UzytkownikRepozytorium.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
