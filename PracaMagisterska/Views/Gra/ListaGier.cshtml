@@ -35,7 +35,7 @@
                 <th>
                     Miejsce
                 </th>
-                <th>
+                <th class="hidden-xs">
                     Ilość uczestników
                 </th>
                 <th style="width:100px;"></th>
@@ -52,8 +52,8 @@
                     <td>
                         @gra.Miejsce
                     </td>
-                    <td>
-                        @gra.UczestnicyGry.Count
+                    <td class="hidden-xs">
+                        @gra.UczestnicyGry.Where(x => !x.CzyUsuniety).Count()
                     </td>
                     <td>
                         <a href="@Url.Action("DetaleGry","Gra", new { id = gra.Id })" class="btn btn-default btn-sm pull-left" style="margin-right:10px;"><span class="glyphicon glyphicon-cog"></span></a>

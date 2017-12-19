@@ -69,7 +69,7 @@ namespace PracaMagisterska.Controllers
                     {
                         model.ListaUczestnikow.Clear();
                     }
-                    foreach (UczestnikGry uczestnik in pobranaGra.UczestnicyGry)
+                    foreach (UczestnikGry uczestnik in pobranaGra.UczestnicyGry.Where(x => !x.CzyUsuniety))
                     {
                         model.ListaUczestnikow.Add(new UczestnikGryViewModel()
                         {
@@ -127,6 +127,14 @@ namespace PracaMagisterska.Controllers
                         uczestnikGry.NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika;
                         uczestnikGry.GraczId = uczestnik.GraczId.Value;//uczestnik gry jest z tabeli a uczestnik jest z ViewModel czyli tego co podal uzytkownik
                         long? rezultatZapisuUczestnika = uczestnikGryRepozytorium.Zapisz(uczestnikGry);
+                    }
+                    List<UczestnikGry> listaUczestnikowGryWBazie = uczestnikGryRepozytorium.PobierzListeUczestnikow(gra.Id);
+                    List<UczestnikGry> uczestnicyDoUsuniecia = listaUczestnikowGryWBazie.Where(x => !model.ListaUczestnikow.Where(y => y.Id == x.Id).Any()).ToList();
+                    // w liscie uczestnikowGryDoUsuniecia przypisuje sie elementy z listy uczestnikowGryWBazie ktorych id nie wystepuje w ViewModel na liscie uczestnmikow gry
+                    foreach (UczestnikGry uczestnik in uczestnicyDoUsuniecia)
+                    {
+                        uczestnik.CzyUsuniety = true;
+                        long? rezultatZapisuUczestnika = uczestnikGryRepozytorium.Zapisz(uczestnik);
                     }
                     if (rezultatZapisu != null)
                     {

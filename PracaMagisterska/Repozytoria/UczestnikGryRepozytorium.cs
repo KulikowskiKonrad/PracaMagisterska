@@ -16,7 +16,24 @@ namespace PracaMagisterska.Repozytoria
                 UczestnikGry rezultat = null;
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
-                    rezultat = baza.UczestnikGry.Where(x => x.Id == id).Single();
+                    rezultat = baza.UczestnikGry.Where(x => x.Id == id && !x.CzyUsuniety).Single();
+                    return rezultat;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public List<UczestnikGry> PobierzListeUczestnikow(long graId)
+        {
+            try
+            {
+                List<UczestnikGry> rezultat = null;
+                using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
+                {
+                    rezultat = baza.UczestnikGry.Where(x => x.GraId == graId).ToList();
                     return rezultat;
                 }
             }

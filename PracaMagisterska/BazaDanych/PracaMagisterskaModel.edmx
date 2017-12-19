@@ -44,6 +44,7 @@
           <Property Name="ImiePrzeciwnika" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="NazwiskoPrzeciwnika" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="GraId" Type="bigint" Nullable="false" />
+          <Property Name="CzyUsuniety" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Uzytkownik">
           <Key>
@@ -202,6 +203,7 @@
           <Property Name="GraId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Gra" Relationship="PracaMagisterskaModel.FK_UczestnikGry_Gra" FromRole="UczestnikGry" ToRole="Gra" />
           <NavigationProperty Name="Gracz" Relationship="PracaMagisterskaModel.FK_UczestnikGry_Gracz" FromRole="UczestnikGry" ToRole="Gracz" />
+          <Property Name="CzyUsuniety" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_UczestnikGry_Gra">
           <End Type="PracaMagisterskaModel.Gra" Role="Gra" Multiplicity="1" />
@@ -281,6 +283,7 @@
           <EntitySetMapping Name="UczestnikGry">
             <EntityTypeMapping TypeName="PracaMagisterskaModel.UczestnikGry">
               <MappingFragment StoreEntitySet="UczestnikGry">
+                <ScalarProperty Name="CzyUsuniety" ColumnName="CzyUsuniety" />
                 <ScalarProperty Name="GraId" ColumnName="GraId" />
                 <ScalarProperty Name="NazwiskoPrzeciwnika" ColumnName="NazwiskoPrzeciwnika" />
                 <ScalarProperty Name="ImiePrzeciwnika" ColumnName="ImiePrzeciwnika" />

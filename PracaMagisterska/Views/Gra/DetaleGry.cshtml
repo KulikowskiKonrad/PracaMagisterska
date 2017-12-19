@@ -1,23 +1,55 @@
 ﻿@model EdytujGreViewModel
 
-@*<script type="text/javascript">
-        jQuery(function ($) {
-            $.validator.addMethod('date',
-                function (value, element) {
-                    return this.optional(element) || moment(value, 'DD.MM.YYYY HH:mm').isValid();
-                });
+<script type="text/javascript">
+    $(document).ready(function () {
+        pokazUkryjPrzyciskUsuwaniaGracza();
+    });
+    function dodajGracza(przycisk) {
+        let wiersz = $(przycisk).closest('.row');
+        let skopiowanyWiersz = wiersz.clone();
+        skopiowanyWiersz.find('input,select').val('');
+        skopiowanyWiersz.find('.has-error').removeClass('has-error');
+        skopiowanyWiersz.find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid').empty();
+        skopiowanyWiersz.insertAfter(wiersz);
+        przeliczIndeksyWUczestnikach();
+        ponowniePodepnijWalidacje();
+        pokazUkryjPrzyciskUsuwaniaGracza();
+    }
+
+    function pokazUkryjPrzyciskUsuwaniaGracza() {
+        if ($('.btn-usunGracza').length == 1) {
+            $('.btn-usunGracza').attr('disabled', true);
+        } else {
+            $('.btn-usunGracza').attr('disabled', false);
+        }
+    }
+
+    function usunGracza(przycisk) {
+        let wiersz = $(przycisk).closest('.row');
+        wiersz.remove();
+        przeliczIndeksyWUczestnikach();
+        ponowniePodepnijWalidacje();
+        pokazUkryjPrzyciskUsuwaniaGracza();
+    }
+    function ponowniePodepnijWalidacje() {
+        let form = $("#formularzDetaliGry");
+        form.unbind();
+        form.data("validator", null);
+        $.validator.unobtrusive.parse(document);
+    }
+    function przeliczIndeksyWUczestnikach() {
+        $('.wierszUczestnika').each(function (index) {
+            let kopiaWiersza = $(this).clone();
+            let obecnyNr = kopiaWiersza.find('input:hidden').attr('name').replace('ListaUczestnikow[', '').replace('].Id', '');
+            let nowyHtml = kopiaWiersza[0].outerHTML.replaceAll('ListaUczestnikow[' + obecnyNr, 'ListaUczestnikow[' + index).replaceAll('ListaUczestnikow_' + obecnyNr, 'ListaUczestnikow_' + index);
+            $(this).replaceWith(nowyHtml);
         });
+    }
+</script>
 
-        $(document).ready(function () {
-            $('.input-group.date-time').datetimepicker({
-                locale: 'pl'
-            });
-        });
-    </script>*@
+<h2>Detale gry</h2>
 
-<h2>Dodaj grę</h2>
-
-@using (Html.BeginForm("ZapiszDetaleGry", "Gra", FormMethod.Post))
+@using (Html.BeginForm("ZapiszDetaleGry", "Gra", FormMethod.Post, new { id = "formularzDetaliGry" }))
 {
     @Html.HiddenFor(x => x.Id)
     <div class="row">
@@ -57,8 +89,8 @@
 
     for (int i = 0; i < Model.ListaUczestnikow.Count; i++)
     {
-        @Html.HiddenFor(x => x.ListaUczestnikow[i].Id)
-        <div class="row">
+        <div class="row wierszUczestnika">
+            @Html.HiddenFor(x => x.ListaUczestnikow[i].Id)
             <div class="col-sm-4 col-md-3">
                 <div class=" form-group">
                     @Html.LabelFor(x => x.ListaUczestnikow[i].GraczId)
@@ -70,7 +102,7 @@
                     @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].GraczId)
                 </div>
             </div>
-            <div class="col-sm-4 col-md-4">
+            <div class="col-sm-4 col-md-3">
                 <div class="form-group">
                     @Html.LabelFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika)
                     <div class="input-group">
@@ -84,10 +116,24 @@
                 <div class="form-group">
                     @Html.LabelFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika)
                     <div class="input-group">
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-user" style="margin-right:10px;"></span></div>
                         @Html.TextBoxFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika) })
                     </div>
                     @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika)
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div class="input-group" style="width:100%">
+                        <button type="button" class="btn btn-default btn-sm  btn-usunGracza pull-right" onclick="usunGracza(this);">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm pull-right" style="margin-right:20px;" onclick="dodajGracza(this);">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,3 +142,4 @@
     <button class="btn btn-default">Zapisz</button>
     @Html.ActionLink("Anuluj", "ListaGier", "Gra", null, new { @class = "btn btn-default" });
 }
+

@@ -34,10 +34,10 @@ namespace PracaMagisterska.Models
 
         public List<UczestnikGryViewModel> ListaUczestnikow { get; set; }
 
+
         public EdytujGreViewModel()
         {
             ListaUczestnikow = new List<UczestnikGryViewModel>();
-            ListaUczestnikow.Add(new UczestnikGryViewModel());
             ListaUczestnikow.Add(new UczestnikGryViewModel());
 
             ListaGraczy = new List<SelectListItem>();
@@ -97,5 +97,6 @@ namespace PracaMagisterska.Models
         [Display(Name = "Gracz")]
         [Required(ErrorMessage = "Pole wymagane")]
         public long? GraczId { get; set; }
+
     }
 }

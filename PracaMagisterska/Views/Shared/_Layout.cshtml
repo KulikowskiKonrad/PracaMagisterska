@@ -30,6 +30,15 @@
             }
         });
 
+        function escapeRegExp(str) {
+            return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        }
+
+        String.prototype.replaceAll = function (search, replacement) {
+            var target = this;
+            return target.replace(new RegExp(escapeRegExp(search), 'g'), replacement);
+        };
+
         jQuery(function ($) {
             $.validator.addMethod('date',
                 function (value, element) {

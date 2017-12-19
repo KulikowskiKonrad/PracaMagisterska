@@ -19,6 +19,7 @@ namespace PracaMagisterska.BazaDanych
         public string ImiePrzeciwnika { get; set; }
         public string NazwiskoPrzeciwnika { get; set; }
         public long GraId { get; set; }
+        public bool CzyUsuniety { get; set; }
     
         public virtual Gra Gra { get; set; }
         public virtual Gracz Gracz { get; set; }
