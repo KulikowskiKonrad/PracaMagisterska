@@ -17,7 +17,7 @@ namespace PracaMagisterska.BazaDanych
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Gracz()
         {
-            this.UczestnikGry = new HashSet<UczestnikGry>();
+            this.UczestnicyGry = new HashSet<UczestnikGry>();
         }
     
         public long Id { get; set; }
@@ -27,9 +27,11 @@ namespace PracaMagisterska.BazaDanych
         public byte Pozycja { get; set; }
         public bool CzyUsuniety { get; set; }
         public Nullable<long> KlubId { get; set; }
+        public long UzytkownikId { get; set; }
     
         public virtual Klub Klub { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UczestnikGry> UczestnikGry { get; set; }
+        public virtual ICollection<UczestnikGry> UczestnicyGry { get; set; }
+        public virtual Uzytkownik Uzytkownik { get; set; }
     }
 }

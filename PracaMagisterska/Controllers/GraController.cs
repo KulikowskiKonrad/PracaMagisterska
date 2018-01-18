@@ -80,6 +80,10 @@ namespace PracaMagisterska.Controllers
                         });
                     }
                 }
+                else
+                {
+                    model.TypGry = TypGry.Trening;
+                }
                 return View(model);
             }
             catch (Exception ex)

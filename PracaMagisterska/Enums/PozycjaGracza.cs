@@ -8,9 +8,9 @@ namespace PracaMagisterska.Enums
 {
     public enum PozycjaGracza
     {
-        [Description("Wybijający")]
+        [Description("Puenter")]
         Wybijajacy = 1,
-        [Description("Rzucający")]
+        [Description("Strzelec")]
         Rzucajacy = 2
     }
 }

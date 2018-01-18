@@ -25,8 +25,10 @@ namespace PracaMagisterska.BazaDanych
         public string Miejsce { get; set; }
         public bool CzyUsuniete { get; set; }
         public System.DateTime Data { get; set; }
+        public long UzytkownikId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UczestnikGry> UczestnicyGry { get; set; }
+        public virtual Uzytkownik Uzytkownik { get; set; }
     }
 }

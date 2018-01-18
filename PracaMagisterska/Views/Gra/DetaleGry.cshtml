@@ -3,24 +3,58 @@
 <script type="text/javascript">
     $(document).ready(function () {
         pokazUkryjPrzyciskUsuwaniaGracza();
+        zapamietajWartosciGraczy();
+        $('body').delegate('.wierszUczestnika input, .wierszUczestnika select', 'change', function () {
+            zapamietajWartosciGraczy();
+        });
+        $('#TypGry').change(function () {
+            if ($('#TypGry').val() != '@(TypGry.Trening)' && $('.btn-usunGracza').length > 3) {
+                while ($('.btn-usunGracza').length > 3) {
+                    $('.btn-usunGracza')[3].click();
+                }
+            }
+        });
     });
+    function zapamietajWartosciGraczy() {
+        $('.wierszUczestnika input, .wierszUczestnika select').each(function () {
+            $(this).attr('data-wartosc', $(this).val());
+        });
+    }
+    function przywrocWartosciGraczy() {
+        $('.wierszUczestnika input, .wierszUczestnika select').each(function () {
+            $(this).val($(this).attr('data-wartosc'));
+        });
+    }
+
     function dodajGracza(przycisk) {
-        let wiersz = $(przycisk).closest('.row');
-        let skopiowanyWiersz = wiersz.clone();
-        skopiowanyWiersz.find('input,select').val('');
-        skopiowanyWiersz.find('.has-error').removeClass('has-error');
-        skopiowanyWiersz.find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid').empty();
-        skopiowanyWiersz.insertAfter(wiersz);
-        przeliczIndeksyWUczestnikach();
-        ponowniePodepnijWalidacje();
-        pokazUkryjPrzyciskUsuwaniaGracza();
+        if ($('#TypGry').val() == '@(TypGry.Trening)' || $('.btn-usunGracza').length<3) {
+            let wiersz = $(przycisk).closest('.row');
+            let skopiowanyWiersz = wiersz.clone();
+            skopiowanyWiersz.find('input,select').attr('data-wartosc', '');
+            skopiowanyWiersz.find('.has-error').removeClass('has-error');
+            skopiowanyWiersz.find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid').empty();
+            skopiowanyWiersz.insertAfter(wiersz);
+            przeliczIndeksyWUczestnikach();
+            ponowniePodepnijWalidacje();
+            pokazUkryjPrzyciskUsuwaniaGracza();
+            przywrocWartosciGraczy();
+            pokazUkryjPrzyciskDodawaniaGracza();
+        }
     }
 
     function pokazUkryjPrzyciskUsuwaniaGracza() {
         if ($('.btn-usunGracza').length == 1) {
             $('.btn-usunGracza').attr('disabled', true);
         } else {
-            $('.btn-usunGracza').attr('disabled', false);
+            $('.btn-usunGracza').removeAttr('disabled');
+        }
+    }
+
+    function pokazUkryjPrzyciskDodawaniaGracza() {
+        if ($('#TypGry').val() != '@(TypGry.Trening)' && $('.btn-usunGracza').length == 3) {
+            $('.btn-dodajGracza').attr('disabled', true);
+        } else {
+            $('.btn-dodajGracza').removeAttr('disabled');
         }
     }
 
@@ -30,6 +64,8 @@
         przeliczIndeksyWUczestnikach();
         ponowniePodepnijWalidacje();
         pokazUkryjPrzyciskUsuwaniaGracza();
+        przywrocWartosciGraczy();
+        pokazUkryjPrzyciskDodawaniaGracza();
     }
     function ponowniePodepnijWalidacje() {
         let form = $("#formularzDetaliGry");
@@ -44,6 +80,13 @@
             let nowyHtml = kopiaWiersza[0].outerHTML.replaceAll('ListaUczestnikow[' + obecnyNr, 'ListaUczestnikow[' + index).replaceAll('ListaUczestnikow_' + obecnyNr, 'ListaUczestnikow_' + index);
             $(this).replaceWith(nowyHtml);
         });
+    }
+    function wybierzPopapZawodnika(kliknietyPrzycisk) {
+        if ($("#TypGry").val() != '@(TypGry.Trening)') {
+            pokazPopapZawodnika(kliknietyPrzycisk);
+        } else {
+            pokazPopapZawodnikaTrening(kliknietyPrzycisk);
+        }
     }
 </script>
 
@@ -80,7 +123,7 @@
                 @Html.LabelFor(x => x.TypGry)
                 <div class=" input-group">
                     <div class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>
-                    @Html.DropDownListFor(x => x.TypGry, Model.ListaTypowGry, "Wybierz typ rozgrywek", new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.TypGry, Model.ListaTypowGry, new { @class = "form-control" })
                 </div>
                 @Html.ValidationMessageFor(x => x.TypGry)
             </div>
@@ -91,7 +134,7 @@
     {
         <div class="row wierszUczestnika">
             @Html.HiddenFor(x => x.ListaUczestnikow[i].Id)
-            <div class="col-sm-4 col-md-3">
+            <div class="col-sm-3 col-md-3">
                 <div class=" form-group">
                     @Html.LabelFor(x => x.ListaUczestnikow[i].GraczId)
                     <div class=" input-group">
@@ -102,7 +145,7 @@
                     @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].GraczId)
                 </div>
             </div>
-            <div class="col-sm-4 col-md-3">
+            <div class="col-sm-3 col-md-3">
                 <div class="form-group">
                     @Html.LabelFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika)
                     <div class="input-group">
@@ -116,7 +159,7 @@
                 <div class="form-group">
                     @Html.LabelFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika)
                     <div class="input-group">
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-user" style="margin-right:10px;"></span></div>
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-user" style="margin-right:0px;"></span></div>
                         @Html.TextBoxFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika) })
                     </div>
                     @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika)
@@ -126,13 +169,13 @@
                 <div class="form-group">
                     <label>&nbsp;</label>
                     <div class="input-group" style="width:100%">
-                        <button type="button" class="btn btn-default btn-sm  btn-usunGracza pull-right" onclick="usunGracza(this);">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm pull-right" style="margin-right:20px;" onclick="dodajGracza(this);">
+                        <button type="button" class="btn btn-default btn-sm pull-left btn-dodajGracza" onclick="dodajGracza(this);">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-
+                        <button type="button" class="btn btn-default btn-sm  btn-usunGracza pull-left" style="margin-left:10px;" onclick="usunGracza(this);">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                        <button type="button" class="btn btn-info btn-sm pull-left" onclick="wybierzPopapZawodnika(this);"><span class="glyphicon glyphicon-star"></span></button>
                     </div>
                 </div>
             </div>
@@ -140,6 +183,8 @@
     }
 
     <button class="btn btn-default">Zapisz</button>
-    @Html.ActionLink("Anuluj", "ListaGier", "Gra", null, new { @class = "btn btn-default" });
+    @Html.ActionLink("Anuluj", "ListaGier", "Gra", null, new { @class = "btn btn-default" })
 }
 
+@Html.Partial("_OcenaZawodnikaTrening")
+@Html.Partial("_OcenaZawodnika")

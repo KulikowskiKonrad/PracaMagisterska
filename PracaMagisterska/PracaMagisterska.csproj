@@ -315,6 +315,8 @@
     <Content Include="Views\Gracz\DodajGracza.cshtml" />
     <Content Include="Views\Gra\ListaGier.cshtml" />
     <Content Include="Views\Gra\DetaleGry.cshtml" />
+    <Content Include="Views\Gra\_OcenaZawodnikaTrening.cshtml" />
+    <Content Include="Views\Gra\_OcenaZawodnika.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

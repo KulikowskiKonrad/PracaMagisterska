@@ -14,11 +14,23 @@ namespace PracaMagisterska.BazaDanych
     
     public partial class Uzytkownik
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Uzytkownik()
+        {
+            this.Gra = new HashSet<Gra>();
+            this.Gracz = new HashSet<Gracz>();
+        }
+    
         public long Id { get; set; }
         public string Login { get; set; }
         public string Haslo { get; set; }
         public byte Rola { get; set; }
         public bool CzyUsuniety { get; set; }
         public string Sol { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gra> Gra { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gracz> Gracz { get; set; }
     }
 }
