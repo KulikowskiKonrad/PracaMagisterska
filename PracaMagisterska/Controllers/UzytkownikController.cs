@@ -135,7 +135,60 @@ namespace PracaMagisterska.Controllers
             }
 
         }
+        [HttpGet]
+        public ActionResult Rejestracja()
+        {
+            return View("Rejestracja");
+        }
 
+        [HttpPost]
+        public ActionResult Rejestracja(RejestracjaViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid == true)
+                {
+                    UzytkownikRepozytorium uzytkownikRepozytorium = new UzytkownikRepozytorium();
+                    Uzytkownik pobranyUzytkownik = uzytkownikRepozytorium.Pobierz(model.Login);
+                    if (pobranyUzytkownik == null)
+                    {
+                        string sol = Guid.NewGuid().ToString(); //robie sol jako GUID i zamieniam na string
+
+                        Uzytkownik uzytkownik = new Uzytkownik()
+                        {
+                            Sol = sol,
+                            Login = model.Login,
+                            Haslo = MD5Helper.GenerujMD5(model.Haslo + sol), //generujemy md5 z polaczenia hasla i soli (losowego ciagu znakow) wywoluje metode statyczna z klasy
+                                                                             //MD5Helper
+                            Rola = (byte)RolaUzytkownika.Administrator
+                        };
+                        long? rezultatZapisu = uzytkownikRepozytorium.Zapisz(uzytkownik);
+                        if (rezultatZapisu != null)
+                        {
+                            return RedirectToAction("ListaGier", "Gra");
+                        }
+                        else
+                        {
+                            return View("Error");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Login", "Login jest już zajęty");
+                        return View("Rejestracja", model);
+                    }
+                }
+                else
+                {
+                    return View("Rejestracja", model);
+                }
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+
+        }
         [HttpPost]
         public ActionResult Wyloguj()
         {
@@ -162,3 +215,5 @@ namespace PracaMagisterska.Controllers
         }
     }
 }
+
+

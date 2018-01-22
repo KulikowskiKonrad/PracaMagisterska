@@ -70,12 +70,12 @@
                         <td class="hidden-xs"></td>
                     }
                     <td>
-                        <a href="@Url.Action("DetaleGracza","Gracz", new { id = gracz.Id })" class="btn btn-default btn-sm pull-left" style="margin-right:10px;"><span class="glyphicon glyphicon-cog"></span></a>
+                        <a href="@Url.Action("DetaleGracza","Gracz", new { id = gracz.Id })" class="btn btn-default btn-sm pull-left" title="Edytuj" style="margin-right:10px;"><span class="glyphicon glyphicon-cog"></span></a>
                         @*to jest zamiana actionLink na a*@
                         @using (Html.BeginForm("Usun", "Gracz", FormMethod.Post, new { @class = "pull-left" }))
                         {
                             @Html.Hidden("id", gracz.Id)  @*nazwa ma byc tak jak nazwa parametru w kontrolerze , a wartosc pobieramy z konkretnego elementu modelu*@
-                            <button type="button" class="btn btn-default btn-sm btn-usun">
+                            <button type="button" title="Usuń" class="btn btn-default btn-sm btn-usun">
                                 <span class="glyphicon glyphicon-trash "></span>
                             </button>
                         }

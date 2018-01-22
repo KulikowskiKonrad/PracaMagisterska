@@ -3,6 +3,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         pokazUkryjPrzyciskUsuwaniaGracza();
+        pokazUkryjPrzyciskOcenianiaGracza();
         zapamietajWartosciGraczy();
         $('body').delegate('.wierszUczestnika input, .wierszUczestnika select', 'change', function () {
             zapamietajWartosciGraczy();
@@ -39,6 +40,8 @@
             pokazUkryjPrzyciskUsuwaniaGracza();
             przywrocWartosciGraczy();
             pokazUkryjPrzyciskDodawaniaGracza();
+            pokazUkryjPrzyciskOcenianiaGracza();
+
         }
     }
 
@@ -56,6 +59,16 @@
         } else {
             $('.btn-dodajGracza').removeAttr('disabled');
         }
+    }
+    function pokazUkryjPrzyciskOcenianiaGracza() {
+        $(".wierszUczestnika").each(function () {
+            let wartoscId = $(this).find(".uczestnikGryId").val();
+            if (wartoscId == "") {
+                $(this).find(".btn-ocenGracza").attr("disabled", true);
+            } else {
+                $(this).find(".btn-ocenGracza").removeAttr("disabled");
+            }
+        })
     }
 
     function usunGracza(przycisk) {
@@ -88,6 +101,11 @@
             pokazPopapZawodnikaTrening(kliknietyPrzycisk);
         }
     }
+
+    function ograniczIloscWierszyWPopap() {
+
+    }
+
 </script>
 
 <h2>Detale gry</h2>
@@ -133,7 +151,7 @@
     for (int i = 0; i < Model.ListaUczestnikow.Count; i++)
     {
         <div class="row wierszUczestnika">
-            @Html.HiddenFor(x => x.ListaUczestnikow[i].Id)
+            @Html.HiddenFor(x => x.ListaUczestnikow[i].Id, new { @class = "uczestnikGryId" })
             <div class="col-sm-3 col-md-3">
                 <div class=" form-group">
                     @Html.LabelFor(x => x.ListaUczestnikow[i].GraczId)
@@ -169,13 +187,13 @@
                 <div class="form-group">
                     <label>&nbsp;</label>
                     <div class="input-group" style="width:100%">
-                        <button type="button" class="btn btn-default btn-sm pull-left btn-dodajGracza" onclick="dodajGracza(this);">
+                        <button type="button" class="btn btn-default btn-sm pull-left btn-dodajGracza" title="Dodaj" onclick="dodajGracza(this);">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <button type="button" class="btn btn-default btn-sm  btn-usunGracza pull-left" style="margin-left:10px;" onclick="usunGracza(this);">
+                        <button type="button" class="btn btn-default btn-sm  btn-usunGracza pull-left" title="Usuń" style="margin-left:10px;" onclick="usunGracza(this);">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
-                        <button type="button" class="btn btn-info btn-sm pull-left" onclick="wybierzPopapZawodnika(this);"><span class="glyphicon glyphicon-star"></span></button>
+                        <button type="button" class="btn btn-default btn-sm pull-left btn-ocenGracza" title="Oceń" style="margin-left:10px;" onclick="wybierzPopapZawodnika(this);"><span class="glyphicon glyphicon-star"></span></button>
                     </div>
                 </div>
             </div>

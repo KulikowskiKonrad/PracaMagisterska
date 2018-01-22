@@ -42,7 +42,7 @@ namespace PracaMagisterska.Models
 
             ListaGraczy = new List<SelectListItem>();
             GraczRepozytorium graczRepozytorium = new GraczRepozytorium();
-            List<Gracz> pobraniGracze = graczRepozytorium.PobierzWszystkich();
+            List<Gracz> pobraniGracze = graczRepozytorium.PobierzWszystkich(((Uzytkownik)HttpContext.Current.Session["uzytkownik"]).Id);
             foreach (Gracz gracz in pobraniGracze)
             {
                 ListaGraczy.Add(new SelectListItem()

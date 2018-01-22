@@ -7,6 +7,7 @@ namespace PracaMagisterska.Enums
 {
     public enum RolaUzytkownika
     {
-        Administrator = 1
+        Administrator = 1,
+        Uzytkownik = 2
     }
 }

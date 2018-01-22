@@ -33,7 +33,7 @@ namespace PracaMagisterska.Controllers
             try
             {
                 GraczRepozytorium listaGraczyRepozytorium = new GraczRepozytorium();
-                List<Gracz> listaGraczy = listaGraczyRepozytorium.PobierzWszystkich();
+                List<Gracz> listaGraczy = listaGraczyRepozytorium.PobierzWszystkich(((Uzytkownik)Session["uzytkownik"]).Id);
                 return View(listaGraczy);
             }
             catch (Exception ex)
@@ -110,13 +110,14 @@ namespace PracaMagisterska.Controllers
                     }
                     else
                     {
-                        gracz = new Gracz();  
+                        gracz = new Gracz();
                     }
                     gracz.Imie = model.Imie;
                     gracz.Nazwisko = model.Nazwisko;
                     gracz.NrLicencji = model.NrLicencji;
                     gracz.Pozycja = (byte)model.Pozycja;
                     gracz.KlubId = model.KlubId;
+                    gracz.UzytkownikId = ((Uzytkownik)Session["uzytkownik"]).Id;
                     long? rezultatZapisu = graczRepozytorium.Zapisz(gracz);
                     if (rezultatZapisu != null)
                     {

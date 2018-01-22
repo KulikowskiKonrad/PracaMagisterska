@@ -20,10 +20,10 @@ namespace PracaMagisterska.Repozytoria
                 {
                     rezultat = baza.Uzytkownik.Where(x => x.Login == login && x.CzyUsuniety == false).SingleOrDefault();
                 }
-                if(rezultat != null)
+                if (rezultat != null)
                 {
                     string hasloZakodowane = MD5Helper.GenerujMD5(haslo + rezultat.Sol);
-                    if(hasloZakodowane != rezultat.Haslo)
+                    if (hasloZakodowane != rezultat.Haslo)
                     {
                         rezultat = null;
                     }
@@ -55,7 +55,7 @@ namespace PracaMagisterska.Repozytoria
 
         }
 
-        public Uzytkownik Pobierz(long id)
+        public Uzytkownik Pobierz(long uzytkownikId)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace PracaMagisterska.Repozytoria
 
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
-                    rezultat = baza.Uzytkownik.Where(x => x.Id == id).Single();
+                    rezultat = baza.Uzytkownik.Where(x => x.Id == uzytkownikId).Single();
                 }
                 return rezultat;
             }
@@ -73,7 +73,7 @@ namespace PracaMagisterska.Repozytoria
             }
         }
 
-        public long? Zapisz(Uzytkownik uzytkownik)  
+        public long? Zapisz(Uzytkownik uzytkownik)
         {
             try
             {

@@ -42,7 +42,7 @@ namespace PracaMagisterska.Controllers
             try
             {
                 GraRepozytorium graRepozytorium = new GraRepozytorium();
-                List<Gra> listaGier = graRepozytorium.PobierzWszystkie();
+                List<Gra> listaGier = graRepozytorium.PobierzWszystkie(((Uzytkownik)Session["uzytkownik"]).Id);
                 return View(listaGier);
             }
             catch (Exception ex)
@@ -113,6 +113,7 @@ namespace PracaMagisterska.Controllers
                     gra.Miejsce = model.Miejsce;
                     gra.Typ = (byte)model.TypGry;
                     gra.Data = (DateTime)model.Data;
+                    gra.UzytkownikId = ((Uzytkownik)Session["uzytkownik"]).Id;
                     long? rezultatZapisu = graRepozytorium.Zapisz(gra);
                     UczestnikGry uczestnikGry = null;
                     UczestnikGryRepozytorium uczestnikGryRepozytorium = new UczestnikGryRepozytorium();
@@ -130,7 +131,7 @@ namespace PracaMagisterska.Controllers
                         uczestnikGry.ImiePrzeciwnika = uczestnik.ImiePrzeciwnika;
                         uczestnikGry.NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika;
                         uczestnikGry.GraczId = uczestnik.GraczId.Value;//uczestnik gry jest z tabeli a uczestnik jest z ViewModel czyli tego co podal uzytkownik
-                        long? rezultatZapisuUczestnika = uczestnikGryRepozytorium.Zapisz(uczestnikGry);
+                        uczestnik.Id = uczestnikGryRepozytorium.Zapisz(uczestnikGry);
                     }
                     List<UczestnikGry> listaUczestnikowGryWBazie = uczestnikGryRepozytorium.PobierzListeUczestnikow(gra.Id);
                     List<UczestnikGry> uczestnicyDoUsuniecia = listaUczestnikowGryWBazie.Where(x => !model.ListaUczestnikow.Where(y => y.Id == x.Id).Any()).ToList();

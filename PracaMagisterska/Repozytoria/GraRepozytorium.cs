@@ -10,14 +10,14 @@ namespace PracaMagisterska.Repozytoria
     public class GraRepozytorium
     {
 
-        public List<Gra> PobierzWszystkie()
+        public List<Gra> PobierzWszystkie(long uzytkownikId)
         {
             try
             {
                 List<Gra> listaGier = null;
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
-                    listaGier = baza.Gra.Include(x => x.UczestnicyGry).Where(x => !x.CzyUsuniete).ToList();
+                    listaGier = baza.Gra.Include(x => x.UczestnicyGry).Where(x => !x.CzyUsuniete && x.UzytkownikId == uzytkownikId).ToList();
                 }
                 return listaGier;
             }
