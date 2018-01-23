@@ -58,6 +58,7 @@ namespace PracaMagisterska.Controllers
             try
             {
                 EdytujGreViewModel model = new EdytujGreViewModel();
+                model.Id = id;
                 GraRepozytorium graRepozytorium = new GraRepozytorium();
                 if (id.HasValue)
                 {

@@ -16,9 +16,9 @@
         <AssociationConnector Association="PracaMagisterskaModel.FK_Gra_Uzytkownik" />
         <AssociationConnector Association="PracaMagisterskaModel.FK_Gracz_UczestnikGry" />
         <AssociationConnector Association="PracaMagisterskaModel.FK_Gracz_Uzytkownik" />
-        <AssociationConnector Association="PracaMagisterskaModel.FK_Gra_Uzytkownik" />
-        <AssociationConnector Association="PracaMagisterskaModel.FK_Gracz_Uzytkownik" />
-      </Diagram>
+        <EntityTypeShape EntityType="PracaMagisterskaModel.OcenaGracza" Width="1.5" PointX="12" PointY="0.875" />
+        <AssociationConnector Association="PracaMagisterskaModel.FK_OcenaGracza_UczestnikGry" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

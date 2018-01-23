@@ -37,6 +37,17 @@
           <Property Name="Nazwa" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Miejscowosc" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="OcenaGracza">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ocena" Type="tinyint" Nullable="false" />
+          <Property Name="UczestnikGryId" Type="bigint" Nullable="false" />
+          <Property Name="NumerZadania" Type="tinyint" Nullable="false" />
+          <Property Name="DecyzjaGracza" Type="tinyint" />
+          <Property Name="DecyzjaTrenera" Type="tinyint" />
+        </EntityType>
         <EntityType Name="UczestnikGry">
           <Key>
             <PropertyRef Name="Id" />
@@ -83,6 +94,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OcenaGracza_UczestnikGry">
+          <End Role="UczestnikGry" Type="Self.UczestnikGry" Multiplicity="1" />
+          <End Role="OcenaGracza" Type="Self.OcenaGracza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UczestnikGry">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OcenaGracza">
+              <PropertyRef Name="UczestnikGryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UczestnikGry_Gra">
           <End Role="Gra" Type="Self.Gra" Multiplicity="1" />
           <End Role="UczestnikGry" Type="Self.UczestnikGry" Multiplicity="*" />
@@ -111,6 +134,7 @@
           <EntitySet Name="Gra" EntityType="Self.Gra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gracz" EntityType="Self.Gracz" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Klub" EntityType="Self.Klub" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OcenaGracza" EntityType="Self.OcenaGracza" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UczestnikGry" EntityType="Self.UczestnikGry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Gra_Uzytkownik" Association="Self.FK_Gra_Uzytkownik">
@@ -120,6 +144,10 @@
           <AssociationSet Name="FK_Gracz_Uzytkownik" Association="Self.FK_Gracz_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Gracz" EntitySet="Gracz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OcenaGracza_UczestnikGry" Association="Self.FK_OcenaGracza_UczestnikGry">
+            <End Role="UczestnikGry" EntitySet="UczestnikGry" />
+            <End Role="OcenaGracza" EntitySet="OcenaGracza" />
           </AssociationSet>
           <AssociationSet Name="FK_UczestnikGry_Gra" Association="Self.FK_UczestnikGry_Gra">
             <End Role="Gra" EntitySet="Gra" />
@@ -160,7 +188,12 @@
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Gracz" EntitySet="Gracz" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="OcenaGracza" EntityType="PracaMagisterskaModel.OcenaGracza" />
+          <AssociationSet Name="FK_OcenaGracza_UczestnikGry" Association="PracaMagisterskaModel.FK_OcenaGracza_UczestnikGry">
+            <End Role="UczestnikGry" EntitySet="UczestnikGry" />
+            <End Role="OcenaGracza" EntitySet="OcenaGracza" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Gracz">
           <Key>
             <PropertyRef Name="Id" />
@@ -236,6 +269,7 @@
           <NavigationProperty Name="Gra" Relationship="PracaMagisterskaModel.FK_UczestnikGry_Gra" FromRole="UczestnikGry" ToRole="Gra" />
           <NavigationProperty Name="Gracz" Relationship="PracaMagisterskaModel.FK_UczestnikGry_Gracz" FromRole="UczestnikGry" ToRole="Gracz" />
           <Property Name="CzyUsuniety" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OcenaGracza" Relationship="PracaMagisterskaModel.FK_OcenaGracza_UczestnikGry" FromRole="UczestnikGry" ToRole="OcenaGracza" />
         </EntityType>
         <Association Name="FK_UczestnikGry_Gra">
           <End Type="PracaMagisterskaModel.Gra" Role="Gra" Multiplicity="1" />
@@ -285,7 +319,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="OcenaGracza">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ocena" Type="Byte" Nullable="false" />
+          <Property Name="UczestnikGryId" Type="Int64" Nullable="false" />
+          <Property Name="NumerZadania" Type="Byte" Nullable="false" />
+          <Property Name="DecyzjaGracza" Type="Byte" />
+          <Property Name="DecyzjaTrenera" Type="Byte" />
+          <NavigationProperty Name="UczestnikGry" Relationship="PracaMagisterskaModel.FK_OcenaGracza_UczestnikGry" FromRole="OcenaGracza" ToRole="UczestnikGry" />
+        </EntityType>
+        <Association Name="FK_OcenaGracza_UczestnikGry">
+          <End Type="PracaMagisterskaModel.UczestnikGry" Role="UczestnikGry" Multiplicity="1" />
+          <End Type="PracaMagisterskaModel.OcenaGracza" Role="OcenaGracza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UczestnikGry">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OcenaGracza">
+              <PropertyRef Name="UczestnikGryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -346,6 +404,18 @@
                 <ScalarProperty Name="NazwiskoPrzeciwnika" ColumnName="NazwiskoPrzeciwnika" />
                 <ScalarProperty Name="ImiePrzeciwnika" ColumnName="ImiePrzeciwnika" />
                 <ScalarProperty Name="GraczId" ColumnName="GraczId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OcenaGracza">
+            <EntityTypeMapping TypeName="PracaMagisterskaModel.OcenaGracza">
+              <MappingFragment StoreEntitySet="OcenaGracza">
+                <ScalarProperty Name="DecyzjaTrenera" ColumnName="DecyzjaTrenera" />
+                <ScalarProperty Name="DecyzjaGracza" ColumnName="DecyzjaGracza" />
+                <ScalarProperty Name="NumerZadania" ColumnName="NumerZadania" />
+                <ScalarProperty Name="UczestnikGryId" ColumnName="UczestnikGryId" />
+                <ScalarProperty Name="Ocena" ColumnName="Ocena" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

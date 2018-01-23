@@ -70,7 +70,6 @@
             }
         })
     }
-
     function usunGracza(przycisk) {
         let wiersz = $(przycisk).closest('.row');
         wiersz.remove();
@@ -101,11 +100,6 @@
             pokazPopapZawodnikaTrening(kliknietyPrzycisk);
         }
     }
-
-    function ograniczIloscWierszyWPopap() {
-
-    }
-
 </script>
 
 <h2>Detale gry</h2>
@@ -141,7 +135,14 @@
                 @Html.LabelFor(x => x.TypGry)
                 <div class=" input-group">
                     <div class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>
-                    @Html.DropDownListFor(x => x.TypGry, Model.ListaTypowGry, new { @class = "form-control" })
+                    @if (Model.Id.HasValue)
+                    {
+                        @Html.DropDownListFor(x => x.TypGry, Model.ListaTypowGry, new { @class = "form-control", disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(x => x.TypGry, Model.ListaTypowGry, new { @class = "form-control" })
+                    }
                 </div>
                 @Html.ValidationMessageFor(x => x.TypGry)
             </div>

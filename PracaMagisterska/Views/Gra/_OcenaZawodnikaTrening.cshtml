@@ -1,8 +1,38 @@
 ﻿<script>
+    let treningUczestnikGryId = null;
     function pokazPopapZawodnikaTrening(kliknietyPrzycisk) {
         let gracz = $(kliknietyPrzycisk).closest(".wierszUczestnika").find("select option:selected").text();
+        treningUczestnikGryId = $(kliknietyPrzycisk).closest(".wierszUczestnika").find(".uczestnikGryId").val();
         $("#daneGraczaTrening").text(gracz);
         $("#popapOcenaZawodnikaTrening").modal();
+    }
+    function zapiszOcenaGraczaTrening() {
+        let daneDoWyslania = [];
+        $("#popapOcenaZawodnikaTrening select").each(function (index) {
+            let pojedynczyElement = {
+                NumerZadania: index + 1,
+                Ocena: $(this).val(),
+                UczestnikGryId: treningUczestnikGryId
+            };
+            daneDoWyslania.push(pojedynczyElement);
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/Api/ApiOcenaGracza/Zapisz",
+            data: JSON.stringify(daneDoWyslania),
+            contentType: "application/json",
+            success: function (msg) {
+                //var msg = $.parseJSON(msg);
+                //if (msg.success == 'yes') {
+                //    return true;
+                //}
+                //else {
+                //    alert('Server error');
+                //    return false;
+                //}
+            }
+        });
     }
 </script>
 
@@ -101,8 +131,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default">Zapisz</button>
-                <button class="btn btn-default">Anuluj</button>
+                <button class="btn btn-default" onclick="zapiszOcenaGraczaTrening();">Zapisz</button>
+                <button class="btn btn-default" data-dismiss="modal">Anuluj</button>
             </div>
         </div>
 

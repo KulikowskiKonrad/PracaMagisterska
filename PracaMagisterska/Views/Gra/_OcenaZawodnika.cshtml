@@ -1,6 +1,12 @@
 ﻿
 <script>
     function pokazPopapZawodnika(kliknietyPrzycisk) {
+        if ($(".wierszUczestnika").length == 3) {
+            $("#ostatniWierszOcenaZawodnika").hide();
+        } else {
+            $("#ostatniWierszOcenaZawodnika").show();
+        }
+
         let gracz = $(kliknietyPrzycisk).closest(".wierszUczestnika").find("select option:selected").text();
         $("#daneGracza").text(gracz);
         $("#popapOcenaZawodnika").modal();
@@ -8,6 +14,7 @@
 </script>
 
 <!-- Modal -->
+
 <div id="popapOcenaZawodnika" class="modal fade" role="dialog">
     <div class="modal-dialog modal-sm">
         <!-- Modal content-->
@@ -16,8 +23,92 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Ocena zawodnika : <span id="daneGracza"></span></h4>
             </div>
-            <div class="modal-body" id="wierszZZadaniemIOcena">
-                <div class="row">
+            <div class="modal-body">
+                <div class="row wierszOcenaZawodnika">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Zawodnik</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
+                                <select class="form-control czynnoscZawodnika" name="czynnoscZawodnika">
+                                    <option value="1">Rzuć</option>
+                                    <option value="2">Dostaw</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Trener</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
+                                <select class="form-control czynnoscTrenera" name="czynnoscTrenera">
+                                    <option value="1">Rzuć</option>
+                                    <option value="2">Dostaw</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Zadanie 1</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                <select class="form-control ocena" name="Ocena">
+                                    <option value="0">Punkty: 0</option>
+                                    <option value="1">Punkty: 1</option>
+                                    <option value="2">Punkty: 2</option>
+                                    <option value="3">Punkty: 3</option>
+                                    <option value="4">Punkty: 4</option>
+                                    <option value="5">Punkty: 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row wierszOcenaZawodnika">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Zawodnik</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
+                                <select class="form-control czynnoscZawodnika" name="czynnoscZawodnika">
+                                    <option value="1">Rzuć</option>
+                                    <option value="2">Dostaw</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Trener</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
+                                <select class="form-control czynnoscTrenera" name="czynnoscTrenera">
+                                    <option value="1">Rzuć</option>
+                                    <option value="2">Dostaw</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Zadanie 1</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                <select class="form-control ocena" name="Ocena">
+                                    <option value="0">Punkty: 0</option>
+                                    <option value="1">Punkty: 1</option>
+                                    <option value="2">Punkty: 2</option>
+                                    <option value="3">Punkty: 3</option>
+                                    <option value="4">Punkty: 4</option>
+                                    <option value="5">Punkty: 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row wierszOcenaZawodnika" id="ostatniWierszOcenaZawodnika">
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label>Zawodnik</label>
@@ -62,7 +153,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default">Zapisz</button>
-                <button class="btn btn-default">Anuluj</button>
+                <button class="btn btn-default" data-dismiss="modal">Anuluj</button>
             </div>
         </div>
 

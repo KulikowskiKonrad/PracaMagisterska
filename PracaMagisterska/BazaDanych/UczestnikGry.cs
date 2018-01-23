@@ -14,6 +14,12 @@ namespace PracaMagisterska.BazaDanych
     
     public partial class UczestnikGry
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UczestnikGry()
+        {
+            this.OcenaGracza = new HashSet<OcenaGracza>();
+        }
+    
         public long Id { get; set; }
         public long GraczId { get; set; }
         public string ImiePrzeciwnika { get; set; }
@@ -23,5 +29,7 @@ namespace PracaMagisterska.BazaDanych
     
         public virtual Gra Gra { get; set; }
         public virtual Gracz Gracz { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OcenaGracza> OcenaGracza { get; set; }
     }
 }

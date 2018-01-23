@@ -183,6 +183,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ApiOcenaGraczaController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -196,6 +197,9 @@
       <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="BazaDanych\Klub.cs">
+      <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BazaDanych\OcenaGracza.cs">
       <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="BazaDanych\PracaMagisterskaModel.Context.cs">
@@ -223,6 +227,7 @@
     <Compile Include="Controllers\GraczController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UzytkownikController.cs" />
+    <Compile Include="Enums\Decyzja.cs" />
     <Compile Include="Enums\PozycjaGracza.cs" />
     <Compile Include="Enums\RolaUzytkownika.cs" />
     <Compile Include="Enums\TypGry.cs" />
