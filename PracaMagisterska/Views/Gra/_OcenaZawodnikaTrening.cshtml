@@ -4,8 +4,35 @@
         let gracz = $(kliknietyPrzycisk).closest(".wierszUczestnika").find("select option:selected").text();
         treningUczestnikGryId = $(kliknietyPrzycisk).closest(".wierszUczestnika").find(".uczestnikGryId").val();
         $("#daneGraczaTrening").text(gracz);
-        $("#popapOcenaZawodnikaTrening").modal();
+
+        $.ajax({
+            type: "GET",
+            url: "/Api/ApiOcenaGracza/Pobierz",
+            data: { uczestnikId: treningUczestnikGryId },
+            contentType: "application/json",
+            success: function (result) {
+                if (result != null) {
+                    $("#popapOcenaZawodnikaTrening select").each(function (index) { //ide po wszystkich selektach w popap
+                        $(this).val("0");  // domyslenie ustwiam 0 dla danego selekta zeby domyslnie ocena wybrana byla 0 jezeli nie odczyta nic z bazy
+                        for (let i = 0; i < result.length; i++) {  // ide po zwroconej liscie ocen w bazie
+                            if (result[i].NumerZadania == index + 1) { //znajduje ocene z danym nr zadania
+                                $(this).val(result[i].Ocena); //ustawiam ocene
+                            }
+                        }
+                    });
+                    $("#popapOcenaZawodnikaTrening").modal(); // wyswietla mmodal
+                } else {
+                    swal({
+                        title: 'Wystąpił błąd',
+                        type: 'error',
+                    });
+                }
+            }
+        });
     }
+
+    //to odpowiada za zapis do bazy
+
     function zapiszOcenaGraczaTrening() {
         let daneDoWyslania = [];
         $("#popapOcenaZawodnikaTrening select").each(function (index) {
@@ -22,15 +49,19 @@
             url: "/Api/ApiOcenaGracza/Zapisz",
             data: JSON.stringify(daneDoWyslania),
             contentType: "application/json",
-            success: function (msg) {
-                //var msg = $.parseJSON(msg);
-                //if (msg.success == 'yes') {
-                //    return true;
-                //}
-                //else {
-                //    alert('Server error');
-                //    return false;
-                //}
+            success: function (result) {
+                if (result) {
+                    $("#popapOcenaZawodnikaTrening").modal("hide");
+                    swal({
+                        title: 'Zapisano poprawnie',
+                        type: 'success',
+                    });
+                } else {
+                    swal({
+                        title: 'Wystąpił błąd',
+                        type: 'error',
+                    });
+                }
             }
         });
     }

@@ -1,15 +1,85 @@
-﻿
-<script>
-    function pokazPopapZawodnika(kliknietyPrzycisk) {
-        if ($(".wierszUczestnika").length == 3) {
-            $("#ostatniWierszOcenaZawodnika").hide();
-        } else {
-            $("#ostatniWierszOcenaZawodnika").show();
+﻿<script>
+    let uczestnikGryId = null; //tworze zmienna ktora bedzie przechowywac danego uczestniaka gry
+    function pokazPopapZawodnika(kliknietyPrzycisk) {  // tworze funkcje z parametrem klikniety przycisk (dodany jest parametr zeby wiedziec gdzie kliknieto)
+        if ($(".wierszUczestnika").length == 3) {  //robie warunek ze jezeli iloesc wierszy jest rowna 3 to
+            $("#ostatniWierszOcenaZawodnika").hide(); // schowaj mi ostatni wiersz oceny zawodnika
+        } else {    //w innym wypadku
+            $("#ostatniWierszOcenaZawodnika").show(); // pokaz wiersz
         }
+        let gracz = $(kliknietyPrzycisk).closest(".wierszUczestnika").find("select option:selected").text(); // robie zmienna gracz ktora mowi : wez klikniety przycisk ;
+        // wez rodzica .wierszUczestnika ; nastepnie wyszukuje dziecko ktore jest zaznaczone
+        uczestnikGryId = $(kliknietyPrzycisk).closest(".wierszUczestnika").find(".uczestnikGryId").val(); //pobieram uzcestnika gry id w wierszu uczestnika
+        $("#daneGracza").text(gracz); //wstawiam imie i nazwisko gracza do elementu o id dane gracza
 
-        let gracz = $(kliknietyPrzycisk).closest(".wierszUczestnika").find("select option:selected").text();
-        $("#daneGracza").text(gracz);
-        $("#popapOcenaZawodnika").modal();
+        $.ajax({     //uzywam ajax (sposb przesylu info -komunikacji pomiedzy przegladarka a serwerem -> dane sa wysylane bez przeladowania strony -ASYNCHRONICZNIE)
+            type: "GET",  //metoda dostepu api kontrolerze
+            url: "/Api/ApiOcenaGracza/Pobierz", // podaje adres gdzie jest folder nazwa kontolera i metoda
+            data: { uczestnikId: uczestnikGryId }, // dane ktore chcemy przeslac
+            contentType: "application/json", //zawsze ma byc to napisane i to mowi ze korzystam z formatu json (format danych -nazwa pola oraz wartosc)
+            success: function (result) { //jezeli nie pojawil sie blad (udalo sie uzyskac odp z serwera)
+                if (result != null) { //jezeli wynik dzialania metody pobierz jest ropzny od null to
+                    $("#popapOcenaZawodnika .wierszOcenaZawodnika").each(function (index) { //zrob petle po wierszach ocena zawodnika
+                        $(this).find(".ocena").val("0");  //ustawiam wartosci na domyslne
+                        $(this).find(".czynnoscTrenera").val("1");
+                        $(this).find(".czynnoscZawodnika").val("1");
+
+                        //ustawiam wartosci na domyslne z tego wzgledu ze lista moze byc pusta
+                        //jezeli nie jest pusta to ja uzupelniam
+                        //(for mi dziala tylko wtedy gdy dane zostaly wczesniej juz zapisane)
+                        for (let i = 0; i < result.length; i++) {  // ide po zwroconej liscie ocen w bazie
+                            if (result[i].NumerZadania == index + 1) { //znajduje ocene z danym nr zadania
+                                $(this).find(".ocena").val(result[i].Ocena); //ustawiam ocene
+                                $(this).find(".czynnoscTrenera").val(result[i].DecyzjaTrenera);//ustawiam decyzje trenera
+                                $(this).find(".czynnoscZawodnika").val(result[i].DecyzjaGracza); //ustawiam decyzje gracza
+                            }
+                        }
+                    });
+                    $("#popapOcenaZawodnika").modal(); // wyswietla mmodal
+                } else {
+                    swal({
+                        title: 'Wystąpił błąd',
+                        type: 'error',
+                    });
+                }
+            }
+        });
+    }
+
+    //to odpowiada za zapis do bazy
+
+    function zapiszOcenaGracza() {
+        let daneDoWyslania = [];
+        $("#popapOcenaZawodnika .wierszOcenaZawodnika").each(function (index) {
+            let pojedynczyElement = {
+                NumerZadania: index + 1,
+                Ocena: $(this).find(".ocena").val(),
+                DecyzjaTrenera: $(this).find(".czynnoscTrenera").val(),
+                DecyzjaGracza: $(this).find(".czynnoscZawodnika").val(),
+                UczestnikGryId: uczestnikGryId
+            };
+            daneDoWyslania.push(pojedynczyElement);
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/Api/ApiOcenaGracza/Zapisz",
+            data: JSON.stringify(daneDoWyslania),
+            contentType: "application/json",
+            success: function (result) {
+                if (result) {
+                    $("#popapOcenaZawodnika").modal("hide");
+                    swal({
+                        title: 'Zapisano poprawnie',
+                        type: 'success',
+                    });
+                } else {
+                    swal({
+                        title: 'Wystąpił błąd',
+                        type: 'error',
+                    });
+                }
+            }
+        });
     }
 </script>
 
@@ -27,6 +97,22 @@
                 <div class="row wierszOcenaZawodnika">
                     <div class="col-sm-4">
                         <div class="form-group">
+                            <label>Zadanie 1</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                <select class="form-control ocena" name="Ocena">
+                                    <option value="0">Punkty: 0</option>
+                                    <option value="1">Punkty: 1</option>
+                                    <option value="2">Punkty: 2</option>
+                                    <option value="3">Punkty: 3</option>
+                                    <option value="4">Punkty: 4</option>
+                                    <option value="5">Punkty: 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
                             <label>Zawodnik</label>
                             <div class=" input-group">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
@@ -49,26 +135,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Zadanie 1</label>
-                            <div class=" input-group">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
-                                <select class="form-control ocena" name="Ocena">
-                                    <option value="0">Punkty: 0</option>
-                                    <option value="1">Punkty: 1</option>
-                                    <option value="2">Punkty: 2</option>
-                                    <option value="3">Punkty: 3</option>
-                                    <option value="4">Punkty: 4</option>
-                                    <option value="5">Punkty: 5</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
+                <br />
                 <div class="row wierszOcenaZawodnika">
                     <div class="col-sm-4">
                         <div class="form-group">
+                            <label>Zadanie 2</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                <select class="form-control ocena" name="Ocena">
+                                    <option value="0">Punkty: 0</option>
+                                    <option value="1">Punkty: 1</option>
+                                    <option value="2">Punkty: 2</option>
+                                    <option value="3">Punkty: 3</option>
+                                    <option value="4">Punkty: 4</option>
+                                    <option value="5">Punkty: 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
                             <label>Zawodnik</label>
                             <div class=" input-group">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
@@ -91,26 +179,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Zadanie 1</label>
-                            <div class=" input-group">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
-                                <select class="form-control ocena" name="Ocena">
-                                    <option value="0">Punkty: 0</option>
-                                    <option value="1">Punkty: 1</option>
-                                    <option value="2">Punkty: 2</option>
-                                    <option value="3">Punkty: 3</option>
-                                    <option value="4">Punkty: 4</option>
-                                    <option value="5">Punkty: 5</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
+                <br />
                 <div class="row wierszOcenaZawodnika" id="ostatniWierszOcenaZawodnika">
                     <div class="col-sm-4">
                         <div class="form-group">
+                            <label>Zadanie 3</label>
+                            <div class=" input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                <select class="form-control ocena" name="Ocena">
+                                    <option value="0">Punkty: 0</option>
+                                    <option value="1">Punkty: 1</option>
+                                    <option value="2">Punkty: 2</option>
+                                    <option value="3">Punkty: 3</option>
+                                    <option value="4">Punkty: 4</option>
+                                    <option value="5">Punkty: 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
                             <label>Zawodnik</label>
                             <div class=" input-group">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
@@ -129,22 +219,6 @@
                                 <select class="form-control czynnoscTrenera" name="czynnoscTrenera">
                                     <option value="1">Rzuć</option>
                                     <option value="2">Dostaw</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Zadanie 1</label>
-                            <div class=" input-group">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
-                                <select class="form-control ocena" name="Ocena">
-                                    <option value="0">Punkty: 0</option>
-                                    <option value="1">Punkty: 1</option>
-                                    <option value="2">Punkty: 2</option>
-                                    <option value="3">Punkty: 3</option>
-                                    <option value="4">Punkty: 4</option>
-                                    <option value="5">Punkty: 5</option>
                                 </select>
                             </div>
                         </div>
@@ -152,7 +226,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default">Zapisz</button>
+                <button class="btn btn-default" onclick="zapiszOcenaGracza();">Zapisz</button>
                 <button class="btn btn-default" data-dismiss="modal">Anuluj</button>
             </div>
         </div>
