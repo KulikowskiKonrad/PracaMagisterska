@@ -8,12 +8,12 @@ using System.Web.Mvc;
 
 namespace PracaMagisterska.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            if(Request.IsAuthenticated==true && Session["uzytkownik"]== null)
+            if (Request.IsAuthenticated == true && Session["uzytkownik"] == null)
             {
                 //long idUzytkownika=long.Parse(Request.LogonUserIdentity.UserClaims.Where(x => x.Type == "UserId").Single().Value);
                 string login = User.Identity.Name;
@@ -23,7 +23,10 @@ namespace PracaMagisterska.Controllers
             }
             return View();
         }
-
+        public ActionResult Index2()
+        {
+            return View();
+        }
         //public ActionResult Contact()
         //{
         //    ViewBag.Message = "Your contact page.";
