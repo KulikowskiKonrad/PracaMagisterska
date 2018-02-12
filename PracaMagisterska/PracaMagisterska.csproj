@@ -184,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ApiOcenaGraczaController.cs" />
+    <Compile Include="Api\ApiStatystykiGraczaController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -238,6 +239,7 @@
     </Compile>
     <Compile Include="Helpers\MD5Helper.cs" />
     <Compile Include="Models\Api\OcenaGraczaModel.cs" />
+    <Compile Include="Models\Api\StatystkiNajlepszychGraczyModel.cs" />
     <Compile Include="Models\EdytujGreViewModel.cs" />
     <Compile Include="Models\EdytujUzytkownikaViewModel.cs" />
     <Compile Include="Models\LogowanieViewModel.cs" />
@@ -272,6 +274,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\petanque.png" />
     <Content Include="Scripts\autosize.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap.js" />

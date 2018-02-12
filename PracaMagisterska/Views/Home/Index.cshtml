@@ -1,15 +1,55 @@
-﻿<div class="jumbotron">
-    <h1 class="text-center">Praca magisterska</h1>
+﻿<script>
+    $(document).ready(function () {
+        pobierzDaneNajlepszychZawodnikow();
+
+    });
+
+    function pobierzDaneNajlepszychZawodnikow() {
+        $.ajax({     //uzywam ajax (sposb przesylu info -komunikacji pomiedzy przegladarka a serwerem -> dane sa wysylane bez przeladowania strony -ASYNCHRONICZNIE)
+            type: "GET",  //metoda dostepu api kontrolerze
+            url: "/Api/ApiStatystykiGracza/PobierzStatystykeNajlepszychGraczy", // podaje adres gdzie jest folder nazwa kontolera i metoda
+            data: {}, // dane ktore chcemy przeslac
+            contentType: "application/json", //zawsze ma byc to napisane i to mowi ze korzystam z formatu json (format danych -nazwa pola oraz wartosc)
+            success: function (result) { //jezeli nie pojawil sie blad (udalo sie uzyskac odp z serwera)
+                if (result != null) { //jezeli wynik dzialania metody pobierz jest rozny od null to
+                    $("#popapOcenaZawodnika .wierszOcenaZawodnika").each(function (index) { //zrob petle po wierszach ocena zawodnika
+                        $(this).find(".ocena").val("0");  //ustawiam wartosci na domyslne
+                        $(this).find(".czynnoscTrenera").val("1");
+                        $(this).find(".czynnoscZawodnika").val("1");
+
+                        //ustawiam wartosci na domyslne z tego wzgledu ze lista moze byc pusta
+                        //jezeli nie jest pusta to ja uzupelniam
+                        //(for mi dziala tylko wtedy gdy dane zostaly wczesniej juz zapisane)
+                        for (let i = 0; i < result.length; i++) {  // ide po zwroconej liscie ocen w bazie
+                            if (result[i].NumerZadania == index + 1) { //znajduje ocene z danym nr zadania
+                                $(this).find(".ocena").val(result[i].Ocena); //ustawiam ocene
+                                $(this).find(".czynnoscTrenera").val(result[i].DecyzjaTrenera);//ustawiam decyzje trenera
+                                $(this).find(".czynnoscZawodnika").val(result[i].DecyzjaGracza); //ustawiam decyzje gracza
+                            }
+                        }
+                    });
+                    $("#popapOcenaZawodnika").modal(); // wyswietla mmodal
+                } else {
+                    swal({
+                        title: 'Wystąpił błąd',
+                        type: 'error',
+                    });
+                }
+            }
+        });
+    }
+</script>
+<div class="jumbotron">
+    <h1 class="text-center">Najlepsi zawodnicy</h1>
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <h2>Aplikacja wspomagająca pracę trenera Petanque</h2>
-        <p>
-            Aplikacja ma na celu pomóc tremerowi Petanque podczas rozgrywek oraz treningów.
-            Trener ma możliwosc zastąpienia stosu notesów w ktorych zapisuje wszystkie informacje o rozgrywkach i zawodnikach tą o to aplikacją mobilną.
-            Użytkownik aplikacji ma możliwośc np: oceniania zawodników , może ocenić poziom trudności rozgrywki , dodawania nowych zawodników. Do wyboru są dwie opcje rozgrywki: trening oraz Mecz.
-            W trakcie rozgrywek w bardzo prosty sposób można używać aplikacji np na tablecie. Zeszyty to juz przeszłość!
-        </p>
+    <div class="col-sm-6">
+        <h3>Najlepszy puenter</h3>
+        <label id="najlepszyPuenter"></label>
+    </div>
+    <div class="col-sm-6">
+        <h3>Najlepszy strzelec</h3>
+        <label id="najlepszyStrzelec"></label>
     </div>
 </div>
