@@ -3,7 +3,85 @@
         pobierzDaneNajlepszychZawodnikow();
 
     });
+    function wyswietlWykresSredniaOcen(element, wartosc, daneGracza) {
+        var chartSpeed = Highcharts.chart(element, {
 
+            chart: {
+                type: 'solidgauge',
+                marginTop: 10
+            },
+
+            title: {
+                //margin: 10,
+                text: daneGracza
+            },
+
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc'
+                }
+            },
+
+            tooltip: {
+                enabled: false
+            },
+
+            // the value axis
+            yAxis: {
+                stops: [
+                    [0.1, '#55BF3B'], // green
+                    [0.5, '#DDDF0D'], // yellow
+                    [0.9, '#DF5353'] // red
+                ],
+                min: 0,
+                max: 5,
+                tickInterval: 0,
+                title: {
+                    text: 'Średnia ocena'
+                },
+                lineWidth: 0,
+                minorTickInterval: null,
+                tickAmount: undefined,
+                title: {
+                    y: -70
+                },
+                labels: {
+                    y: 16
+                }
+            },
+
+            plotOptions: {
+                solidgauge: {
+                    dataLabels: {
+                        y: 5,
+                        borderWidth: 0,
+                        useHTML: true
+                    }
+                }
+            },
+
+            credits: {
+                enabled: false
+            },
+
+            series: [{
+                name: 'Średnia ocena',
+                data: [wartosc],
+                dataLabels: {
+                    format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                    '</div>'
+                },
+            }]
+        });
+    }
     function pobierzDaneNajlepszychZawodnikow() {
         $.ajax({     //uzywam ajax (sposb przesylu info -komunikacji pomiedzy przegladarka a serwerem -> dane sa wysylane bez przeladowania strony -ASYNCHRONICZNIE)
             type: "GET",  //metoda dostepu api kontrolerze
@@ -11,34 +89,25 @@
             data: {}, // dane ktore chcemy przeslac
             contentType: "application/json", //zawsze ma byc to napisane i to mowi ze korzystam z formatu json (format danych -nazwa pola oraz wartosc)
             success: function (result) { //jezeli nie pojawil sie blad (udalo sie uzyskac odp z serwera)
-                if (result != null) { //jezeli wynik dzialania metody pobierz jest rozny od null to
-                    $("#popapOcenaZawodnika .wierszOcenaZawodnika").each(function (index) { //zrob petle po wierszach ocena zawodnika
-                        $(this).find(".ocena").val("0");  //ustawiam wartosci na domyslne
-                        $(this).find(".czynnoscTrenera").val("1");
-                        $(this).find(".czynnoscZawodnika").val("1");
+                if (result != null) {
+                    if (result.NajlepszyPuenter != null) {
+                        //$("#najlepszyPuenter").text(result.NajlepszyPuenter.Imie + " " + result.NajlepszyPuenter.Nazwisko);
+                        wyswietlWykresSredniaOcen("wykresOcenaNajlepszyPuenter", result.NajlepszyPuenter.SredniaOcen, result.NajlepszyPuenter.Imie + " " + result.NajlepszyPuenter.Nazwisko);
+                    }
 
-                        //ustawiam wartosci na domyslne z tego wzgledu ze lista moze byc pusta
-                        //jezeli nie jest pusta to ja uzupelniam
-                        //(for mi dziala tylko wtedy gdy dane zostaly wczesniej juz zapisane)
-                        for (let i = 0; i < result.length; i++) {  // ide po zwroconej liscie ocen w bazie
-                            if (result[i].NumerZadania == index + 1) { //znajduje ocene z danym nr zadania
-                                $(this).find(".ocena").val(result[i].Ocena); //ustawiam ocene
-                                $(this).find(".czynnoscTrenera").val(result[i].DecyzjaTrenera);//ustawiam decyzje trenera
-                                $(this).find(".czynnoscZawodnika").val(result[i].DecyzjaGracza); //ustawiam decyzje gracza
-                            }
-                        }
-                    });
-                    $("#popapOcenaZawodnika").modal(); // wyswietla mmodal
-                } else {
-                    swal({
-                        title: 'Wystąpił błąd',
-                        type: 'error',
-                    });
+                    if (result.NajlepszyStrzelec != null) {
+                        //  $("#najlepszyStrzelec").text(result.NajlepszyStrzelec.Imie + " " + result.NajlepszyStrzelec.Nazwisko + " " + result.NajlepszyStrzelec.SredniaOcen.toFixed(2));
+                        wyswietlWykresSredniaOcen("wykresOcenaNajlepszyStrzelec", result.NajlepszyStrzelec.SredniaOcen, result.NajlepszyStrzelec.Imie + " " + result.NajlepszyStrzelec.Nazwisko);
+                    }
+
+
+
                 }
             }
         });
     }
 </script>
+
 <div class="jumbotron">
     <h1 class="text-center">Najlepsi zawodnicy</h1>
 </div>
@@ -46,10 +115,17 @@
 <div class="row">
     <div class="col-sm-6">
         <h3>Najlepszy puenter</h3>
-        <label id="najlepszyPuenter"></label>
+        <label id="najlepszyPuenter" style="display:block; text-align:center;"></label>
+        <div>
+            <div id="wykresOcenaNajlepszyPuenter" style="width: 100%; height: 200px; float: left"></div>
+        </div>
     </div>
     <div class="col-sm-6">
         <h3>Najlepszy strzelec</h3>
-        <label id="najlepszyStrzelec"></label>
+        <label id="najlepszyStrzelec" style="display:block; text-align:center;"></label>
+        <div>
+            <div id="wykresOcenaNajlepszyStrzelec" style="width: 100%; height: 200px; float: left"></div>
+
+        </div>
     </div>
 </div>

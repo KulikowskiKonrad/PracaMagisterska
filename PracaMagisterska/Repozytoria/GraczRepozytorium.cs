@@ -27,7 +27,8 @@ namespace PracaMagisterska.Repozytoria
                             x.Key.Imie,
                             x.Key.Nazwisko,
                             Srednia = x.Average(y => y.Ocena),
-                            x.Key.Pozycja
+                            x.Key.Pozycja,
+                            x.Key.GraczId
                         })
                         .OrderByDescending(x => x.Srednia)
                         .ToList();
@@ -38,8 +39,26 @@ namespace PracaMagisterska.Repozytoria
                         {
                             Imie = najlepszyPuenter.Imie,
                             Nazwisko = najlepszyPuenter.Nazwisko,
-                            SredniaOcen = najlepszyPuenter.Srednia
+                            SredniaOcen = Math.Round(najlepszyPuenter.Srednia, 2)
                         };
+
+
+                        var listaOstatnich10Gier = baza.OcenaGracza.Where(x => x.UczestnikGry.GraczId == najlepszyPuenter.GraczId && x.Ocena > 0
+                                && !x.UczestnikGry.CzyUsuniety && !x.UczestnikGry.Gracz.CzyUsuniety)
+                            .GroupBy(x => new { x.UczestnikGry.Gra.Id, x.UczestnikGry.Gra.Data })
+                            .Select(x => new
+                            {
+                                x.Key.Data,
+                                x.Key.Id,
+                                Srednia = x.Average(y => y.Ocena),
+                            })
+                            .OrderByDescending(x => x.Data)
+                            .ThenByDescending(x => x.Id)
+                            .Take(10)
+                            .ToList();
+
+                        rezultat.NajlepszyPuenter.ListaOcen = listaOstatnich10Gier.Select(x => x.Srednia).ToList();
+                        rezultat.NajlepszyPuenter.ListaDat = listaOstatnich10Gier.Select(x => x.Data.ToShortDateString()).ToList();
                     }
                     var najlepszyStrzelec = statystykiGraczy.Where(x => x.Pozycja == (byte)PozycjaGracza.Rzucajacy).FirstOrDefault();
                     if (najlepszyStrzelec != null)
@@ -48,8 +67,25 @@ namespace PracaMagisterska.Repozytoria
                         {
                             Imie = najlepszyStrzelec.Imie,
                             Nazwisko = najlepszyStrzelec.Nazwisko,
-                            SredniaOcen = najlepszyStrzelec.Srednia
+                            SredniaOcen = Math.Round(najlepszyStrzelec.Srednia, 2)
                         };
+
+                        var listaOstatnich10Gier = baza.OcenaGracza.Where(x => x.UczestnikGry.GraczId == najlepszyStrzelec.GraczId && x.Ocena > 0
+                                && !x.UczestnikGry.CzyUsuniety && !x.UczestnikGry.Gracz.CzyUsuniety)
+                            .GroupBy(x => new { x.UczestnikGry.Gra.Id, x.UczestnikGry.Gra.Data })
+                            .Select(x => new
+                            {
+                                x.Key.Data,
+                                x.Key.Id,
+                                Srednia = x.Average(y => y.Ocena),
+                            })
+                            .OrderByDescending(x => x.Data)
+                            .ThenByDescending(x => x.Id)
+                            .Take(10)
+                            .ToList();
+
+                        rezultat.NajlepszyStrzelec.ListaOcen = listaOstatnich10Gier.Select(x => x.Srednia).ToList();
+                        rezultat.NajlepszyStrzelec.ListaDat = listaOstatnich10Gier.Select(x => x.Data.ToShortDateString()).ToList();
                     }
 
                 }

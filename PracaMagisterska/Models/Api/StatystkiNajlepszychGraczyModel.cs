@@ -23,5 +23,9 @@ namespace PracaMagisterska.Models.Api
 
         public double SredniaOcen { get; set; }
 
+        public List<double> ListaOcen { get; set; }
+
+        public List<string> ListaDat { get; set; }
+
     }
 }

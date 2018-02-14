@@ -15,7 +15,10 @@ namespace PracaMagisterska
                            "~/Scripts/autosize.js",
                            "~/Scripts/sweetalert2.js",
                            "~/Scripts/moment-with-locales.js",
-                           "~/Scripts/bootstrap-datetimepicker.js"
+                           "~/Scripts/bootstrap-datetimepicker.js",
+                           "~/Scripts/highcharts.js",
+                           "~/Scripts/highcharts-more.js",
+                           "~/Scripts/solid-gauge.src.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundlesNiezalogowany/js").Include(
@@ -32,6 +35,7 @@ namespace PracaMagisterska
                       "~/Content/bootstrap.css",
                       "~/Content/sweetalert2.css",
                       "~/Content/bootstrap-datetimepicker.css",
+                      "~/Content/highcharts.css",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/ContentNiezalogowany/css").Include(
