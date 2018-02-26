@@ -12,6 +12,53 @@ namespace PracaMagisterska.Controllers
 {
     public class GraController : Controller
     {
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo)
+        {
+            try
+            {
+                if (!dataOd.HasValue)
+                {
+                    dataOd = DateTime.Today.AddMonths(-6);
+                }
+                if (!dataDo.HasValue)
+                {
+                    dataDo = DateTime.Today;
+                }
+                GraRepozytorium graRepozytorium = new GraRepozytorium();
+                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value);
+                StatystykiViewModel statystykiViewModel = new StatystykiViewModel()
+                {
+                    DataDo = dataDo.Value,
+                    DataOd = dataOd.Value,
+                    ListaStatystykZawodnikow = listaStatystykGraczy
+                };
+                return View(statystykiViewModel);
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult StatystykiTreningu(long idGry)
+        {
+            try
+            {
+                GraRepozytorium graRepozytorium = new GraRepozytorium();
+                List<StatystykiTreninguViewModel> gra = graRepozytorium.PobierzListeStatystykTreningu(idGry);
+                return View(gra);
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
         [Authorize]
         [HttpPost]
         public ActionResult Usun(long id)
@@ -110,9 +157,9 @@ namespace PracaMagisterska.Controllers
                     else
                     {
                         gra = new Gra();
+                        gra.Typ = (byte)model.TypGry;
                     }
                     gra.Miejsce = model.Miejsce;
-                    gra.Typ = (byte)model.TypGry;
                     gra.Data = (DateTime)model.Data;
                     gra.UzytkownikId = ((Uzytkownik)Session["uzytkownik"]).Id;
                     long? rezultatZapisu = graRepozytorium.Zapisz(gra);

@@ -42,7 +42,7 @@
         jQuery(function ($) {
             $.validator.addMethod('date',
                 function (value, element) {
-                    return this.optional(element) || moment(value, 'DD.MM.YYYY HH:mm').isValid();
+                    return this.optional(element) || moment(value, 'YYYY-MM-DD HH:mm').isValid() || moment(value, 'YYYY-MM-DD').isValid();
                 });
         });
 
@@ -78,6 +78,12 @@
                         </li>
                         <li>
                             @Html.ActionLink("Lista gier", "ListaGier", "Gra")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Najlepsi zawodnicy", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Statystyki", "Statystyki", "Gra")
                         </li>
                     }
                 </ul>

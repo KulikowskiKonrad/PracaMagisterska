@@ -1,4 +1,6 @@
 ﻿using PracaMagisterska.BazaDanych;
+using PracaMagisterska.Enums;
+using PracaMagisterska.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,6 +11,83 @@ namespace PracaMagisterska.Repozytoria
 {
     public class GraRepozytorium
     {
+
+        public List<StatystykiZawodnika> PobierzStatytstyki(DateTime dataOd, DateTime dataDo)
+        {
+            try
+            {
+                List<StatystykiZawodnika> listaStatystyk = new List<StatystykiZawodnika>();
+                using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
+                {
+                    List<Gra> listaGier = baza.Gra.Where(g => g.UczestnicyGry.Where(u => u.Gra.Data >= dataOd
+                              && u.Gra.Data <= dataDo && u.Gra.Typ != (byte)TypGry.Trening).Any())
+                        .ToList();
+                    List<Gracz> listaGraczy = baza.Gracz.Where(g => g.UczestnicyGry.Where(u => u.Gra.Data >= dataOd
+                              && u.Gra.Data <= dataDo && u.Gra.Typ != (byte)TypGry.Trening).Any())
+                        .ToList();
+                    List<OcenaGracza> listaOcen = baza.OcenaGracza.Where(o => o.UczestnikGry.Gra.Data >= dataOd && o.UczestnikGry.Gra.Data <= dataDo
+                        && o.UczestnikGry.Gra.Typ != (byte)TypGry.Trening).ToList();
+                    foreach (Gracz gracz in listaGraczy)
+                    {
+                        {
+                            StatystykiZawodnika statystykiZawodnika = new StatystykiZawodnika()
+                            {
+                                Imie = gracz.Imie,
+                                Nazwisko = gracz.Nazwisko,
+                                IloscSpotkan = listaGier.Where(x => x.UczestnicyGry.Where(y => y.GraczId == gracz.Id).Any()).ToList().Count,
+                                //wez liste ocen danego gracza , pobierz wszystkie id gier i  usun ich powtorzenia(distinct) dodaj na liste i zlicz
+                                SredniaOcen = listaOcen.Where(x => x.UczestnikGry.GraczId == gracz.Id).Average(x => (byte?)x.Ocena).GetValueOrDefault(0) //wez liste ocen danego gracza i wylicz srednia z ocen
+                            };
+                            listaStatystyk.Add(statystykiZawodnika);
+                        }
+                    }
+                    return listaStatystyk;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+
+        public List<StatystykiTreninguViewModel> PobierzListeStatystykTreningu(long idGry)
+        {
+            try
+            {
+                List<StatystykiTreninguViewModel> listaStatystyk = new List<StatystykiTreninguViewModel>();
+                using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
+                {
+                    List<UczestnikGry> uczestnicy = baza.UczestnikGry.Where(u => u.GraId == idGry).ToList();
+                    List<OcenaGracza> oceny = baza.OcenaGracza.Where(o => o.UczestnikGry.GraId == idGry).ToList();
+                    foreach (UczestnikGry uczestnik in uczestnicy)
+                    {
+                        StatystykiTreninguViewModel statystykaGracza = new StatystykiTreninguViewModel()
+                        {
+                            Imie = uczestnik.Gracz.Imie,
+                            Nazwisko = uczestnik.Gracz.Nazwisko,
+                            ImiePrzeciwnika = uczestnik.ImiePrzeciwnika,
+                            NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika,
+                            OcenyZadan = new int[5]
+                        };
+
+                        foreach (OcenaGracza ocena in oceny.Where(o => o.UczestnikGryId == uczestnik.Id).ToList())
+                        {
+                            statystykaGracza.OcenyZadan[ocena.NumerZadania - 1] = ocena.Ocena;
+                        }
+
+                        statystykaGracza.SredniaOcen = Math.Round(statystykaGracza.OcenyZadan.Where(o => o != 0).DefaultIfEmpty().Average(), 2);
+                        listaStatystyk.Add(statystykaGracza);
+                    }
+                }
+                return listaStatystyk.OrderByDescending(x => x.SredniaOcen).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         public List<Gra> PobierzWszystkie(long uzytkownikId)
         {

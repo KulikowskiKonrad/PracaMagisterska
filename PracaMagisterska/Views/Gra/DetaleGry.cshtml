@@ -122,7 +122,7 @@
             <div class="form-group ">
                 @Html.LabelFor(x => x.Data)
                 <div class='input-group date-time'>
-                    @Html.TextBoxFor(x => x.Data, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Data) })
+                    @Html.TextBoxFor(x => x.Data, "{0:yyyy-MM-dd}", new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Data) })
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>

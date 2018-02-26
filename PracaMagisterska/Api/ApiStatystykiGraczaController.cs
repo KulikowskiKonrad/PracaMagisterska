@@ -1,4 +1,6 @@
-﻿using PracaMagisterska.Models.Api;
+﻿using Microsoft.AspNet.Identity;
+using PracaMagisterska.BazaDanych;
+using PracaMagisterska.Models.Api;
 using PracaMagisterska.Repozytoria;
 using System;
 using System.Collections.Generic;
@@ -15,10 +17,19 @@ namespace PracaMagisterska.Api
         [HttpGet]
         public StatystkiNajlepszychGraczyModel PobierzStatystykeNjlepszychGraczy()
         {
-            GraczRepozytorium graczRepozytorium = new GraczRepozytorium();
-            StatystkiNajlepszychGraczyModel rezultat = graczRepozytorium.PobierzStatystykeNjlepszychGraczy();
+            try
+            {
+                UzytkownikRepozytorium uzytkownikRepozytorium = new UzytkownikRepozytorium();
+                GraczRepozytorium graczRepozytorium = new GraczRepozytorium();
+                Uzytkownik uzytkownik = uzytkownikRepozytorium.Pobierz(User.Identity.Name);
+                StatystkiNajlepszychGraczyModel rezultat = graczRepozytorium.PobierzStatystykeNjlepszychGraczy(uzytkownik.Id);
 
-            return rezultat;
+                return rezultat;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
     }

@@ -18,7 +18,8 @@ namespace PracaMagisterska
                            "~/Scripts/bootstrap-datetimepicker.js",
                            "~/Scripts/highcharts.js",
                            "~/Scripts/highcharts-more.js",
-                           "~/Scripts/solid-gauge.src.js"
+                           "~/Scripts/solid-gauge.src.js",
+                           "~/Scripts/no-data-to-display.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundlesNiezalogowany/js").Include(

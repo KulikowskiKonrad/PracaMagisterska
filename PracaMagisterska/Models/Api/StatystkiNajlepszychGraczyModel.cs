@@ -8,15 +8,14 @@ namespace PracaMagisterska.Models.Api
 {
     public class StatystkiNajlepszychGraczyModel
     {
-
         public StatystykiGracza NajlepszyStrzelec { get; set; }
 
         public StatystykiGracza NajlepszyPuenter { get; set; }
-
     }
 
     public class StatystykiGracza
     {
+
         public string Imie { get; set; }
 
         public string Nazwisko { get; set; }

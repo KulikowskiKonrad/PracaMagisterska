@@ -1,0 +1,71 @@
+﻿@model StatystykiViewModel
+
+<h2>Statystyki</h2>
+
+@using (Html.BeginForm("Statystyki", "Gra", FormMethod.Get))
+{
+    <div class="row">
+
+        <div class="col-sm-4 col-md-3">
+            <div class="form-group ">
+                @Html.LabelFor(x => x.DataOd)
+                <div class='input-group date-time'>
+                    @Html.TextBoxFor(x => x.DataOd, "{0:yyyy-MM-dd}", new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.DataOd) })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(x => x.DataOd)
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+            <div class="form-group ">
+                @Html.LabelFor(x => x.DataDo)
+                <div class='input-group date-time'>
+                    @Html.TextBoxFor(x => x.DataDo, "{0:yyyy-MM-dd}", new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.DataDo) })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(x => x.DataDo)
+            </div>
+        </div>
+    </div>
+
+    <div class=" row">
+        <button>Filtruj</button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped" style="margin-top:20px;">
+
+            <tr>
+                <th>
+                    Gracz
+                </th>
+                <th>
+                    Średnia punktów
+                </th>
+                <th>
+                    Ilość spotkań
+                </th>
+            </tr>
+            @foreach (StatystykiZawodnika statystyki in Model.ListaStatystykZawodnikow)
+            {
+                <tr>
+                    <td>
+                        @statystyki.Imie @statystyki.Nazwisko
+                    </td>
+                    <td>
+                        @statystyki.SredniaOcen
+                    </td>
+                    <td>
+                        @statystyki.IloscSpotkan
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

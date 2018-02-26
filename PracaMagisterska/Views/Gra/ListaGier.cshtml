@@ -38,7 +38,7 @@
                 <th class="hidden-xs">
                     Ilość uczestników
                 </th>
-                <th style="width:100px;"></th>
+                <th style="width:200px;"></th>
             </tr>
             @foreach (Gra gra in Model)
             {
@@ -56,12 +56,16 @@
                         @gra.UczestnicyGry.Where(x => !x.CzyUsuniety).Count()
                     </td>
                     <td>
-                        <a href="@Url.Action("DetaleGry","Gra", new { id = gra.Id })" class="btn btn-default btn-sm pull-left" title="Edytuj" style="margin-right:10px;"><span class="glyphicon glyphicon-cog"></span></a>
+                        @if ((TypGry)gra.Typ == TypGry.Trening)
+                        {
+                            <a href="@Url.Action("StatystykiTreningu", "Gra", new { idGry = gra.Id })" class="btn btn-default btn-sm pull-right" title="Statystyki" style="margin-right:5px;"><span class="glyphicon glyphicon-star"></span></a>
+                        }
+                        <a href="@Url.Action("DetaleGry","Gra", new { id = gra.Id })" class="btn btn-default btn-sm pull-right" title="Edytuj" style="margin-right:5px;"><span class="glyphicon glyphicon-cog"></span></a>
                         @*to jest zamiana actionLink na a*@
                         @using (Html.BeginForm("Usun", "Gra", FormMethod.Post))
                         {
                             @Html.Hidden("id", gra.Id)  @*nazwa ma byc tak jak nazwa parametru w kontrolerze , a wartosc pobieramy z konkretnego elementu modelu*@
-                            <button type="button" title="Usuń" class="btn btn-default btn-sm btn-usun">
+                            <button type="button" title="Usuń" class="btn btn-default btn-sm btn-usun  pull-right" style="margin-right:5px">
                                 <span class="glyphicon glyphicon-trash "></span>
                             </button>
                         }

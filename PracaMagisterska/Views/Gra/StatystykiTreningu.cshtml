@@ -1,0 +1,62 @@
+﻿@model  List<StatystykiTreninguViewModel>
+
+<h2>Statystyki treningu</h2>
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped" style="margin-top:20px;">
+
+            <tr>
+                <th>
+                    Gracz
+                </th>
+                <th>
+                    Przeciwnik
+                </th>
+                <th>Zadanie 1</th>
+                <th>Zadanie 2</th>
+                <th>Zadanie 3</th>
+                <th>Zadanie 4</th>
+                <th>Zadanie 5</th>
+                <th>
+                    Średnia punktów
+                </th>
+            </tr>
+            @foreach (StatystykiTreninguViewModel statystyki in Model)
+            {
+                <tr>
+                    <td>
+                        @statystyki.Imie @statystyki.Nazwisko
+                    </td>
+                    <td>
+                        @statystyki.ImiePrzeciwnika @statystyki.NazwiskoPrzeciwnika
+                    </td>
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        <td>@statystyki.OcenyZadan[i]</td>
+                    }
+                    @*<td>
+                            @statystyki.OcenyZadan[0]
+                        </td>
+                        <td>
+                            @statystyki.OcenyZadan[1]
+                        </td>
+                        <td>
+                            @statystyki.OcenyZadan[2]
+                        </td>
+                        <td>
+                            @statystyki.OcenyZadan[3]
+                        </td>
+                        <td>
+                            @statystyki.OcenyZadan[4]
+                        </td>*@
+                    <td>
+                        @statystyki.SredniaOcen
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

@@ -12,7 +12,7 @@ namespace PracaMagisterska.Repozytoria
     public class GraczRepozytorium
     {
 
-        public StatystkiNajlepszychGraczyModel PobierzStatystykeNjlepszychGraczy()
+        public StatystkiNajlepszychGraczyModel PobierzStatystykeNjlepszychGraczy(long uzytkownikId)
         {
             try
             {
@@ -20,7 +20,7 @@ namespace PracaMagisterska.Repozytoria
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
                     var statystykiGraczy = baza.OcenaGracza
-                        .Where(x => x.Ocena > 0 && !x.UczestnikGry.CzyUsuniety && !x.UczestnikGry.Gracz.CzyUsuniety)
+                        .Where(x => x.Ocena > 0 && !x.UczestnikGry.CzyUsuniety && !x.UczestnikGry.Gracz.CzyUsuniety && x.UczestnikGry.Gracz.UzytkownikId == uzytkownikId)
                         .GroupBy(x => new { x.UczestnikGry.Gracz.Imie, x.UczestnikGry.Gracz.Nazwisko, x.UczestnikGry.GraczId, x.UczestnikGry.Gracz.Pozycja })
                         .Select(x => new
                         {
@@ -52,12 +52,12 @@ namespace PracaMagisterska.Repozytoria
                                 x.Key.Id,
                                 Srednia = x.Average(y => y.Ocena),
                             })
-                            .OrderByDescending(x => x.Data)
-                            .ThenByDescending(x => x.Id)
+                            .OrderBy(x => x.Data)
+                            .ThenBy(x => x.Id)
                             .Take(10)
                             .ToList();
 
-                        rezultat.NajlepszyPuenter.ListaOcen = listaOstatnich10Gier.Select(x => x.Srednia).ToList();
+                        rezultat.NajlepszyPuenter.ListaOcen = listaOstatnich10Gier.Select(x => Math.Round((x.Srednia), 2)).ToList();
                         rezultat.NajlepszyPuenter.ListaDat = listaOstatnich10Gier.Select(x => x.Data.ToShortDateString()).ToList();
                     }
                     var najlepszyStrzelec = statystykiGraczy.Where(x => x.Pozycja == (byte)PozycjaGracza.Rzucajacy).FirstOrDefault();
@@ -79,12 +79,12 @@ namespace PracaMagisterska.Repozytoria
                                 x.Key.Id,
                                 Srednia = x.Average(y => y.Ocena),
                             })
-                            .OrderByDescending(x => x.Data)
-                            .ThenByDescending(x => x.Id)
+                            .OrderBy(x => x.Data)
+                            .ThenBy(x => x.Id)
                             .Take(10)
                             .ToList();
 
-                        rezultat.NajlepszyStrzelec.ListaOcen = listaOstatnich10Gier.Select(x => x.Srednia).ToList();
+                        rezultat.NajlepszyStrzelec.ListaOcen = listaOstatnich10Gier.Select(x => Math.Round((x.Srednia), 2)).ToList();
                         rezultat.NajlepszyStrzelec.ListaDat = listaOstatnich10Gier.Select(x => x.Data.ToShortDateString()).ToList();
                     }
 
