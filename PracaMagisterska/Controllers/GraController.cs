@@ -12,10 +12,9 @@ namespace PracaMagisterska.Controllers
 {
     public class GraController : Controller
     {
-
         [HttpGet]
         [Authorize]
-        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo)
+        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo, byte? iloscPuenterow, byte? iloscStrzelcow)
         {
             try
             {
@@ -35,6 +34,17 @@ namespace PracaMagisterska.Controllers
                     DataOd = dataOd.Value,
                     ListaStatystykZawodnikow = listaStatystykGraczy
                 };
+
+                if (iloscPuenterow.HasValue)
+                {
+                    statystykiViewModel.ListaProponowanychZawodnikow.AddRange(listaStatystykGraczy.Where(x => x.Pozycja == PozycjaGracza.Puenter).Take(iloscPuenterow.Value).ToList());
+                }
+                if (iloscStrzelcow.HasValue)
+                {
+                    statystykiViewModel.ListaProponowanychZawodnikow.AddRange(listaStatystykGraczy.Where(x => x.Pozycja == PozycjaGracza.Strzelec).Take(iloscStrzelcow.Value).ToList());
+                }
+                statystykiViewModel.ListaProponowanychZawodnikow = statystykiViewModel.ListaProponowanychZawodnikow.OrderByDescending(x => x.SredniaOcen).ToList();
+
                 return View(statystykiViewModel);
             }
             catch (Exception ex)

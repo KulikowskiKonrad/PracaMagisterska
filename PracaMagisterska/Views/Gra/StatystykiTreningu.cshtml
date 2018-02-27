@@ -15,11 +15,11 @@
                 <th>
                     Przeciwnik
                 </th>
-                <th>Zadanie 1</th>
-                <th>Zadanie 2</th>
-                <th>Zadanie 3</th>
-                <th>Zadanie 4</th>
-                <th>Zadanie 5</th>
+                <th class="hidden-xs">Zadanie 1</th>
+                <th class="hidden-xs">Zadanie 2</th>
+                <th class="hidden-xs">Zadanie 3</th>
+                <th class="hidden-xs">Zadanie 4</th>
+                <th class="hidden-xs">Zadanie 5</th>
                 <th>
                     Średnia punktów
                 </th>
@@ -35,7 +35,7 @@
                     </td>
                     @for (int i = 0; i < 5; i++)
                     {
-                        <td>@statystyki.OcenyZadan[i]</td>
+                        <td class="hidden-xs">@statystyki.OcenyZadan[i]</td>
                     }
                     @*<td>
                             @statystyki.OcenyZadan[0]

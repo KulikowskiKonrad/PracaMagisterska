@@ -9,7 +9,7 @@
         <div class="col-sm-4 col-md-3">
             <div class="form-group ">
                 @Html.LabelFor(x => x.DataOd)
-                <div class='input-group date-time'>
+                <div class='input-group date'>
                     @Html.TextBoxFor(x => x.DataOd, "{0:yyyy-MM-dd}", new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.DataOd) })
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -18,10 +18,12 @@
                 @Html.ValidationMessageFor(x => x.DataOd)
             </div>
         </div>
+
+
         <div class="col-sm-4 col-md-3">
             <div class="form-group ">
                 @Html.LabelFor(x => x.DataDo)
-                <div class='input-group date-time'>
+                <div class='input-group date'>
                     @Html.TextBoxFor(x => x.DataDo, "{0:yyyy-MM-dd}", new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.DataDo) })
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -30,42 +32,124 @@
                 @Html.ValidationMessageFor(x => x.DataDo)
             </div>
         </div>
+
+        <div class="col-sm-4 col-md-3">
+            <button class="btn" style="margin-top:25px; margin-left:30px;">Filtruj</button>
+        </div>
+
     </div>
 
-    <div class=" row">
-        <button>Filtruj</button>
-    </div>
-}
 
-<div class="row">
-    <div class="col-sm-12">
-        <table class="table table-striped" style="margin-top:20px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped" style="margin-top:20px;">
 
-            <tr>
-                <th>
-                    Gracz
-                </th>
-                <th>
-                    Średnia punktów
-                </th>
-                <th>
-                    Ilość spotkań
-                </th>
-            </tr>
-            @foreach (StatystykiZawodnika statystyki in Model.ListaStatystykZawodnikow)
-            {
                 <tr>
-                    <td>
-                        @statystyki.Imie @statystyki.Nazwisko
-                    </td>
-                    <td>
-                        @statystyki.SredniaOcen
-                    </td>
-                    <td>
-                        @statystyki.IloscSpotkan
-                    </td>
+                    <th>
+                        Gracz
+                    </th>
+                    <th>
+                        Średnia punktów
+                    </th>
+                    <th>
+                        Pozycja zawodnika
+                    </th>
+                    <th>
+                        Ilość spotkań
+                    </th>
                 </tr>
-            }
-        </table>
+                @foreach (StatystykiZawodnika statystyki in Model.ListaStatystykZawodnikow)
+                {
+                    <tr>
+                        <td>
+                            @statystyki.Imie @statystyki.Nazwisko
+                        </td>
+                        <td>
+                            @statystyki.SredniaOcen
+                        </td>
+                        <td>
+                            @statystyki.Pozycja
+                        </td>
+                        <td>
+                            @statystyki.IloscSpotkan
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
-</div>
+
+    <div>
+        <h3>Proponowany skład</h3>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4 col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(x => x.IloscPuenterow)
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                    @Html.TextBoxFor(x => x.IloscPuenterow, new { @class = "form-control", placeholder = WebUtility.HtmlDecode(Html.DisplayNameFor(x => x.IloscPuenterow).ToString()) })
+                </div>
+                @Html.ValidationMessageFor(x => x.IloscPuenterow)
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(x => x.IloscStrzelcow)
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                    @Html.TextBoxFor(x => x.IloscStrzelcow, new { @class = "form-control", placeholder = WebUtility.HtmlDecode(Html.DisplayNameFor(x => x.IloscStrzelcow).ToString()) })
+                </div>
+                @Html.ValidationMessageFor(x => x.IloscStrzelcow)
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-md-3">
+            <button class="btn" style="margin-top:25px; margin-left:30px;">Generuj skład</button>
+        </div>
+
+    </div>
+    if (Model.ListaProponowanychZawodnikow != null)
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped" style="margin-top:20px;">
+
+                    <tr>
+                        <th>
+                            Gracz
+                        </th>
+                        <th>
+                            Średnia punktów
+                        </th>
+                        <th>
+                            Pozycja zawodnika
+                        </th>
+                        <th>
+                            Ilość spotkań
+                        </th>
+                    </tr>
+                    @foreach (StatystykiZawodnika statystyki in Model.ListaProponowanychZawodnikow)
+                    {
+                        <tr>
+                            <td>
+                                @statystyki.Imie @statystyki.Nazwisko
+                            </td>
+                            <td>
+                                @statystyki.SredniaOcen
+                            </td>
+                            <td>
+                                @statystyki.Pozycja
+                            </td>
+                            <td>
+                                @statystyki.IloscSpotkan
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    }
+}

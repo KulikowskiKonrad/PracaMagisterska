@@ -53,13 +53,13 @@ namespace PracaMagisterska.Models
             ListaPozycji = new List<SelectListItem>();
             ListaPozycji.Add(new SelectListItem()
             {
-                Text = PozycjaGracza.Wybijajacy.PobierzOpisEnuma(),
-                Value = ((byte)PozycjaGracza.Wybijajacy).ToString()
+                Text = PozycjaGracza.Puenter.PobierzOpisEnuma(),
+                Value = ((byte)PozycjaGracza.Puenter).ToString()
             });
             ListaPozycji.Add(new SelectListItem()
             {
-                Text = PozycjaGracza.Rzucajacy.PobierzOpisEnuma(),
-                Value = ((byte)PozycjaGracza.Rzucajacy).ToString()
+                Text = PozycjaGracza.Strzelec.PobierzOpisEnuma(),
+                Value = ((byte)PozycjaGracza.Strzelec).ToString()
             });
         }
     }

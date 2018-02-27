@@ -32,7 +32,7 @@ namespace PracaMagisterska.Repozytoria
                         })
                         .OrderByDescending(x => x.Srednia)
                         .ToList();
-                    var najlepszyPuenter = statystykiGraczy.Where(x => x.Pozycja == (byte)PozycjaGracza.Wybijajacy).FirstOrDefault();
+                    var najlepszyPuenter = statystykiGraczy.Where(x => x.Pozycja == (byte)PozycjaGracza.Puenter).FirstOrDefault();
                     if (najlepszyPuenter != null)
                     {
                         rezultat.NajlepszyPuenter = new StatystykiGracza()
@@ -60,7 +60,7 @@ namespace PracaMagisterska.Repozytoria
                         rezultat.NajlepszyPuenter.ListaOcen = listaOstatnich10Gier.Select(x => Math.Round((x.Srednia), 2)).ToList();
                         rezultat.NajlepszyPuenter.ListaDat = listaOstatnich10Gier.Select(x => x.Data.ToShortDateString()).ToList();
                     }
-                    var najlepszyStrzelec = statystykiGraczy.Where(x => x.Pozycja == (byte)PozycjaGracza.Rzucajacy).FirstOrDefault();
+                    var najlepszyStrzelec = statystykiGraczy.Where(x => x.Pozycja == (byte)PozycjaGracza.Strzelec).FirstOrDefault();
                     if (najlepszyStrzelec != null)
                     {
                         rezultat.NajlepszyStrzelec = new StatystykiGracza()
