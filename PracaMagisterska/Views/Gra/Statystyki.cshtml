@@ -1,11 +1,60 @@
 ﻿@model StatystykiViewModel
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        zmianaIlosciPuenterow();
+        zmianaIlosciStrzelcow();
+
+        $("#IloscPuenterow").change(function () {
+            zmianaIlosciPuenterow();
+        });
+        $("#IloscStrzelcow").change(function () {
+            zmianaIlosciStrzelcow();
+        });
+    });
+
+    function zmianaIlosciPuenterow() {
+        if ($('#IloscPuenterow').valid()) {
+            let podanaIloscTekst = $("#IloscPuenterow").val();
+            if (podanaIloscTekst == "") {
+                podanaIloscTekst = "0";
+            }
+            let podanaIlosc = parseInt(podanaIloscTekst);
+            let maksymalnaIloscStrzelcow = 3 - podanaIlosc;
+            let iloscStrzelcow = $("#IloscStrzelcow").attr("data-val-range-max", maksymalnaIloscStrzelcow);
+            ponowniePodepnijWalidacje();
+            $('#IloscStrzelcow').valid();
+        }
+    }
+
+    function zmianaIlosciStrzelcow() {
+        if ($('#IloscStrzelcow').valid()) {
+            let podanaIloscTekst = $("#IloscStrzelcow").val();
+            if (podanaIloscTekst == "") {
+                podanaIloscTekst = "0";
+            }
+            let podanaIlosc = parseInt(podanaIloscTekst);
+            let maksymalnaIloscPuenterow = 3 - podanaIlosc;
+            let iloscStrzelcow = $("#IloscPuenterow").attr("data-val-range-max", maksymalnaIloscPuenterow);
+            ponowniePodepnijWalidacje();
+            $('#IloscPuenterow').valid();
+        }
+    }
+
+    function ponowniePodepnijWalidacje() {
+        let form = $("#formularzStatystyk");
+        form.unbind();
+        form.data("validator", null);
+        $.validator.unobtrusive.parse(document);
+    }
+
+</script>
+
 <h2>Statystyki</h2>
 
-@using (Html.BeginForm("Statystyki", "Gra", FormMethod.Get))
+@using (Html.BeginForm("Statystyki", "Gra", FormMethod.Get, new { id = "formularzStatystyk" }))
 {
     <div class="row">
-
         <div class="col-sm-4 col-md-3">
             <div class="form-group ">
                 @Html.LabelFor(x => x.DataOd)
@@ -33,8 +82,8 @@
             </div>
         </div>
 
-        <div class="col-sm-4 col-md-3">
-            <button class="btn" style="margin-top:25px; margin-left:30px;">Filtruj</button>
+        <div class="col-sm-2">
+            <button class="btn btn-block" style="margin-top:25px;">Filtruj</button>
         </div>
 
     </div>
@@ -106,50 +155,55 @@
             </div>
         </div>
 
-        <div class="col-sm-4 col-md-3">
-            <button class="btn" style="margin-top:25px; margin-left:30px;">Generuj skład</button>
+        <div class="col-sm-2">
+            <button class="btn btn-block" style="margin-top:25px;">Generuj skład</button>
         </div>
 
     </div>
-    if (Model.ListaProponowanychZawodnikow != null)
-    {
-        <div class="row">
-            <div class="col-sm-12">
-                <table class="table table-striped" style="margin-top:20px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped" style="margin-top:20px;">
 
+                <tr>
+                    <th>
+                        Gracz
+                    </th>
+                    <th>
+                        Średnia punktów
+                    </th>
+                    <th>
+                        Pozycja zawodnika
+                    </th>
+                    <th>
+                        Ilość spotkań
+                    </th>
+                </tr>
+                @if (Model.ListaProponowanychZawodnikow.Count == 0)
+                {
                     <tr>
-                        <th>
-                            Gracz
-                        </th>
-                        <th>
-                            Średnia punktów
-                        </th>
-                        <th>
-                            Pozycja zawodnika
-                        </th>
-                        <th>
-                            Ilość spotkań
-                        </th>
+                        <td colspan="4" class="text-center">
+                            Brak danych.
+                        </td>
                     </tr>
-                    @foreach (StatystykiZawodnika statystyki in Model.ListaProponowanychZawodnikow)
-                    {
-                        <tr>
-                            <td>
-                                @statystyki.Imie @statystyki.Nazwisko
-                            </td>
-                            <td>
-                                @statystyki.SredniaOcen
-                            </td>
-                            <td>
-                                @statystyki.Pozycja
-                            </td>
-                            <td>
-                                @statystyki.IloscSpotkan
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
+                }
+                @foreach (StatystykiZawodnika statystyki in Model.ListaProponowanychZawodnikow)
+                {
+                    <tr>
+                        <td>
+                            @statystyki.Imie @statystyki.Nazwisko
+                        </td>
+                        <td>
+                            @statystyki.SredniaOcen
+                        </td>
+                        <td>
+                            @statystyki.Pozycja
+                        </td>
+                        <td>
+                            @statystyki.IloscSpotkan
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
-    }
+    </div>
 }

@@ -5,6 +5,7 @@
         pokazUkryjPrzyciskUsuwaniaGracza();
         pokazUkryjPrzyciskOcenianiaGracza();
         zapamietajWartosciGraczy();
+        wylaczWalidacjeDanychPrzeciwnikaWTreningu();
         $('body').delegate('.wierszUczestnika input, .wierszUczestnika select', 'change', function () {
             zapamietajWartosciGraczy();
         });
@@ -14,8 +15,24 @@
                     $('.btn-usunGracza')[3].click();
                 }
             }
+            wylaczWalidacjeDanychPrzeciwnikaWTreningu();
         });
     });
+
+
+    function wylaczWalidacjeDanychPrzeciwnikaWTreningu() {
+        if ($('#TypGry').val() == '@(TypGry.Trening)') {
+            $("[id$='_ImiePrzeciwnika']").removeAttr("data-val-required");   // tu biore selektorem elementy na stronie w ktorych atrybut id konczy sie na dany ciag znakow , nastepnie usuwam atrybut
+            $("[id$='_NazwiskoPrzeciwnika']").removeAttr("data-val-required");
+            ponowniePodepnijWalidacje();
+        }
+        else {
+            $("[id$='_ImiePrzeciwnika']").attr("data-val-required", "Pole wymagane");   // tu biore selektorem elementy na stronie w ktorych atrybut id konczy sie na dany ciag znakow , nastepnie usuwam atrybut
+            $("[id$='_NazwiskoPrzeciwnika']").attr("data-val-required", "Pole wymagane");
+            ponowniePodepnijWalidacje();
+        }
+    }
+
     function zapamietajWartosciGraczy() {
         $('.wierszUczestnika input, .wierszUczestnika select').each(function () {
             $(this).attr('data-wartosc', $(this).val());
