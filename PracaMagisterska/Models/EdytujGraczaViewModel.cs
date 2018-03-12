@@ -34,7 +34,17 @@ namespace PracaMagisterska.Models
 
         public PozycjaGracza Pozycja { get; set; }
 
+        [Display(Name = "Płeć")]
+        public PlecGracza Plec { get; set; }
+
+        [Display(Name = "Kategoria wiekowa")]
+        public KategoriaWiekowa KategoriaWiekowaGracza { get; set; }
+
         public List<SelectListItem> ListaPozycji { get; set; }
+
+        public List<SelectListItem> ListaPlci { get; set; }
+
+        public List<SelectListItem> ListaKategoriiWiekowych { get; set; }
 
         public EdytujGraczaViewModel()
         {
@@ -50,6 +60,7 @@ namespace PracaMagisterska.Models
                 });
             }
 
+
             ListaPozycji = new List<SelectListItem>();
             ListaPozycji.Add(new SelectListItem()
             {
@@ -60,6 +71,47 @@ namespace PracaMagisterska.Models
             {
                 Text = PozycjaGracza.Strzelec.PobierzOpisEnuma(),
                 Value = ((byte)PozycjaGracza.Strzelec).ToString()
+            });
+
+
+
+            ListaKategoriiWiekowych = new List<SelectListItem>();
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Junior.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Junior.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Mlodziezowiec.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Mlodziezowiec.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Senior.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Senior.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Weteran.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Weteran.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Open.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Open.ToString()
+            });
+
+            ListaPlci = new List<SelectListItem>();
+            ListaPlci.Add(new SelectListItem()
+            {
+                Text = PlecGracza.Mezczyzna.PobierzOpisEnuma(),
+                Value = PlecGracza.Mezczyzna.ToString()
+            });
+            ListaPlci.Add(new SelectListItem()
+            {
+                Text = PlecGracza.Kobieta.PobierzOpisEnuma(),
+                Value = PlecGracza.Kobieta.ToString()
             });
         }
     }

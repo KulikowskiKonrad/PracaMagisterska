@@ -14,7 +14,7 @@ namespace PracaMagisterska
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/"),
+                LoginPath = new PathString("/Uzytkownik/Zaloguj"),
                 Provider = new CookieAuthenticationProvider
                 {
                 }

@@ -49,6 +49,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -83,6 +84,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -97,6 +99,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -131,6 +134,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
 
@@ -185,6 +189,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
 
@@ -210,6 +215,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }

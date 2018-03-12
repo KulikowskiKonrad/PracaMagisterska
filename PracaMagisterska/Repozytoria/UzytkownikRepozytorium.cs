@@ -32,6 +32,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -49,10 +50,9 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
-
-
         }
 
         public Uzytkownik Pobierz(long uzytkownikId)
@@ -69,6 +69,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -88,9 +89,9 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
-
     }
 }

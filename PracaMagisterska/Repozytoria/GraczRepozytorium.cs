@@ -1,5 +1,6 @@
 ﻿using PracaMagisterska.BazaDanych;
 using PracaMagisterska.Enums;
+using PracaMagisterska.Helpers;
 using PracaMagisterska.Models.Api;
 using System;
 using System.Collections.Generic;
@@ -93,6 +94,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -110,6 +112,27 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
+                return null;
+            }
+        }
+
+        public List<Gracz> PobierzWszystkich(long uzytkownikId, KategoriaWiekowa kategoriaWiekowa)
+        {
+            try
+            {
+                List<Gracz> rezultat = null;
+                using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
+                {
+                    rezultat = baza.Gracz.Include(x => x.Klub).Where(x => x.CzyUsuniety == false && x.UzytkownikId == uzytkownikId
+                        && x.KategoriaWiekowa == (byte)kategoriaWiekowa)
+                    .OrderByDescending(x => x.Nazwisko).ToList();
+                }
+                return rezultat;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -127,6 +150,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -144,6 +168,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -165,6 +190,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return false;
             }
         }
@@ -184,6 +210,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }

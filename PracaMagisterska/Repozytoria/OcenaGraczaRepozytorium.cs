@@ -1,4 +1,5 @@
 ﻿using PracaMagisterska.BazaDanych;
+using PracaMagisterska.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -25,6 +26,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -42,6 +44,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }

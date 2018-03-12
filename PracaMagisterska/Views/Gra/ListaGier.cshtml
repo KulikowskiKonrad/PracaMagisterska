@@ -38,6 +38,9 @@
                 <th class="hidden-xs">
                     Ilość uczestników
                 </th>
+                <th class="hidden-xs">
+                    Kategoria wiekowa
+                </th>
                 <th style="width:200px;"></th>
             </tr>
             @foreach (Gra gra in Model)
@@ -54,6 +57,9 @@
                     </td>
                     <td class="hidden-xs">
                         @gra.UczestnicyGry.Where(x => !x.CzyUsuniety).Count()
+                    </td>
+                    <td>
+                        @((KategoriaWiekowa)gra.KategoriaWiekowaGry)
                     </td>
                     <td>
                         @if ((TypGry)gra.Typ == TypGry.Trening)

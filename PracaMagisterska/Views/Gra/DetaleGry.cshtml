@@ -6,9 +6,11 @@
         pokazUkryjPrzyciskOcenianiaGracza();
         zapamietajWartosciGraczy();
         wylaczWalidacjeDanychPrzeciwnikaWTreningu();
+
         $('body').delegate('.wierszUczestnika input, .wierszUczestnika select', 'change', function () {
             zapamietajWartosciGraczy();
         });
+
         $('#TypGry').change(function () {
             if ($('#TypGry').val() != '@(TypGry.Trening)' && $('.btn-usunGracza').length > 3) {
                 while ($('.btn-usunGracza').length > 3) {
@@ -17,6 +19,7 @@
             }
             wylaczWalidacjeDanychPrzeciwnikaWTreningu();
         });
+
     });
 
 
@@ -165,62 +168,91 @@
             </div>
         </div>
     </div>
-
-    <br />
-    for (int i = 0; i < Model.ListaUczestnikow.Count; i++)
-    {
-        <div class="row wierszUczestnika">
-            @Html.HiddenFor(x => x.ListaUczestnikow[i].Id, new { @class = "uczestnikGryId" })
-            <div class="col-sm-3 col-md-3">
-                <div class=" form-group">
-                    @Html.LabelFor(x => x.ListaUczestnikow[i].GraczId)
-                    <div class=" input-group">
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>
-                        @Html.DropDownListFor(x => x.ListaUczestnikow[i].GraczId, new SelectList(Model.ListaGraczy, "Value", "Text", Model.ListaUczestnikow[i].GraczId),
-                       "Wybierz gracza", new { @class = "form-control" })
-                    </div>
-                    @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].GraczId)
+    <div class="row">
+        <div class="col-sm-3">
+            <div class=" form-group">
+                @Html.LabelFor(x => x.KategoriaWiekowa)
+                <div class=" input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>
+                    @if (Model.Id.HasValue)
+                    {
+                        @Html.DropDownListFor(x => x.KategoriaWiekowa, Model.ListaKategoriiWiekowych, new { @class = "form-control", disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(x => x.KategoriaWiekowa, Model.ListaKategoriiWiekowych, new { @class = "form-control" })
+                    }
                 </div>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <div class="form-group">
-                    @Html.LabelFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika)
-                    <div class="input-group">
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-                        @Html.TextBoxFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika) })
-                    </div>
-                    @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika)
-                </div>
-            </div>
-            <div class="col-sm-4 col-md-4">
-                <div class="form-group">
-                    @Html.LabelFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika)
-                    <div class="input-group">
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-user" style="margin-right:0px;"></span></div>
-                        @Html.TextBoxFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika) })
-                    </div>
-                    @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika)
-                </div>
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <div class="input-group" style="width:100%">
-                        <button type="button" class="btn btn-default btn-sm pull-left btn-dodajGracza" title="Dodaj" onclick="dodajGracza(this);">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm  btn-usunGracza pull-left" title="Usuń" style="margin-left:10px;" onclick="usunGracza(this);">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm pull-left btn-ocenGracza" title="Oceń" style="margin-left:10px;" onclick="wybierzPopapZawodnika(this);"><span class="glyphicon glyphicon-star"></span></button>
-                    </div>
-                </div>
+                @Html.ValidationMessageFor(x => x.KategoriaWiekowa)
             </div>
         </div>
-        <br />
-    }
+    </div>
 
-    <button class="btn btn-default">Zapisz</button>
+    if (Model.Id == null)
+    {
+        <h3 class="text-center">Możliwość dodawania graczy będzie dostępna po zapisaniu gry.</h3>
+
+    }
+    <br />
+    if (Model.Id != null)
+    {
+        for (int i = 0; i < Model.ListaUczestnikow.Count; i++)
+        {
+            <div class="row wierszUczestnika">
+                @Html.HiddenFor(x => x.ListaUczestnikow[i].Id, new { @class = "uczestnikGryId" })
+                <div class="col-sm-3 col-md-3">
+                    <div class=" form-group">
+                        @Html.LabelFor(x => x.ListaUczestnikow[i].GraczId)
+                        <div class=" input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>
+                            @Html.DropDownListFor(x => x.ListaUczestnikow[i].GraczId, new SelectList(Model.ListaGraczy, "Value", "Text", Model.ListaUczestnikow[i].GraczId),
+                           "Wybierz gracza", new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].GraczId)
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika)
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                            @Html.TextBoxFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika) })
+                        </div>
+                        @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].ImiePrzeciwnika)
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika)
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-user" style="margin-right:0px;"></span></div>
+                            @Html.TextBoxFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika) })
+                        </div>
+                        @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].NazwiskoPrzeciwnika)
+                    </div>
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <div class="input-group" style="width:100%">
+                            <button type="button" class="btn btn-default btn-sm pull-left btn-dodajGracza" title="Dodaj" onclick="dodajGracza(this);">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm  btn-usunGracza pull-left" title="Usuń" style="margin-left:10px;" onclick="usunGracza(this);">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm pull-left btn-ocenGracza" title="Oceń" style="margin-left:10px;" onclick="wybierzPopapZawodnika(this);"><span class="glyphicon glyphicon-star"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+
+        }
+    }
+    <button class="btn btn-default" id="ZapiszGre">Zapisz</button>
     @Html.ActionLink("Anuluj", "ListaGier", "Gra", null, new { @class = "btn btn-default" })
 }
 

@@ -1,5 +1,6 @@
 ﻿using PracaMagisterska.BazaDanych;
 using PracaMagisterska.Enums;
+using PracaMagisterska.Helpers;
 using PracaMagisterska.Models;
 using PracaMagisterska.Repozytoria;
 using System;
@@ -14,7 +15,7 @@ namespace PracaMagisterska.Controllers
     {
         [HttpGet]
         [Authorize]
-        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo, byte? iloscPuenterow, byte? iloscStrzelcow)
+        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo, byte? iloscPuenterow, byte? iloscStrzelcow, PlecGracza? plec)
         {
             try
             {
@@ -27,11 +28,12 @@ namespace PracaMagisterska.Controllers
                     dataDo = DateTime.Today;
                 }
                 GraRepozytorium graRepozytorium = new GraRepozytorium();
-                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value);
+                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value, plec);
                 StatystykiViewModel statystykiViewModel = new StatystykiViewModel()
                 {
                     DataDo = dataDo.Value,
                     DataOd = dataOd.Value,
+                    Plec = plec,
                     ListaStatystykZawodnikow = listaStatystykGraczy
                 };
 
@@ -49,6 +51,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -65,6 +68,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -88,6 +92,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -104,6 +109,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -123,6 +129,8 @@ namespace PracaMagisterska.Controllers
                     model.Data = pobranaGra.Data;
                     model.Miejsce = pobranaGra.Miejsce;
                     model.TypGry = (TypGry)pobranaGra.Typ;
+                    model.KategoriaWiekowa = (KategoriaWiekowa)pobranaGra.KategoriaWiekowaGry;
+                    model.UzupelnijListeGraczy();
                     if (pobranaGra.UczestnicyGry.Any())
                     {
                         model.ListaUczestnikow.Clear();
@@ -146,6 +154,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -168,40 +177,52 @@ namespace PracaMagisterska.Controllers
                     {
                         gra = new Gra();
                         gra.Typ = (byte)model.TypGry;
+                        gra.KategoriaWiekowaGry = (byte)model.KategoriaWiekowa;
                     }
                     gra.Miejsce = model.Miejsce;
                     gra.Data = (DateTime)model.Data;
                     gra.UzytkownikId = ((Uzytkownik)Session["uzytkownik"]).Id;
                     long? rezultatZapisu = graRepozytorium.Zapisz(gra);
-                    UczestnikGry uczestnikGry = null;
-                    UczestnikGryRepozytorium uczestnikGryRepozytorium = new UczestnikGryRepozytorium();
-                    foreach (UczestnikGryViewModel uczestnik in model.ListaUczestnikow)
+
+                    if (model.Id.HasValue)
                     {
-                        if (uczestnik.Id.HasValue)
+                        UczestnikGry uczestnikGry = null;
+                        UczestnikGryRepozytorium uczestnikGryRepozytorium = new UczestnikGryRepozytorium();
+                        foreach (UczestnikGryViewModel uczestnik in model.ListaUczestnikow)
                         {
-                            uczestnikGry = uczestnikGryRepozytorium.Pobierz(uczestnik.Id.Value);
+                            if (uczestnik.Id.HasValue)
+                            {
+                                uczestnikGry = uczestnikGryRepozytorium.Pobierz(uczestnik.Id.Value);
+                            }
+                            else
+                            {
+                                uczestnikGry = new UczestnikGry();
+                                uczestnikGry.GraId = gra.Id;
+                            }
+                            uczestnikGry.ImiePrzeciwnika = uczestnik.ImiePrzeciwnika;
+                            uczestnikGry.NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika;
+                            uczestnikGry.GraczId = uczestnik.GraczId.Value;//uczestnik gry jest z tabeli a uczestnik jest z ViewModel czyli tego co podal uzytkownik
+                            uczestnik.Id = uczestnikGryRepozytorium.Zapisz(uczestnikGry);
                         }
-                        else
+                        List<UczestnikGry> listaUczestnikowGryWBazie = uczestnikGryRepozytorium.PobierzListeUczestnikow(gra.Id);
+                        List<UczestnikGry> uczestnicyDoUsuniecia = listaUczestnikowGryWBazie.Where(x => !model.ListaUczestnikow.Where(y => y.Id == x.Id).Any()).ToList();
+                        // w liscie uczestnikowGryDoUsuniecia przypisuje sie elementy z listy uczestnikowGryWBazie ktorych id nie wystepuje w ViewModel na liscie uczestnmikow gry
+                        foreach (UczestnikGry uczestnik in uczestnicyDoUsuniecia)
                         {
-                            uczestnikGry = new UczestnikGry();
-                            uczestnikGry.GraId = gra.Id;
+                            uczestnik.CzyUsuniety = true;
+                            long? rezultatZapisuUczestnika = uczestnikGryRepozytorium.Zapisz(uczestnik);
                         }
-                        uczestnikGry.ImiePrzeciwnika = uczestnik.ImiePrzeciwnika;
-                        uczestnikGry.NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika;
-                        uczestnikGry.GraczId = uczestnik.GraczId.Value;//uczestnik gry jest z tabeli a uczestnik jest z ViewModel czyli tego co podal uzytkownik
-                        uczestnik.Id = uczestnikGryRepozytorium.Zapisz(uczestnikGry);
-                    }
-                    List<UczestnikGry> listaUczestnikowGryWBazie = uczestnikGryRepozytorium.PobierzListeUczestnikow(gra.Id);
-                    List<UczestnikGry> uczestnicyDoUsuniecia = listaUczestnikowGryWBazie.Where(x => !model.ListaUczestnikow.Where(y => y.Id == x.Id).Any()).ToList();
-                    // w liscie uczestnikowGryDoUsuniecia przypisuje sie elementy z listy uczestnikowGryWBazie ktorych id nie wystepuje w ViewModel na liscie uczestnmikow gry
-                    foreach (UczestnikGry uczestnik in uczestnicyDoUsuniecia)
-                    {
-                        uczestnik.CzyUsuniety = true;
-                        long? rezultatZapisuUczestnika = uczestnikGryRepozytorium.Zapisz(uczestnik);
                     }
                     if (rezultatZapisu != null)
                     {
-                        return RedirectToAction("ListaGier", model);
+                        if (model.Id.HasValue)
+                        {
+                            return RedirectToAction("ListaGier");
+                        }
+                        else
+                        {
+                            return RedirectToAction("DetaleGry", new { id = gra.Id });
+                        }
                     }
                     else
                     {
@@ -215,10 +236,9 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
-
-
     }
 }

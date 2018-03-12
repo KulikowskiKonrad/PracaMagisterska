@@ -1,4 +1,6 @@
-﻿using PracaMagisterska.BazaDanych;
+﻿using NLog;
+using PracaMagisterska.BazaDanych;
+using PracaMagisterska.Helpers;
 using PracaMagisterska.Repozytoria;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,21 @@ namespace PracaMagisterska.Controllers
 
     public class HomeController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
+            //Logger logger = LogManager.GetCurrentClassLogger();
+            //LogHelper.Log.Error("jakiś błąd");
+            //LogHelper.Log.Trace("jakiś ślad");
+            //try
+            //{
+            //    throw new Exception("jakiś błąd");
+            //}
+            //catch (Exception ex)
+            //{
+            //    LogHelper.Log.Error(ex);
+            //}
+
             if (Request.IsAuthenticated == true && Session["uzytkownik"] == null)
             {
                 //long idUzytkownika=long.Parse(Request.LogonUserIdentity.UserClaims.Where(x => x.Type == "UserId").Single().Value);

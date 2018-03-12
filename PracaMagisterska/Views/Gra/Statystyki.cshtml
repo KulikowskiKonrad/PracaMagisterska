@@ -81,7 +81,16 @@
                 @Html.ValidationMessageFor(x => x.DataDo)
             </div>
         </div>
-
+        <div class="col-sm-4">
+            <div class=" form-group">
+                @Html.LabelFor(x => x.Plec)
+                <div class=" input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></div>
+                    @Html.DropDownListFor(x => x.Plec, Model.ListaPlci, "Dowolna", new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Plec) })
+                </div>
+                @Html.ValidationMessageFor(x => x.Plec)
+            </div>
+        </div>
         <div class="col-sm-2">
             <button class="btn btn-block" style="margin-top:25px;">Filtruj</button>
         </div>
@@ -106,7 +115,18 @@
                     <th>
                         Ilość spotkań
                     </th>
+                    <th>
+                        Płeć
+                    </th>
                 </tr>
+                @if (Model.ListaStatystykZawodnikow.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Brak danych.
+                        </td>
+                    </tr>
+                }
                 @foreach (StatystykiZawodnika statystyki in Model.ListaStatystykZawodnikow)
                 {
                     <tr>
@@ -121,6 +141,9 @@
                         </td>
                         <td>
                             @statystyki.IloscSpotkan
+                        </td>
+                        <td>
+                            @statystyki.Plec.PobierzOpisEnuma()
                         </td>
                     </tr>
                 }
@@ -181,7 +204,7 @@
                 @if (Model.ListaProponowanychZawodnikow.Count == 0)
                 {
                     <tr>
-                        <td colspan="4" class="text-center">
+                        <td colspan="5" class="text-center">
                             Brak danych.
                         </td>
                     </tr>

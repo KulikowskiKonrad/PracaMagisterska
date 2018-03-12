@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using PracaMagisterska.BazaDanych;
+using PracaMagisterska.Helpers;
 using PracaMagisterska.Models.Api;
 using PracaMagisterska.Repozytoria;
 using System;
@@ -28,6 +29,7 @@ namespace PracaMagisterska.Api
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }

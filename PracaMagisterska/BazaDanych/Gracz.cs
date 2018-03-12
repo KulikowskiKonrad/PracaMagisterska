@@ -28,6 +28,8 @@ namespace PracaMagisterska.BazaDanych
         public bool CzyUsuniety { get; set; }
         public Nullable<long> KlubId { get; set; }
         public long UzytkownikId { get; set; }
+        public byte KategoriaWiekowa { get; set; }
+        public byte Plec { get; set; }
     
         public virtual Klub Klub { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,19 +1,16 @@
 ﻿using PracaMagisterska.Enums;
+using PracaMagisterska.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PracaMagisterska.Models
 {
     public class StatystykiViewModel
     {
-        public StatystykiViewModel()
-        {
-            ListaProponowanychZawodnikow = new List<StatystykiZawodnika>();
-        }
-
         [Display(Name = "Data początkowa")]
         public DateTime DataOd { get; set; }
 
@@ -30,9 +27,34 @@ namespace PracaMagisterska.Models
         [Display(Name = "Ilość strzelców")]
         public byte? IloscStrzelcow { get; set; }
 
-        public List<StatystykiZawodnika> ListaProponowanychZawodnikow { get; set; }
-    }
+        [Display(Name = "Płeć")]
+        public PlecGracza? Plec { get; set; }
 
+        public List<SelectListItem> ListaPlci { get; set; }
+
+        public List<StatystykiZawodnika> ListaProponowanychZawodnikow { get; set; }
+
+        public StatystykiViewModel()
+        {
+            ListaProponowanychZawodnikow = new List<StatystykiZawodnika>();
+            ListaPlci = new List<SelectListItem>();
+            //ListaPlci.Add(new SelectListItem()
+            //{
+            //    Text = "Dowolna",
+            //    Value = ""
+            //});
+            ListaPlci.Add(new SelectListItem()
+            {
+                Text = PlecGracza.Mezczyzna.PobierzOpisEnuma(),
+                Value = PlecGracza.Mezczyzna.ToString()
+            });
+            ListaPlci.Add(new SelectListItem()
+            {
+                Text = PlecGracza.Kobieta.PobierzOpisEnuma(),
+                Value = PlecGracza.Kobieta.ToString()
+            });
+        }
+    }
 
     public class StatystykiZawodnika
     {
@@ -46,6 +68,8 @@ namespace PracaMagisterska.Models
         public double IloscSpotkan { get; set; }
 
         public PozycjaGracza Pozycja { get; set; }
+
+        public PlecGracza Plec { get; set; }
 
     }
 }

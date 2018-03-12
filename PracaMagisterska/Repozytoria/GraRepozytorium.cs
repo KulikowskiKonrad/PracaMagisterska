@@ -1,5 +1,6 @@
 ﻿using PracaMagisterska.BazaDanych;
 using PracaMagisterska.Enums;
+using PracaMagisterska.Helpers;
 using PracaMagisterska.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace PracaMagisterska.Repozytoria
     public class GraRepozytorium
     {
 
-        public List<StatystykiZawodnika> PobierzStatytstyki(DateTime dataOd, DateTime dataDo)
+        public List<StatystykiZawodnika> PobierzStatytstyki(DateTime dataOd, DateTime dataDo, PlecGracza? plecGracza)
         {
             try
             {
@@ -24,7 +25,7 @@ namespace PracaMagisterska.Repozytoria
                             .ToList();
                     List<Gracz> listaGraczy = baza.Gracz.Where(g => g.UczestnicyGry.Where(u => u.Gra.Data >= dataOd
                               && u.Gra.Data <= dataDo && u.Gra.Typ != (byte)TypGry.Trening && u.CzyUsuniety == false && u.Gra.CzyUsuniete == false).Any()
-                              && g.CzyUsuniety == false)
+                              && g.CzyUsuniety == false && ((PlecGracza)g.Plec == plecGracza || plecGracza == null))
                         .ToList();
                     List<OcenaGracza> listaOcen = baza.OcenaGracza.Where(o => o.UczestnikGry.Gra.Data >= dataOd && o.UczestnikGry.Gra.Data <= dataDo
                         && o.UczestnikGry.Gra.Typ != (byte)TypGry.Trening && o.UczestnikGry.CzyUsuniety == false && o.UczestnikGry.Gra.CzyUsuniete == false).ToList();
@@ -37,6 +38,7 @@ namespace PracaMagisterska.Repozytoria
                                 Nazwisko = gracz.Nazwisko,
                                 IloscSpotkan = listaGier.Where(x => x.UczestnicyGry.Where(y => y.GraczId == gracz.Id).Any()).ToList().Count,
                                 Pozycja = (PozycjaGracza)gracz.Pozycja,
+                                Plec = (PlecGracza)gracz.Plec,
                                 //wez liste ocen danego gracza , pobierz wszystkie id gier i  usun ich powtorzenia(distinct) dodaj na liste i zlicz
                                 SredniaOcen = Math.Round(listaOcen.Where(x => x.UczestnikGry.GraczId == gracz.Id).Average(x => (byte?)x.Ocena).GetValueOrDefault(0), 2) //wez liste ocen danego gracza i wylicz srednia z ocen
                             };
@@ -48,6 +50,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -87,6 +90,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -98,12 +102,13 @@ namespace PracaMagisterska.Repozytoria
                 List<Gra> listaGier = null;
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
-                    listaGier = baza.Gra.Include(x => x.UczestnicyGry).Where(x => !x.CzyUsuniete && x.UzytkownikId == uzytkownikId).ToList();
+                    listaGier = baza.Gra.Include(x => x.UczestnicyGry).Where(x => !x.CzyUsuniete && x.UzytkownikId == uzytkownikId).OrderByDescending(x => x.Data).ToList();
                 }
                 return listaGier;
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -121,6 +126,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }
@@ -141,6 +147,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return false;
             }
         }
@@ -160,6 +167,7 @@ namespace PracaMagisterska.Repozytoria
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return null;
             }
         }

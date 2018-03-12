@@ -15,6 +15,7 @@
           <Property Name="CzyUsuniete" Type="bit" Nullable="false" />
           <Property Name="Data" Type="datetime" Nullable="false" />
           <Property Name="UzytkownikId" Type="bigint" Nullable="false" />
+          <Property Name="KategoriaWiekowaGry" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="Gracz">
           <Key>
@@ -28,6 +29,8 @@
           <Property Name="CzyUsuniety" Type="bit" Nullable="false" />
           <Property Name="KlubId" Type="bigint" />
           <Property Name="UzytkownikId" Type="bigint" Nullable="false" />
+          <Property Name="KategoriaWiekowa" Type="tinyint" Nullable="false" />
+          <Property Name="Plec" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="Klub">
           <Key>
@@ -209,6 +212,8 @@
           <NavigationProperty Name="UczestnicyGry" Relationship="PracaMagisterskaModel.FK_UczestnikGry_Gracz" FromRole="Gracz" ToRole="UczestnikGry" />
           <Property Name="UzytkownikId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Uzytkownik" Relationship="PracaMagisterskaModel.FK_Gracz_Uzytkownik" FromRole="Gracz" ToRole="Uzytkownik" />
+          <Property Name="KategoriaWiekowa" Type="Byte" Nullable="false" />
+          <Property Name="Plec" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="Klub">
           <Key>
@@ -256,6 +261,7 @@
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UzytkownikId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Uzytkownik" Relationship="PracaMagisterskaModel.FK_Gra_Uzytkownik" FromRole="Gra" ToRole="Uzytkownik" />
+          <Property Name="KategoriaWiekowaGry" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="UczestnikGry">
           <Key>
@@ -352,6 +358,8 @@
           <EntitySetMapping Name="Gracz">
             <EntityTypeMapping TypeName="PracaMagisterskaModel.Gracz">
               <MappingFragment StoreEntitySet="Gracz">
+                <ScalarProperty Name="Plec" ColumnName="Plec" />
+                <ScalarProperty Name="KategoriaWiekowa" ColumnName="KategoriaWiekowa" />
                 <ScalarProperty Name="UzytkownikId" ColumnName="UzytkownikId" />
                 <ScalarProperty Name="KlubId" ColumnName="KlubId" />
                 <ScalarProperty Name="CzyUsuniety" ColumnName="CzyUsuniety" />
@@ -387,6 +395,7 @@
           <EntitySetMapping Name="Gra">
             <EntityTypeMapping TypeName="PracaMagisterskaModel.Gra">
               <MappingFragment StoreEntitySet="Gra">
+                <ScalarProperty Name="KategoriaWiekowaGry" ColumnName="KategoriaWiekowaGry" />
                 <ScalarProperty Name="UzytkownikId" ColumnName="UzytkownikId" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="CzyUsuniete" ColumnName="CzyUsuniete" />

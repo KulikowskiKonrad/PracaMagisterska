@@ -1,5 +1,6 @@
 ﻿using PracaMagisterska.BazaDanych;
 using PracaMagisterska.Enums;
+using PracaMagisterska.Helpers;
 using PracaMagisterska.Models;
 using PracaMagisterska.Repozytoria;
 using System;
@@ -38,6 +39,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -61,6 +63,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -82,11 +85,14 @@ namespace PracaMagisterska.Controllers
                     model.NrLicencji = pobranyGracz.NrLicencji;
                     model.KlubId = pobranyGracz.KlubId;
                     model.Pozycja = (PozycjaGracza)pobranyGracz.Pozycja;
+                    model.KategoriaWiekowaGracza = (KategoriaWiekowa)pobranyGracz.KategoriaWiekowa;
+                    model.Plec = (PlecGracza)pobranyGracz.Plec;
                 }
                 return View("DetaleGracza", model);
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }
@@ -117,6 +123,8 @@ namespace PracaMagisterska.Controllers
                     gracz.NrLicencji = model.NrLicencji;
                     gracz.Pozycja = (byte)model.Pozycja;
                     gracz.KlubId = model.KlubId;
+                    gracz.Plec = (byte)model.Plec;
+                    gracz.KategoriaWiekowa = (byte)model.KategoriaWiekowaGracza;
                     gracz.UzytkownikId = ((Uzytkownik)Session["uzytkownik"]).Id;
                     long? rezultatZapisu = graczRepozytorium.Zapisz(gracz);
                     if (rezultatZapisu != null)
@@ -135,6 +143,7 @@ namespace PracaMagisterska.Controllers
             }
             catch (Exception ex)
             {
+                LogHelper.Log.Error(ex);
                 return View("Error");
             }
         }

@@ -34,23 +34,17 @@ namespace PracaMagisterska.Models
 
         public List<UczestnikGryViewModel> ListaUczestnikow { get; set; }
 
+        [Display(Name = "Kategoria wiekowa")]
+        public KategoriaWiekowa KategoriaWiekowa { get; set; }
+
+        public List<SelectListItem> ListaKategoriiWiekowych { get; set; }
 
         public EdytujGreViewModel()
         {
             ListaUczestnikow = new List<UczestnikGryViewModel>();
             ListaUczestnikow.Add(new UczestnikGryViewModel());
 
-            ListaGraczy = new List<SelectListItem>();
-            GraczRepozytorium graczRepozytorium = new GraczRepozytorium();
-            List<Gracz> pobraniGracze = graczRepozytorium.PobierzWszystkich(((Uzytkownik)HttpContext.Current.Session["uzytkownik"]).Id);
-            foreach (Gracz gracz in pobraniGracze)
-            {
-                ListaGraczy.Add(new SelectListItem()
-                {
-                    Text = gracz.Imie.ToString() + " " + gracz.Nazwisko.ToString(),
-                    Value = gracz.Id.ToString()
-                });
-            }
+
             ListaTypowGry = new List<SelectListItem>();
             ListaTypowGry.Add(new SelectListItem()
             {
@@ -77,7 +71,50 @@ namespace PracaMagisterska.Models
                 Text = TypGry.Trening.ToString(),
                 Value = TypGry.Trening.ToString()
             });
+
+            ListaKategoriiWiekowych = new List<SelectListItem>();
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Junior.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Junior.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Mlodziezowiec.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Mlodziezowiec.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Senior.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Senior.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Weteran.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Weteran.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Open.PobierzOpisEnuma(),
+                Value = KategoriaWiekowa.Open.ToString()
+            });
         }
+
+        public void UzupelnijListeGraczy()
+        {
+            ListaGraczy = new List<SelectListItem>();
+            GraczRepozytorium graczRepozytorium = new GraczRepozytorium();
+            List<Gracz> pobraniGracze = graczRepozytorium.PobierzWszystkich(((Uzytkownik)HttpContext.Current.Session["uzytkownik"]).Id, KategoriaWiekowa);
+            foreach (Gracz gracz in pobraniGracze)
+            {
+                ListaGraczy.Add(new SelectListItem()
+                {
+                    Text = gracz.Imie.ToString() + " " + gracz.Nazwisko.ToString(),
+                    Value = gracz.Id.ToString()
+                });
+            }
+        }
+
     }
     public class UczestnikGryViewModel
     {

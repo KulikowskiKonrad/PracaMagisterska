@@ -26,6 +26,7 @@ namespace PracaMagisterska.BazaDanych
         public bool CzyUsuniete { get; set; }
         public System.DateTime Data { get; set; }
         public long UzytkownikId { get; set; }
+        public byte KategoriaWiekowaGry { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UczestnikGry> UczestnicyGry { get; set; }

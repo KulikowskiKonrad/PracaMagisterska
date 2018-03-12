@@ -36,6 +36,12 @@
                 <th class="hidden-xs">
                     Nr licencji
                 </th>
+                <th class="hidden-xs">
+                    Płeć
+                </th>
+                <th>
+                    Kategoria wiekowa
+                </th>
                 <th>
                     Pozycja
                 </th>
@@ -55,6 +61,12 @@
                     </td>
                     <td class="hidden-xs">
                         @gracz.NrLicencji
+                    </td>
+                    <td class="hidden-xs">
+                        @(((PlecGracza)gracz.Plec).PobierzOpisEnuma())
+                    </td>
+                    <td>
+                        @(((KategoriaWiekowa)gracz.KategoriaWiekowa).PobierzOpisEnuma())
                     </td>
                     <td>
                         @(((PozycjaGracza)gracz.Pozycja).PobierzOpisEnuma())
