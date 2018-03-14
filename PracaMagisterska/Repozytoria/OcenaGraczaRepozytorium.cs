@@ -10,7 +10,23 @@ namespace PracaMagisterska.Repozytoria
 {
     public class OcenaGraczaRepozytorium
     {
-
+        public int ZwrocMaksymalnyNrZadania(long graId)
+        {
+            try
+            {
+                using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
+                {
+                    int rezultat = 0;
+                    rezultat = baza.OcenaGracza.Where(x => x.UczestnikGry.GraId == graId).Max(x => x.NumerZadania);
+                    return rezultat;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error(ex);
+                return 0;
+            }
+        }
         public long? Zapisz(OcenaGracza ocenaGracza)
         {
             try

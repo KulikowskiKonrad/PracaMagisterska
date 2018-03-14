@@ -130,6 +130,12 @@ namespace PracaMagisterska.Controllers
                     model.Miejsce = pobranaGra.Miejsce;
                     model.TypGry = (TypGry)pobranaGra.Typ;
                     model.KategoriaWiekowa = (KategoriaWiekowa)pobranaGra.KategoriaWiekowaGry;
+                    OcenaGraczaRepozytorium ocenaGraczaRepozytorium = new OcenaGraczaRepozytorium();
+                    model.IloscZadanWTreningu = ocenaGraczaRepozytorium.ZwrocMaksymalnyNrZadania(pobranaGra.Id);
+                    if (model.IloscZadanWTreningu == 0)
+                    {
+                        model.IloscZadanWTreningu = 1;
+                    }
                     model.UzupelnijListeGraczy();
                     if (pobranaGra.UczestnicyGry.Any())
                     {
@@ -165,7 +171,22 @@ namespace PracaMagisterska.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                //if (model.Id > 0 && model.ListaGraczy != null)
+                //{
+                //    foreach (var gracz in model.ListaUczestnikow)
+                //    {
+                //        if (string.IsNullOrEmpty(gracz.ImiePrzeciwnika))
+                //        {
+                //            gracz.ImiePrzeciwnika = "a";
+                //        }
+                //        if (string.IsNullOrEmpty(gracz.NazwiskoPrzeciwnika))
+                //        {
+                //            gracz.NazwiskoPrzeciwnika = "a";
+                //        }
+                //    }
+                //}
+
+                //if (ModelState.IsValid)
                 {
                     GraRepozytorium graRepozytorium = new GraRepozytorium();
                     Gra gra = null;
@@ -229,10 +250,10 @@ namespace PracaMagisterska.Controllers
                         return View("Error");
                     }
                 }
-                else
-                {
-                    return RedirectToAction("DetaleGry", model);
-                }
+                //else
+                //{
+                //    return RedirectToAction("DetaleGry", model);
+                //}
             }
             catch (Exception ex)
             {

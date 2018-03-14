@@ -1,4 +1,7 @@
 ﻿<script>
+    $(document).ready(function () {
+        wyswietlListeZadanWTreningu();
+    });
     let treningUczestnikGryId = null;
     function pokazPopapZawodnikaTrening(kliknietyPrzycisk) {
         let gracz = $(kliknietyPrzycisk).closest(".wierszUczestnika").find("select option:selected").text();
@@ -65,6 +68,22 @@
             }
         });
     }
+
+    function dodajZadanieDoTreningu() {
+        let nrZadania = $("#ListaZadanWTreningu").find(".pojedynczeZadanieWTreningu").length + 1;
+        let skopiowanyWiersz = $($("#TemplateOcenaZawodnikaTrening").html());
+        skopiowanyWiersz.find(".labelNrZadaniaWTreningu").text(nrZadania);
+        skopiowanyWiersz.appendTo($("#ListaZadanWTreningu"));
+    }
+
+    function wyswietlListeZadanWTreningu() {
+        //let pojedynczeZadanie = $(".pojedynczeZadanieWTreningu");
+        let iloscZadanWGrze = parseInt($("#IloscZadanWTreningu").val());
+        for (let i = 0; i < iloscZadanWGrze; i++) {
+            dodajZadanieDoTreningu();
+        }
+    }
+
 </script>
 
 <!-- Modal -->
@@ -77,95 +96,117 @@
                 <h4 class="modal-title">Ocena zawodnika : <span id="daneGraczaTrening"></span></h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Zadanie 1</label>
-                            <div class=" input-group">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
-                                <select class="form-control ocena" name="Ocena">
-                                    <option value="0">Punkty: 0</option>
-                                    <option value="1">Punkty: 1</option>
-                                    <option value="2">Punkty: 2</option>
-                                    <option value="3">Punkty: 3</option>
-                                    <option value="4">Punkty: 4</option>
-                                    <option value="5">Punkty: 5</option>
-                                </select>
+                <div class="row" id="ListaZadanWTreningu">
+                    @*<div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Zadanie 1</label>
+                                <div class=" input-group">
+                                    <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                    <select class="form-control ocena" name="Ocena">
+                                        <option value="0">Punkty: 0</option>
+                                        <option value="1">Punkty: 1</option>
+                                        <option value="2">Punkty: 2</option>
+                                        <option value="3">Punkty: 3</option>
+                                        <option value="4">Punkty: 4</option>
+                                        <option value="5">Punkty: 5</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>*@
+                    @*<div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Zadanie 2</label>
+                                <div class=" input-group">
+                                    <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                    <select class="form-control ocena" name="Ocena">
+                                        <option value="0">Punkty: 0</option>
+                                        <option value="1">Punkty: 1</option>
+                                        <option value="2">Punkty: 2</option>
+                                        <option value="3">Punkty: 3</option>
+                                        <option value="4">Punkty: 4</option>
+                                        <option value="5">Punkty: 5</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Zadanie 2</label>
-                            <div class=" input-group">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
-                                <select class="form-control ocena" name="Ocena">
-                                    <option value="0">Punkty: 0</option>
-                                    <option value="1">Punkty: 1</option>
-                                    <option value="2">Punkty: 2</option>
-                                    <option value="3">Punkty: 3</option>
-                                    <option value="4">Punkty: 4</option>
-                                    <option value="5">Punkty: 5</option>
-                                </select>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Zadanie 3</label>
+                                <div class=" input-group">
+                                    <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                    <select class="form-control ocena" name="Ocena">
+                                        <option value="0">Punkty: 0</option>
+                                        <option value="1">Punkty: 1</option>
+                                        <option value="2">Punkty: 2</option>
+                                        <option value="3">Punkty: 3</option>
+                                        <option value="4">Punkty: 4</option>
+                                        <option value="5">Punkty: 5</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Zadanie 3</label>
-                            <div class=" input-group">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
-                                <select class="form-control ocena" name="Ocena">
-                                    <option value="0">Punkty: 0</option>
-                                    <option value="1">Punkty: 1</option>
-                                    <option value="2">Punkty: 2</option>
-                                    <option value="3">Punkty: 3</option>
-                                    <option value="4">Punkty: 4</option>
-                                    <option value="5">Punkty: 5</option>
-                                </select>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Zadanie 4</label>
+                                <div class=" input-group">
+                                    <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                    <select class="form-control ocena" name="Ocena">
+                                        <option value="0">Punkty: 0</option>
+                                        <option value="1">Punkty: 1</option>
+                                        <option value="2">Punkty: 2</option>
+                                        <option value="3">Punkty: 3</option>
+                                        <option value="4">Punkty: 4</option>
+                                        <option value="5">Punkty: 5</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Zadanie 4</label>
-                            <div class=" input-group">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
-                                <select class="form-control ocena" name="Ocena">
-                                    <option value="0">Punkty: 0</option>
-                                    <option value="1">Punkty: 1</option>
-                                    <option value="2">Punkty: 2</option>
-                                    <option value="3">Punkty: 3</option>
-                                    <option value="4">Punkty: 4</option>
-                                    <option value="5">Punkty: 5</option>
-                                </select>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Zadanie 5</label>
+                                <div class=" input-group">
+                                    <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                                    <select class="form-control ocena" name="Ocena">
+                                        <option value="0">Punkty: 0</option>
+                                        <option value="1">Punkty: 1</option>
+                                        <option value="2">Punkty: 2</option>
+                                        <option value="3">Punkty: 3</option>
+                                        <option value="4">Punkty: 4</option>
+                                        <option value="5">Punkty: 5</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Zadanie 5</label>
-                            <div class=" input-group">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
-                                <select class="form-control ocena" name="Ocena">
-                                    <option value="0">Punkty: 0</option>
-                                    <option value="1">Punkty: 1</option>
-                                    <option value="2">Punkty: 2</option>
-                                    <option value="3">Punkty: 3</option>
-                                    <option value="4">Punkty: 4</option>
-                                    <option value="5">Punkty: 5</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                        </div>*@
 
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default" onclick="zapiszOcenaGraczaTrening();">Zapisz</button>
-                <button class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                <div class="pull-left">
+                    <button class="btn btn-default" onclick="dodajZadanieDoTreningu();">Dodaj zadanie</button>
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-default" onclick="zapiszOcenaGraczaTrening();">Zapisz</button>
+                    <button class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+<template id="TemplateOcenaZawodnikaTrening">
+    <div class="col-sm-6 pojedynczeZadanieWTreningu">
+        <div class="form-group">
+            <label>Zadanie&nbsp;</label><label class="labelNrZadaniaWTreningu"></label>
+            <div class=" input-group">
+                <div class="input-group-addon"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></div>
+                <select class="form-control ocena" name="Ocena">
+                    <option value="0">Punkty: 0</option>
+                    <option value="1">Punkty: 1</option>
+                    <option value="2">Punkty: 2</option>
+                    <option value="3">Punkty: 3</option>
+                    <option value="4">Punkty: 4</option>
+                    <option value="5">Punkty: 5</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</template>

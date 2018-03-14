@@ -29,11 +29,11 @@
             $("[id$='_NazwiskoPrzeciwnika']").removeAttr("data-val-required");
             ponowniePodepnijWalidacje();
         }
-        else {
-            $("[id$='_ImiePrzeciwnika']").attr("data-val-required", "Pole wymagane");   // tu biore selektorem elementy na stronie w ktorych atrybut id konczy sie na dany ciag znakow , nastepnie usuwam atrybut
-            $("[id$='_NazwiskoPrzeciwnika']").attr("data-val-required", "Pole wymagane");
-            ponowniePodepnijWalidacje();
-        }
+        //else {
+        //    $("[id$='_ImiePrzeciwnika']").attr("data-val-required", "Pole wymagane");   // tu biore selektorem elementy na stronie w ktorych atrybut id konczy sie na dany ciag znakow , nastepnie usuwam atrybut
+        //    $("[id$='_NazwiskoPrzeciwnika']").attr("data-val-required", "Pole wymagane");
+        //    ponowniePodepnijWalidacje();
+        //}
     }
 
     function zapamietajWartosciGraczy() {
@@ -127,6 +127,7 @@
 @using (Html.BeginForm("ZapiszDetaleGry", "Gra", FormMethod.Post, new { id = "formularzDetaliGry" }))
 {
     @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.IloscZadanWTreningu)
     <div class="row">
         <div class="col-sm-12 col-md-5">
             <div class="form-group">

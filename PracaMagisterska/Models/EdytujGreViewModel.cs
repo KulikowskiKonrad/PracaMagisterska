@@ -39,8 +39,11 @@ namespace PracaMagisterska.Models
 
         public List<SelectListItem> ListaKategoriiWiekowych { get; set; }
 
+        public int IloscZadanWTreningu { get; set; }
+
         public EdytujGreViewModel()
         {
+            IloscZadanWTreningu = 1;
             ListaUczestnikow = new List<UczestnikGryViewModel>();
             ListaUczestnikow.Add(new UczestnikGryViewModel());
 
