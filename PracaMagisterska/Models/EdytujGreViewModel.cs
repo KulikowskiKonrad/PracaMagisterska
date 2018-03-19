@@ -41,9 +41,12 @@ namespace PracaMagisterska.Models
 
         public int IloscZadanWTreningu { get; set; }
 
+        public int IloscRund { get; set; }
+
         public EdytujGreViewModel()
         {
-            IloscZadanWTreningu = 1;
+            //IloscZadanWTreningu = 1;
+            IloscRund = 1;
             ListaUczestnikow = new List<UczestnikGryViewModel>();
             ListaUczestnikow.Add(new UczestnikGryViewModel());
 

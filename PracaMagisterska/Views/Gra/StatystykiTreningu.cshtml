@@ -7,7 +7,6 @@
 <div class="row">
     <div class="col-sm-12">
         <table class="table table-striped" style="margin-top:20px;">
-
             <tr>
                 <th>
                     Gracz
@@ -15,15 +14,25 @@
                 <th>
                     Przeciwnik
                 </th>
-                <th class="hidden-xs">Zadanie 1</th>
-                <th class="hidden-xs">Zadanie 2</th>
-                <th class="hidden-xs">Zadanie 3</th>
-                <th class="hidden-xs">Zadanie 4</th>
-                <th class="hidden-xs">Zadanie 5</th>
+                @if (Model.Count != 0 && Model[0].OcenyZadan != null)
+                {  //warunek sprawdza czy nasz model ktory jest lista zawiera elementy i czy pierwszy
+                   //element listy oceny zadan nie jest nullem
+                    for (int i = 0; i < Model[0].OcenyZadan.Length; i++)
+                    { //warunek koncowy w petli mowi o tym ze wez pierowszy element z listy List<StatystykiTreninguViewModel>
+                      //bo na pewno istnieje bo sprawdzalem w warunku wyzej po czym odwoluje sie do ilosci ocen zadan
+                    <th class="hidden-xs">Zadanie @(i + 1)</th>
+                    }
+                    @*<th class="hidden-xs">Zadanie 1</th>
+                        <th class="hidden-xs">Zadanie 2</th>
+                        <th class="hidden-xs">Zadanie 3</th>
+                        <th class="hidden-xs">Zadanie 4</th>
+                        <th class="hidden-xs">Zadanie 5</th>*@
+                }
                 <th>
                     Średnia punktów
                 </th>
             </tr>
+
             @foreach (StatystykiTreninguViewModel statystyki in Model)
             {
                 <tr>
@@ -33,25 +42,30 @@
                     <td>
                         @statystyki.ImiePrzeciwnika @statystyki.NazwiskoPrzeciwnika
                     </td>
-                    @for (int i = 0; i < 5; i++)
+                    @if (statystyki.OcenyZadan != null)
                     {
-                        <td class="hidden-xs">@statystyki.OcenyZadan[i]</td>
+                        for (int i = 0; i < statystyki.OcenyZadan.Length; i++)
+                        {
+                            <td class="hidden-xs">@statystyki.OcenyZadan[i]</td>
+
+
+                            @*<td>
+                                    @statystyki.OcenyZadan[0]
+                                </td>
+                                <td>
+                                    @statystyki.OcenyZadan[1]
+                                </td>
+                                <td>
+                                    @statystyki.OcenyZadan[2]
+                                </td>
+                                <td>
+                                    @statystyki.OcenyZadan[3]
+                                </td>
+                                <td>
+                                    @statystyki.OcenyZadan[4]
+                                </td>*@
+                        }
                     }
-                    @*<td>
-                            @statystyki.OcenyZadan[0]
-                        </td>
-                        <td>
-                            @statystyki.OcenyZadan[1]
-                        </td>
-                        <td>
-                            @statystyki.OcenyZadan[2]
-                        </td>
-                        <td>
-                            @statystyki.OcenyZadan[3]
-                        </td>
-                        <td>
-                            @statystyki.OcenyZadan[4]
-                        </td>*@
                     <td>
                         @statystyki.SredniaOcen
                     </td>

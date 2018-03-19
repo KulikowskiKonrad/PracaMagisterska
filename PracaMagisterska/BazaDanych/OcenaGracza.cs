@@ -20,6 +20,7 @@ namespace PracaMagisterska.BazaDanych
         public byte NumerZadania { get; set; }
         public Nullable<byte> DecyzjaGracza { get; set; }
         public Nullable<byte> DecyzjaTrenera { get; set; }
+        public byte NumerRundy { get; set; }
     
         public virtual UczestnikGry UczestnikGry { get; set; }
     }

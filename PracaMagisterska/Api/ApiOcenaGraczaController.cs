@@ -63,7 +63,9 @@ namespace PracaMagisterska.Api
                         DecyzjaTrenera = ocena.DecyzjaTrenera,
                         Id = ocena.Id,
                         NumerZadania = ocena.NumerZadania,
-                        Ocena = ocena.Ocena
+                        Ocena = ocena.Ocena,
+                        //
+                        NumerRundy = ocena.NumerRundy
                     });
                 }
                 return rezultat;

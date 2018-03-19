@@ -137,6 +137,11 @@ namespace PracaMagisterska.Controllers
                         model.IloscZadanWTreningu = 1;
                     }
                     model.UzupelnijListeGraczy();
+                    model.IloscRund = ocenaGraczaRepozytorium.ZwrocMaksymalnyNrRundy(pobranaGra.Id);
+                    if (model.IloscRund == 0)
+                    {
+                        model.IloscRund = 1;
+                    }
                     if (pobranaGra.UczestnicyGry.Any())
                     {
                         model.ListaUczestnikow.Clear();
@@ -171,21 +176,20 @@ namespace PracaMagisterska.Controllers
         {
             try
             {
-                //if (model.Id > 0 && model.ListaGraczy != null)
-                //{
-                //    foreach (var gracz in model.ListaUczestnikow)
-                //    {
-                //        if (string.IsNullOrEmpty(gracz.ImiePrzeciwnika))
-                //        {
-                //            gracz.ImiePrzeciwnika = "a";
-                //        }
-                //        if (string.IsNullOrEmpty(gracz.NazwiskoPrzeciwnika))
-                //        {
-                //            gracz.NazwiskoPrzeciwnika = "a";
-                //        }
-                //    }
-                //}
-
+                if (model.Id > 0 && model.ListaGraczy != null)
+                {
+                    foreach (var gracz in model.ListaUczestnikow)
+                    {
+                        if (string.IsNullOrEmpty(gracz.ImiePrzeciwnika))
+                        {
+                            gracz.ImiePrzeciwnika = "";
+                        }
+                        if (string.IsNullOrEmpty(gracz.NazwiskoPrzeciwnika))
+                        {
+                            gracz.NazwiskoPrzeciwnika = "";
+                        }
+                    }
+                }
                 //if (ModelState.IsValid)
                 {
                     GraRepozytorium graRepozytorium = new GraRepozytorium();
@@ -250,10 +254,6 @@ namespace PracaMagisterska.Controllers
                         return View("Error");
                     }
                 }
-                //else
-                //{
-                //    return RedirectToAction("DetaleGry", model);
-                //}
             }
             catch (Exception ex)
             {

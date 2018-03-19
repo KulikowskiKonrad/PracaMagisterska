@@ -62,6 +62,8 @@ namespace PracaMagisterska.Repozytoria
             try
             {
                 List<StatystykiTreninguViewModel> listaStatystyk = new List<StatystykiTreninguViewModel>();
+                OcenaGraczaRepozytorium ocenaGraczaRepozytorium = new OcenaGraczaRepozytorium();
+                int iloscZadan = ocenaGraczaRepozytorium.ZwrocMaksymalnyNrZadania(idGry);
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
                     List<UczestnikGry> uczestnicy = baza.UczestnikGry.Where(u => u.GraId == idGry).ToList();
@@ -74,9 +76,12 @@ namespace PracaMagisterska.Repozytoria
                             Nazwisko = uczestnik.Gracz.Nazwisko,
                             ImiePrzeciwnika = uczestnik.ImiePrzeciwnika,
                             NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika,
-                            OcenyZadan = new int[5]
+                            //OcenyZadan = new int[iloscZadan]
                         };
-
+                        if (iloscZadan != 0)
+                        {
+                            statystykaGracza.OcenyZadan = new int[iloscZadan];
+                        }
                         foreach (OcenaGracza ocena in oceny.Where(o => o.UczestnikGryId == uczestnik.Id).ToList())
                         {
                             statystykaGracza.OcenyZadan[ocena.NumerZadania - 1] = ocena.Ocena;

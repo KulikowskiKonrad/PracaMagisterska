@@ -18,6 +18,7 @@ namespace PracaMagisterska.Models
         public string ImiePrzeciwnika { get; set; }
 
         public string NazwiskoPrzeciwnika { get; set; }
-
     }
+
+
 }

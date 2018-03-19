@@ -14,7 +14,7 @@
         $.ajax({     //uzywam ajax (sposb przesylu info -komunikacji pomiedzy przegladarka a serwerem -> dane sa wysylane bez przeladowania strony -ASYNCHRONICZNIE)
             type: "GET",  //metoda dostepu api kontrolerze
             url: "/Api/ApiOcenaGracza/Pobierz", // podaje adres gdzie jest folder nazwa kontolera i metoda
-            data: { uczestnikId: uczestnikGryId /*, nrrundyyyyy: $()*/ }, // dane ktore chcemy przeslac
+            data: { uczestnikId: uczestnikGryId /*, nrrundyyyyy: $('#gagag').val()*/ }, // dane ktore chcemy przeslac
             contentType: "application/json", //zawsze ma byc to napisane i to mowi ze korzystam z formatu json (format danych -nazwa pola oraz wartosc)
             success: function (result) { //jezeli nie pojawil sie blad (udalo sie uzyskac odp z serwera)
                 if (result != null) { //jezeli wynik dzialania metody pobierz jest ropzny od null to
@@ -84,7 +84,6 @@
 </script>
 
 <!-- Modal -->
-
 <div id="popapOcenaZawodnika" class="modal fade" role="dialog">
     <div class="modal-dialog modal-sm">
         <!-- Modal content-->
@@ -226,8 +225,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default" onclick="zapiszOcenaGracza();">Zapisz</button>
-                <button class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                <div class="pull-right">
+                    <button class="btn btn-default" onclick="zapiszOcenaGracza();">Zapisz</button>
+                    <button class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                </div>
+                <div class="pull-left">
+                    <button class="btn btn-default" onclick="dodajKolejnaRunede();">Dodaj rundę</button>
+                </div>
             </div>
         </div>
 
