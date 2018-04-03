@@ -13,7 +13,7 @@ namespace PracaMagisterska.Repozytoria
     public class GraRepozytorium
     {
 
-        public List<StatystykiZawodnika> PobierzStatytstyki(DateTime dataOd, DateTime dataDo, PlecGracza? plecGracza)
+        public List<StatystykiZawodnika> PobierzStatytstyki(DateTime dataOd, DateTime dataDo, PlecGracza? plecGracza, KategoriaWiekowa? kategoriaWiekowa)
         {
             try
             {
@@ -25,7 +25,8 @@ namespace PracaMagisterska.Repozytoria
                             .ToList();
                     List<Gracz> listaGraczy = baza.Gracz.Where(g => g.UczestnicyGry.Where(u => u.Gra.Data >= dataOd
                               && u.Gra.Data <= dataDo && u.Gra.Typ != (byte)TypGry.Trening && u.CzyUsuniety == false && u.Gra.CzyUsuniete == false).Any()
-                              && g.CzyUsuniety == false && ((PlecGracza)g.Plec == plecGracza || plecGracza == null))
+                              && g.CzyUsuniety == false && ((PlecGracza)g.Plec == plecGracza || plecGracza == null)
+                              && ((KategoriaWiekowa)g.KategoriaWiekowa == kategoriaWiekowa || kategoriaWiekowa == null))
                         .ToList();
                     List<OcenaGracza> listaOcen = baza.OcenaGracza.Where(o => o.UczestnikGry.Gra.Data >= dataOd && o.UczestnikGry.Gra.Data <= dataDo
                         && o.UczestnikGry.Gra.Typ != (byte)TypGry.Trening && o.UczestnikGry.CzyUsuniety == false && o.UczestnikGry.Gra.CzyUsuniete == false).ToList();
@@ -40,7 +41,8 @@ namespace PracaMagisterska.Repozytoria
                                 Pozycja = (PozycjaGracza)gracz.Pozycja,
                                 Plec = (PlecGracza)gracz.Plec,
                                 //wez liste ocen danego gracza , pobierz wszystkie id gier i  usun ich powtorzenia(distinct) dodaj na liste i zlicz
-                                SredniaOcen = Math.Round(listaOcen.Where(x => x.UczestnikGry.GraczId == gracz.Id).Average(x => (byte?)x.Ocena).GetValueOrDefault(0), 2) //wez liste ocen danego gracza i wylicz srednia z ocen
+                                SredniaOcen = Math.Round(listaOcen.Where(x => x.UczestnikGry.GraczId == gracz.Id).Average(x => (byte?)x.Ocena).GetValueOrDefault(0), 2), //wez liste ocen danego gracza i wylicz srednia z ocen
+                                KategoriaWiekowaGraczy = (KategoriaWiekowa)gracz.KategoriaWiekowa
                             };
                             listaStatystyk.Add(statystykiZawodnika);
                         }
@@ -55,36 +57,57 @@ namespace PracaMagisterska.Repozytoria
             }
         }
 
-
-
-        public List<StatystykiTreninguViewModel> PobierzListeStatystykTreningu(long idGry)
+        public long? PobierzIdPoprzedniejGry(byte typGry, DateTime data, long uzytkownikId)
         {
             try
             {
-                List<StatystykiTreninguViewModel> listaStatystyk = new List<StatystykiTreninguViewModel>();
+                long? rezultat = null;
+                using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
+                {
+                    Gra gra = baza.Gra.Where(x => x.Data < data && x.Typ == typGry && x.CzyUsuniete == false && x.UzytkownikId == uzytkownikId).FirstOrDefault();
+                    if (gra != null)
+                    {
+                        rezultat = gra.Id;
+                    }
+                }
+                return rezultat;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error(ex);
+                return null;
+            }
+        }
+
+        public List<StatystykiGracza> PobierzListeStatystykGry(long idGry)
+        {
+            try
+            {
+                List<StatystykiGracza> listaStatystyk = new List<StatystykiGracza>();
                 OcenaGraczaRepozytorium ocenaGraczaRepozytorium = new OcenaGraczaRepozytorium();
+
                 int iloscZadan = ocenaGraczaRepozytorium.ZwrocMaksymalnyNrZadania(idGry);
+                int iloscRund = ocenaGraczaRepozytorium.ZwrocMaksymalnyNrRundy(idGry);
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
                     List<UczestnikGry> uczestnicy = baza.UczestnikGry.Where(u => u.GraId == idGry).ToList();
                     List<OcenaGracza> oceny = baza.OcenaGracza.Where(o => o.UczestnikGry.GraId == idGry).ToList();
                     foreach (UczestnikGry uczestnik in uczestnicy)
                     {
-                        StatystykiTreninguViewModel statystykaGracza = new StatystykiTreninguViewModel()
+                        StatystykiGracza statystykaGracza = new StatystykiGracza()
                         {
                             Imie = uczestnik.Gracz.Imie,
                             Nazwisko = uczestnik.Gracz.Nazwisko,
                             ImiePrzeciwnika = uczestnik.ImiePrzeciwnika,
-                            NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika,
-                            //OcenyZadan = new int[iloscZadan]
+                            NazwiskoPrzeciwnika = uczestnik.NazwiskoPrzeciwnika
                         };
                         if (iloscZadan != 0)
                         {
-                            statystykaGracza.OcenyZadan = new int[iloscZadan];
+                            statystykaGracza.OcenyZadan = new int[iloscZadan * iloscRund];
                         }
                         foreach (OcenaGracza ocena in oceny.Where(o => o.UczestnikGryId == uczestnik.Id).ToList())
                         {
-                            statystykaGracza.OcenyZadan[ocena.NumerZadania - 1] = ocena.Ocena;
+                            statystykaGracza.OcenyZadan[(ocena.NumerRundy * ocena.NumerZadania) - 1] = ocena.Ocena;
                         }
 
                         statystykaGracza.SredniaOcen = Math.Round(statystykaGracza.OcenyZadan.Where(o => o != 0).DefaultIfEmpty().Average(), 2);

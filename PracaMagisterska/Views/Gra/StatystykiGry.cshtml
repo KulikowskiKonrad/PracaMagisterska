@@ -1,0 +1,169 @@
+﻿@model StatystykiGryViewModel
+
+<h2>Statystyki gry: @Model.StatystykiGry.TypGry.PobierzOpisEnuma() @Model.StatystykiGry.Data</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped" style="margin-top:20px;">
+            <tr>
+                <th>
+                    Gracz
+                </th>
+                <th>
+                    Przeciwnik
+                </th>
+                @if (Model.StatystykiGry.ListaStatystykGracza != null && Model.StatystykiGry.ListaStatystykGracza.Count != 0
+&& Model.StatystykiGry.ListaStatystykGracza[0].OcenyZadan != null)
+                {  //warunek sprawdza czy nasz model ktory jest lista zawiera elementy i czy pierwszy
+                   //element listy oceny zadan nie jest nullem
+                    for (int i = 0; i < Model.StatystykiGry.ListaStatystykGracza[0].OcenyZadan.Length; i++)
+                    { //warunek koncowy w petli mowi o tym ze wez pierowszy element z listy List<StatystykiTreninguViewModel>
+                      //bo na pewno istnieje bo sprawdzalem w warunku wyzej po czym odwoluje sie do ilosci ocen zadan
+                    <th class="hidden-xs">
+
+                        @if (Model.StatystykiGry.TypGry != TypGry.Trening)
+                        {
+                            if (Model.StatystykiGry.ListaStatystykGracza.Count == 3)
+                            {
+                                <span>Z@(i % 2 + 1) R@(i / 2 + 1)</span>
+                            }
+                            else
+                            {
+                                <span>Z@(i % 3 + 1) R@(i / 3 + 1)</span>
+                            }
+                        }
+                        else
+                        {
+                            <span> Z@(i + 1)</span>
+                        }
+                    </th>
+                    }
+                    @*<th class="hidden-xs">Zadanie 1</th>
+                        <th class="hidden-xs">Zadanie 2</th>
+                        <th class="hidden-xs">Zadanie 3</th>
+                        <th class="hidden-xs">Zadanie 4</th>
+                        <th class="hidden-xs">Zadanie 5</th>*@
+                }
+                <th>
+                    Średnia punktów
+                </th>
+            </tr>
+            @if (Model.StatystykiGry.ListaStatystykGracza != null)
+            {
+                foreach (StatystykiGracza statystyki in Model.StatystykiGry.ListaStatystykGracza)
+                {
+                    <tr>
+                        <td>
+                            @statystyki.Imie @statystyki.Nazwisko
+                        </td>
+                        <td>
+                            @statystyki.ImiePrzeciwnika @statystyki.NazwiskoPrzeciwnika
+                        </td>
+                        @if (statystyki.OcenyZadan != null)
+                    {
+                        for (int i = 0; i < statystyki.OcenyZadan.Length; i++)
+                        {
+                                <td class="hidden-xs">@statystyki.OcenyZadan[i]</td>
+
+
+                                @*<td>
+                                        @statystyki.OcenyZadan[0]
+                                    </td>
+                                    <td>
+                                        @statystyki.OcenyZadan[1]
+                                    </td>
+                                    <td>
+                                        @statystyki.OcenyZadan[2]
+                                    </td>
+                                    <td>
+                                        @statystyki.OcenyZadan[3]
+                                    </td>
+                                    <td>
+                                        @statystyki.OcenyZadan[4]
+                                    </td>*@
+                            }
+                        }
+                        <td>
+                            @statystyki.SredniaOcen
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>
+@if (Model.StatystykiPoprzedniejGry != null)
+{
+    <h3>Statystyki poprzedniej gry: @Model.StatystykiPoprzedniejGry.TypGry.PobierzOpisEnuma() @Model.StatystykiPoprzedniejGry.Data</h3>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped" style="margin-top:20px;">
+                <tr>
+                    <th>
+                        Gracz
+                    </th>
+                    <th>
+                        Przeciwnik
+                    </th>
+                    @if (Model.StatystykiPoprzedniejGry.ListaStatystykGracza.Count != 0 && Model.StatystykiPoprzedniejGry.ListaStatystykGracza[0].OcenyZadan != null)
+                    {  //warunek sprawdza czy nasz model ktory jest lista zawiera elementy i czy pierwszy
+                       //element listy oceny zadan nie jest nullem
+                        for (int i = 0; i < Model.StatystykiPoprzedniejGry.ListaStatystykGracza[0].OcenyZadan.Length; i++)
+                        { //warunek koncowy w petli mowi o tym ze wez pierowszy element z listy List<StatystykiTreninguViewModel>
+                          //bo na pewno istnieje bo sprawdzalem w warunku wyzej po czym odwoluje sie do ilosci ocen zadan
+                        <th class="hidden-xs">
+                            @if (Model.StatystykiPoprzedniejGry.TypGry != TypGry.Trening)
+                        {
+                            if (Model.StatystykiPoprzedniejGry.ListaStatystykGracza.Count == 3)
+                            {
+                                    <span>Z@(i % 2 + 1) R@(i / 2 + 1)</span>
+                                }
+                                else
+                                {
+                                    <span>Z@(i % 3 + 1) R@(i / 3 + 1)</span>
+                                }
+                            }
+                            else
+                            {
+                                <span> Z@(i + 1)</span>
+                            }
+                        </th>
+
+                        }
+                        @*<th class="hidden-xs">Zadanie 1</th>
+                            <th class="hidden-xs">Zadanie 2</th>
+                            <th class="hidden-xs">Zadanie 3</th>
+                            <th class="hidden-xs">Zadanie 4</th>
+                            <th class="hidden-xs">Zadanie 5</th>*@
+                    }
+                    <th>
+                        Średnia punktów
+                    </th>
+                </tr>
+
+                @foreach (StatystykiGracza statystyki in Model.StatystykiPoprzedniejGry.ListaStatystykGracza)
+                {
+                    <tr>
+                        <td>
+                            @statystyki.Imie @statystyki.Nazwisko
+                        </td>
+                        <td>
+                            @statystyki.ImiePrzeciwnika @statystyki.NazwiskoPrzeciwnika
+                        </td>
+                        @if (statystyki.OcenyZadan != null)
+                    {
+                        for (int i = 0; i < statystyki.OcenyZadan.Length; i++)
+                        {
+                                <td class="hidden-xs">@statystyki.OcenyZadan[i]</td>
+                            }
+                        }
+                        <td>
+                            @statystyki.SredniaOcen
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

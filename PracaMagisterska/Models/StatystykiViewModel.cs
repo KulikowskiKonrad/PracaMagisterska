@@ -34,6 +34,11 @@ namespace PracaMagisterska.Models
 
         public List<StatystykiZawodnika> ListaProponowanychZawodnikow { get; set; }
 
+        public List<SelectListItem> ListaKategoriiWiekowych { get; set; }
+
+        [Display(Name = "Kategoria wiekowa")]
+        public KategoriaWiekowa? KategoriaWiekowaGraczy { get; set; }
+
         public StatystykiViewModel()
         {
             ListaProponowanychZawodnikow = new List<StatystykiZawodnika>();
@@ -53,6 +58,33 @@ namespace PracaMagisterska.Models
                 Text = PlecGracza.Kobieta.PobierzOpisEnuma(),
                 Value = PlecGracza.Kobieta.ToString()
             });
+
+            ListaKategoriiWiekowych = new List<SelectListItem>();
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Junior.ToString(),
+                Value = KategoriaWiekowa.Junior.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Mlodziezowiec.ToString(),
+                Value = KategoriaWiekowa.Mlodziezowiec.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Open.ToString(),
+                Value = KategoriaWiekowa.Open.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Senior.ToString(),
+                Value = KategoriaWiekowa.Senior.ToString()
+            });
+            ListaKategoriiWiekowych.Add(new SelectListItem()
+            {
+                Text = KategoriaWiekowa.Weteran.ToString(),
+                Value = KategoriaWiekowa.Weteran.ToString()
+            });
         }
     }
 
@@ -70,6 +102,8 @@ namespace PracaMagisterska.Models
         public PozycjaGracza Pozycja { get; set; }
 
         public PlecGracza Plec { get; set; }
+
+        public KategoriaWiekowa KategoriaWiekowaGraczy { get; set; }
 
     }
 }

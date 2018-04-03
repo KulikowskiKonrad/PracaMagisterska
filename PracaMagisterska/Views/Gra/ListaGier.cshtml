@@ -50,7 +50,7 @@
                         @gra.Data
                     </td>
                     <td>
-                        @((TypGry)gra.Typ)
+                        @(((TypGry)gra.Typ).PobierzOpisEnuma())
                     </td>
                     <td>
                         @gra.Miejsce
@@ -62,10 +62,7 @@
                         @((KategoriaWiekowa)gra.KategoriaWiekowaGry)
                     </td>
                     <td>
-                        @if ((TypGry)gra.Typ == TypGry.Trening)
-                        {
-                            <a href="@Url.Action("StatystykiTreningu", "Gra", new { idGry = gra.Id })" class="btn btn-default btn-sm pull-right" title="Statystyki" style="margin-right:5px;"><span class="glyphicon glyphicon-star"></span></a>
-                        }
+                        <a href="@Url.Action("StatystykiGry", "Gra", new { idGry = gra.Id })" clas class="btn btn-default btn-sm pull-right" title="Statystyki" style="margin-right:5px;"><span class="glyphicon glyphicon-star"></span></a>
                         <a href="@Url.Action("DetaleGry","Gra", new { id = gra.Id })" class="btn btn-default btn-sm pull-right" title="Edytuj" style="margin-right:5px;"><span class="glyphicon glyphicon-cog"></span></a>
                         @*to jest zamiana actionLink na a*@
                         @using (Html.BeginForm("Usun", "Gra", FormMethod.Post))

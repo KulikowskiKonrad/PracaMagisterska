@@ -55,7 +55,7 @@
 @using (Html.BeginForm("Statystyki", "Gra", FormMethod.Get, new { id = "formularzStatystyk" }))
 {
     <div class="row">
-        <div class="col-sm-4 col-md-3">
+        <div class="col-sm-3 col-md-2">
             <div class="form-group ">
                 @Html.LabelFor(x => x.DataOd)
                 <div class='input-group date'>
@@ -69,7 +69,7 @@
         </div>
 
 
-        <div class="col-sm-4 col-md-3">
+        <div class="col-sm-3 col-md-2">
             <div class="form-group ">
                 @Html.LabelFor(x => x.DataDo)
                 <div class='input-group date'>
@@ -81,7 +81,7 @@
                 @Html.ValidationMessageFor(x => x.DataDo)
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class=" form-group">
                 @Html.LabelFor(x => x.Plec)
                 <div class=" input-group">
@@ -89,6 +89,16 @@
                     @Html.DropDownListFor(x => x.Plec, Model.ListaPlci, "Dowolna", new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Plec) })
                 </div>
                 @Html.ValidationMessageFor(x => x.Plec)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class=" form-group">
+                @Html.LabelFor(x => x.KategoriaWiekowaGraczy)
+                <div class=" input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></div>
+                    @Html.DropDownListFor(x => x.KategoriaWiekowaGraczy, Model.ListaKategoriiWiekowych, "Dowolna", new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.KategoriaWiekowaGraczy) })
+                </div>
+                @Html.ValidationMessageFor(x => x.KategoriaWiekowaGraczy)
             </div>
         </div>
         <div class="col-sm-2">
@@ -110,13 +120,16 @@
                         Średnia punktów
                     </th>
                     <th>
-                        Pozycja zawodnika
+                        Pozycja
                     </th>
                     <th>
                         Ilość spotkań
                     </th>
                     <th>
                         Płeć
+                    </th>
+                    <th>
+                        Kategoria wiekowa
                     </th>
                 </tr>
                 @if (Model.ListaStatystykZawodnikow.Count == 0)
@@ -144,6 +157,9 @@
                         </td>
                         <td>
                             @statystyki.Plec.PobierzOpisEnuma()
+                        </td>
+                        <td>
+                            @statystyki.KategoriaWiekowaGraczy.PobierzOpisEnuma()
                         </td>
                     </tr>
                 }

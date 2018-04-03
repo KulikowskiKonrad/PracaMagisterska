@@ -25,7 +25,7 @@ namespace PracaMagisterska.Api
 
                     foreach (OcenaGracza ocena in model)
                     {
-                        OcenaGracza ocenaZBazy = listaZRepozytorium.Where(x => x.NumerZadania == ocena.NumerZadania).SingleOrDefault(); // to poazwala na okreslenie czy wiersz 
+                        OcenaGracza ocenaZBazy = listaZRepozytorium.Where(x => x.NumerZadania == ocena.NumerZadania && x.NumerRundy == ocena.NumerRundy).SingleOrDefault(); // to poazwala na okreslenie czy wiersz 
                         //bedzie aktualizowany czy bedzie dodawany
                         if (ocenaZBazy != null) // jezeli wartosc z wiersza jest rozna od null to aktualizuje a jezeli nie istnieje to zapisuje nowymi danymi
                         {

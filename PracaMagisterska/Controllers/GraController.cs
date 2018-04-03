@@ -15,7 +15,7 @@ namespace PracaMagisterska.Controllers
     {
         [HttpGet]
         [Authorize]
-        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo, byte? iloscPuenterow, byte? iloscStrzelcow, PlecGracza? plec)
+        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo, byte? iloscPuenterow, byte? iloscStrzelcow, PlecGracza? plec, KategoriaWiekowa? kategoriaWiekowaGraczy)
         {
             try
             {
@@ -28,13 +28,14 @@ namespace PracaMagisterska.Controllers
                     dataDo = DateTime.Today;
                 }
                 GraRepozytorium graRepozytorium = new GraRepozytorium();
-                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value, plec);
+                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value, plec, kategoriaWiekowaGraczy);
                 StatystykiViewModel statystykiViewModel = new StatystykiViewModel()
                 {
                     DataDo = dataDo.Value,
                     DataOd = dataOd.Value,
                     Plec = plec,
-                    ListaStatystykZawodnikow = listaStatystykGraczy
+                    ListaStatystykZawodnikow = listaStatystykGraczy,
+                    KategoriaWiekowaGraczy = kategoriaWiekowaGraczy
                 };
 
                 if (iloscPuenterow.HasValue)
@@ -58,13 +59,39 @@ namespace PracaMagisterska.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult StatystykiTreningu(long idGry)
+        public ActionResult StatystykiGry(long idGry)
         {
             try
             {
                 GraRepozytorium graRepozytorium = new GraRepozytorium();
-                List<StatystykiTreninguViewModel> gra = graRepozytorium.PobierzListeStatystykTreningu(idGry);
-                return View(gra);
+                Gra pobranaGra = graRepozytorium.Pobierz(idGry);
+                long? idPobranejPoprzedniejGry = graRepozytorium.PobierzIdPoprzedniejGry(pobranaGra.Typ, pobranaGra.Data, pobranaGra.UzytkownikId);
+                List<StatystykiGracza> pobraneStatystykiGry = graRepozytorium.PobierzListeStatystykGry(idGry);
+
+                StatystykiGryViewModel statystykiGryViewModel = new StatystykiGryViewModel()
+                {
+                    StatystykiGry = new StatystykiGry()
+                    {
+                        Data = pobranaGra.Data,
+                        TypGry = (TypGry)pobranaGra.Typ,
+                        ListaStatystykGracza = pobraneStatystykiGry,
+                        Id = pobranaGra.Id
+                    }
+                };
+                if (idPobranejPoprzedniejGry != null)
+                {
+                    Gra pobranaPoprzedniaGra = graRepozytorium.Pobierz(idPobranejPoprzedniejGry.Value);
+                    List<StatystykiGracza> pobraneStatystykiPoprzedniejGry = graRepozytorium.PobierzListeStatystykGry(idPobranejPoprzedniejGry.Value);
+                    statystykiGryViewModel.StatystykiPoprzedniejGry = new Models.StatystykiGry()
+                    {
+                        Data = pobranaPoprzedniaGra.Data,
+                        Id = pobranaPoprzedniaGra.Id,
+                        ListaStatystykGracza = pobraneStatystykiPoprzedniejGry,
+                        TypGry = (TypGry)pobranaPoprzedniaGra.Typ
+                    };
+                }
+
+                return View(statystykiGryViewModel);
             }
             catch (Exception ex)
             {

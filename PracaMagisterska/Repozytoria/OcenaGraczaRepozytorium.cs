@@ -47,6 +47,7 @@ namespace PracaMagisterska.Repozytoria
                 return 0;
             }
         }
+
         public long? Zapisz(OcenaGracza ocenaGracza)
         {
             try
@@ -74,7 +75,7 @@ namespace PracaMagisterska.Repozytoria
                 List<OcenaGracza> listaOcenGracza = new List<OcenaGracza>();
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
-                    listaOcenGracza = baza.OcenaGracza.Where(x => x.UczestnikGryId == uczestnikId).ToList();
+                    listaOcenGracza = baza.OcenaGracza.Where(x => x.UczestnikGryId == uczestnikId).OrderBy(x => x.NumerRundy).ThenBy(x => x.NumerZadania).ToList();
                 }
                 return listaOcenGracza;
             }
