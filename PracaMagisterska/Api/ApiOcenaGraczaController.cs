@@ -65,7 +65,8 @@ namespace PracaMagisterska.Api
                         NumerZadania = ocena.NumerZadania,
                         Ocena = ocena.Ocena,
                         //
-                        NumerRundy = ocena.NumerRundy
+                        NumerRundy = ocena.NumerRundy,
+                        RodzajZadania = ocena.RodzajZadania
                     });
                 }
                 return rezultat;

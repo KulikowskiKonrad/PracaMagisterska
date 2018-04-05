@@ -235,6 +235,7 @@
     <Compile Include="Enums\Decyzja.cs" />
     <Compile Include="Enums\PlecGracza.cs" />
     <Compile Include="Enums\PozycjaGracza.cs" />
+    <Compile Include="Enums\RodzajZadania.cs" />
     <Compile Include="Enums\RolaUzytkownika.cs" />
     <Compile Include="Enums\TypGry.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
@@ -367,6 +368,7 @@
     <Content Include="BazaDanych\PracaMagisterskaModel.edmx.diagram">
       <DependentUpon>PracaMagisterskaModel.edmx</DependentUpon>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
     <Content Include="Views\Uzytkownik\Edytuj.cshtml" />
     <Content Include="Views\Gracz\ListaGraczy.cshtml" />

@@ -15,15 +15,15 @@
             contentType: "application/json",
             success: function (result) {
                 if (result != null) {
-                    $("#popapOcenaZawodnikaTrening select").each(function (index) { //ide po wszystkich selektach w popap
-                        $(this).val("0");  // domyslenie ustwiam 0 dla danego selekta zeby domyslnie ocena wybrana byla 0 jezeli nie odczyta nic z bazy
-                        for (let i = 0; i < result.length; i++) {  // ide po zwroconej liscie ocen w bazie
-                            if (result[i].NumerZadania == index + 1) { //znajduje ocene z danym nr zadania
-                                $(this).val(result[i].Ocena); //ustawiam ocene
+                    $("#popapOcenaZawodnikaTrening select").each(function (index) {
+                        $(this).val("0");
+                        for (let i = 0; i < result.length; i++) {
+                            if (result[i].NumerZadania == index + 1) {
+                                $(this).val(result[i].Ocena);
                             }
                         }
                     });
-                    $("#popapOcenaZawodnikaTrening").modal(); // wyswietla mmodal
+                    $("#popapOcenaZawodnikaTrening").modal();
                 } else {
                     swal({
                         title: 'Wystąpił błąd',
@@ -88,7 +88,7 @@
 
 <!-- Modal -->
 <div id="popapOcenaZawodnikaTrening" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog ">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">

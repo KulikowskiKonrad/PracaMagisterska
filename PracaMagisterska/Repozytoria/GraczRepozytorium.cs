@@ -21,7 +21,8 @@ namespace PracaMagisterska.Repozytoria
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
                     var statystykiGraczy = baza.OcenaGracza
-                        .Where(x => x.Ocena > 0 && !x.UczestnikGry.CzyUsuniety && !x.UczestnikGry.Gracz.CzyUsuniety && x.UczestnikGry.Gracz.UzytkownikId == uzytkownikId)
+                        .Where(x => x.Ocena > 0 && !x.UczestnikGry.CzyUsuniety && !x.UczestnikGry.Gracz.CzyUsuniety && x.UczestnikGry.Gracz.UzytkownikId == uzytkownikId
+                            && x.UczestnikGry.Gra.Typ != (byte)TypGry.Trening && x.UczestnikGry.Gracz.Pozycja == x.RodzajZadania)
                         .GroupBy(x => new { x.UczestnikGry.Gracz.Imie, x.UczestnikGry.Gracz.Nazwisko, x.UczestnikGry.GraczId, x.UczestnikGry.Gracz.Pozycja })
                         .Select(x => new
                         {
@@ -29,7 +30,7 @@ namespace PracaMagisterska.Repozytoria
                             x.Key.Nazwisko,
                             Srednia = x.Average(y => y.Ocena),
                             x.Key.Pozycja,
-                            x.Key.GraczId
+                            x.Key.GraczId,
                         })
                         .OrderByDescending(x => x.Srednia)
                         .ToList();
