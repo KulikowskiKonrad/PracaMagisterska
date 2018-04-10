@@ -11,6 +11,10 @@ namespace PracaMagisterska.Models.Api
         public StatystykiGracza NajlepszyStrzelec { get; set; }
 
         public StatystykiGracza NajlepszyPuenter { get; set; }
+
+        public StatystykiGracza NajlepszyGraczNaPozycjiStrzelec { get; set; }
+
+        public StatystykiGracza NajlepszyGraczNaPozycjiPuenter { get; set; }
     }
 
     public class StatystykiGracza

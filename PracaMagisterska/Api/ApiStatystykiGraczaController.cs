@@ -33,6 +33,5 @@ namespace PracaMagisterska.Api
                 return null;
             }
         }
-
     }
 }

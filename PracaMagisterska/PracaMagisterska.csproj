@@ -423,7 +423,6 @@
     <Content Include="Scripts\Niezalogowany\jquery\jquery.slim.min.map" />
     <Content Include="Views\Shared\_LayoutNiezalogowany.cshtml" />
     <Content Include="Views\Home\Index2.cshtml" />
-    <Content Include="Views\Gra\StatystykiTreningu.cshtml" />
     <Content Include="Views\Gra\Statystyki.cshtml" />
     <Content Include="Views\Gra\StatystykiGry.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />

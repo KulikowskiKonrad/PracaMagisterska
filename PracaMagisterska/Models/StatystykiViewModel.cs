@@ -1,5 +1,7 @@
-﻿using PracaMagisterska.Enums;
+﻿using PracaMagisterska.BazaDanych;
+using PracaMagisterska.Enums;
 using PracaMagisterska.Extensions;
+using PracaMagisterska.Repozytoria;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,11 +21,11 @@ namespace PracaMagisterska.Models
 
         public List<StatystykiZawodnika> ListaStatystykZawodnikow { get; set; }
 
-        [Range(0, 3, ErrorMessage = "Niepoprawna wartość")]
+        // [Range(0, 3, ErrorMessage = "Niepoprawna wartość")]
         [Display(Name = "Ilość puenterów")]
         public byte? IloscPuenterow { get; set; }
 
-        [Range(0, 3, ErrorMessage = "Niepoprawna wartość")]
+        //  [Range(0, 3, ErrorMessage = "Niepoprawna wartość")]
         [Display(Name = "Ilość strzelców")]
         public byte? IloscStrzelcow { get; set; }
 
@@ -39,8 +41,24 @@ namespace PracaMagisterska.Models
         [Display(Name = "Kategoria wiekowa")]
         public KategoriaWiekowa? KategoriaWiekowaGraczy { get; set; }
 
+        [Display(Name = "Klub")]
+        public long? KlubId { get; set; }
+
+        public List<SelectListItem> ListaKlubow { get; set; }
+
         public StatystykiViewModel()
         {
+            ListaKlubow = new List<SelectListItem>();
+            KlubRepozytorium klubRepozytorium = new KlubRepozytorium();
+            List<Klub> pobraneKluby = klubRepozytorium.PobierzWszystkie();
+            foreach (Klub klub in pobraneKluby)
+            {
+                ListaKlubow.Add(new SelectListItem()
+                {
+                    Value = klub.Id.ToString(),
+                    Text = klub.Nazwa
+                });
+            }
             ListaProponowanychZawodnikow = new List<StatystykiZawodnika>();
             ListaPlci = new List<SelectListItem>();
             //ListaPlci.Add(new SelectListItem()
@@ -105,5 +123,6 @@ namespace PracaMagisterska.Models
 
         public KategoriaWiekowa KategoriaWiekowaGraczy { get; set; }
 
+        public string NazwaKlubu { get; set; }
     }
 }

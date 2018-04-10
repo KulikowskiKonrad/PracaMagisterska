@@ -1,59 +1,72 @@
 ﻿@model StatystykiViewModel
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        zmianaIlosciPuenterow();
-        zmianaIlosciStrzelcow();
-
-        $("#IloscPuenterow").change(function () {
+@*<script type="text/javascript">
+        $(document).ready(function () {
             zmianaIlosciPuenterow();
-        });
-        $("#IloscStrzelcow").change(function () {
             zmianaIlosciStrzelcow();
+
+            $("#IloscPuenterow").change(function () {
+                zmianaIlosciPuenterow();
+            });
+            $("#IloscStrzelcow").change(function () {
+                zmianaIlosciStrzelcow();
+            });
         });
-    });
 
-    function zmianaIlosciPuenterow() {
-        if ($('#IloscPuenterow').valid()) {
-            let podanaIloscTekst = $("#IloscPuenterow").val();
-            if (podanaIloscTekst == "") {
-                podanaIloscTekst = "0";
+        function zmianaIlosciPuenterow() {
+            if ($('#IloscPuenterow').valid()) {
+                let podanaIloscTekst = $("#IloscPuenterow").val();
+                if (podanaIloscTekst == "") {
+                    podanaIloscTekst = "0";
+                }
+                let podanaIlosc = parseInt(podanaIloscTekst);
+                let maksymalnaIloscStrzelcow = 3 - podanaIlosc;
+                let iloscStrzelcow = $("#IloscStrzelcow").attr("data-val-range-max", maksymalnaIloscStrzelcow);
+                ponowniePodepnijWalidacje();
+                $('#IloscStrzelcow').valid();
             }
-            let podanaIlosc = parseInt(podanaIloscTekst);
-            let maksymalnaIloscStrzelcow = 3 - podanaIlosc;
-            let iloscStrzelcow = $("#IloscStrzelcow").attr("data-val-range-max", maksymalnaIloscStrzelcow);
-            ponowniePodepnijWalidacje();
-            $('#IloscStrzelcow').valid();
         }
-    }
 
-    function zmianaIlosciStrzelcow() {
-        if ($('#IloscStrzelcow').valid()) {
-            let podanaIloscTekst = $("#IloscStrzelcow").val();
-            if (podanaIloscTekst == "") {
-                podanaIloscTekst = "0";
+        function zmianaIlosciStrzelcow() {
+            if ($('#IloscStrzelcow').valid()) {
+                let podanaIloscTekst = $("#IloscStrzelcow").val();
+                if (podanaIloscTekst == "") {
+                    podanaIloscTekst = "0";
+                }
+                let podanaIlosc = parseInt(podanaIloscTekst);
+                let maksymalnaIloscPuenterow = 3 - podanaIlosc;
+                let iloscStrzelcow = $("#IloscPuenterow").attr("data-val-range-max", maksymalnaIloscPuenterow);
+                ponowniePodepnijWalidacje();
+                $('#IloscPuenterow').valid();
             }
-            let podanaIlosc = parseInt(podanaIloscTekst);
-            let maksymalnaIloscPuenterow = 3 - podanaIlosc;
-            let iloscStrzelcow = $("#IloscPuenterow").attr("data-val-range-max", maksymalnaIloscPuenterow);
-            ponowniePodepnijWalidacje();
-            $('#IloscPuenterow').valid();
         }
-    }
 
-    function ponowniePodepnijWalidacje() {
-        let form = $("#formularzStatystyk");
-        form.unbind();
-        form.data("validator", null);
-        $.validator.unobtrusive.parse(document);
-    }
+        function ponowniePodepnijWalidacje() {
+            let form = $("#formularzStatystyk");
+            form.unbind();
+            form.data("validator", null);
+            $.validator.unobtrusive.parse(document);
+        }
 
-</script>
+    </script>*@
 
 <h2>Statystyki</h2>
 
 @using (Html.BeginForm("Statystyki", "Gra", FormMethod.Get, new { id = "formularzStatystyk" }))
 {
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class=" form-group">
+                @Html.LabelFor(x => x.KlubId)
+                <div class=" input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>
+                    @Html.DropDownListFor(x => x.KlubId, Model.ListaKlubow, "Wybierz klub", new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(x => x.KlubId)
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-sm-3 col-md-2">
             <div class="form-group ">
@@ -101,6 +114,7 @@
                 @Html.ValidationMessageFor(x => x.KategoriaWiekowaGraczy)
             </div>
         </div>
+
         <div class="col-sm-2">
             <button class="btn btn-block" style="margin-top:25px;">Filtruj</button>
         </div>
@@ -116,28 +130,33 @@
                     <th>
                         Gracz
                     </th>
-                    <th>
-                        Średnia punktów
+                    <th title="Średnia punktów">
+                        Średnia pkt
                     </th>
                     <th>
                         Pozycja
                     </th>
                     <th>
-                        Ilość spotkań
+                        Ilość gier
                     </th>
                     <th>
                         Płeć
                     </th>
+                    <th title="Kategoria wiekowa">
+                        Kategoria w.
+                    </th>
                     <th>
-                        Kategoria wiekowa
+                        Klub
                     </th>
                 </tr>
                 @if (Model.ListaStatystykZawodnikow.Count == 0)
                 {
                     <tr>
+                        <td></td>
                         <td colspan="5" class="text-center">
                             Brak danych.
                         </td>
+                        <td></td>
                     </tr>
                 }
                 @foreach (StatystykiZawodnika statystyki in Model.ListaStatystykZawodnikow)
@@ -160,6 +179,9 @@
                         </td>
                         <td>
                             @statystyki.KategoriaWiekowaGraczy.PobierzOpisEnuma()
+                        </td>
+                        <td>
+                            @statystyki.NazwaKlubu
                         </td>
                     </tr>
                 }
@@ -214,7 +236,7 @@
                         Pozycja zawodnika
                     </th>
                     <th>
-                        Ilość spotkań
+                        Ilość gier
                     </th>
                 </tr>
                 @if (Model.ListaProponowanychZawodnikow.Count == 0)

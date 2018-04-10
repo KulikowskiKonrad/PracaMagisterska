@@ -15,7 +15,8 @@ namespace PracaMagisterska.Controllers
     {
         [HttpGet]
         [Authorize]
-        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo, byte? iloscPuenterow, byte? iloscStrzelcow, PlecGracza? plec, KategoriaWiekowa? kategoriaWiekowaGraczy)
+        public ActionResult Statystyki(DateTime? dataOd, DateTime? dataDo, byte? iloscPuenterow, byte? iloscStrzelcow, PlecGracza? plec,
+                                        KategoriaWiekowa? kategoriaWiekowaGraczy, long? klubId)
         {
             try
             {
@@ -28,14 +29,15 @@ namespace PracaMagisterska.Controllers
                     dataDo = DateTime.Today;
                 }
                 GraRepozytorium graRepozytorium = new GraRepozytorium();
-                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value, plec, kategoriaWiekowaGraczy);
+                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value, plec, kategoriaWiekowaGraczy, klubId);
                 StatystykiViewModel statystykiViewModel = new StatystykiViewModel()
                 {
                     DataDo = dataDo.Value,
                     DataOd = dataOd.Value,
                     Plec = plec,
                     ListaStatystykZawodnikow = listaStatystykGraczy,
-                    KategoriaWiekowaGraczy = kategoriaWiekowaGraczy
+                    KategoriaWiekowaGraczy = kategoriaWiekowaGraczy,
+                    KlubId = klubId
                 };
 
                 if (iloscPuenterow.HasValue)
@@ -267,14 +269,14 @@ namespace PracaMagisterska.Controllers
                     }
                     if (rezultatZapisu != null)
                     {
-                        if (model.Id.HasValue)
-                        {
-                            return RedirectToAction("ListaGier");
-                        }
-                        else
-                        {
-                            return RedirectToAction("DetaleGry", new { id = gra.Id });
-                        }
+                        //if (model.Id.HasValue)
+                        //{
+                        return RedirectToAction("DetaleGry", new { id = gra.Id });
+                        //}
+                        //else
+                        //{
+                        //    return RedirectToAction("DetaleGry", new { id = gra.Id });
+                        //}
                     }
                     else
                     {
