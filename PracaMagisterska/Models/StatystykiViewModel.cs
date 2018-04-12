@@ -90,11 +90,6 @@ namespace PracaMagisterska.Models
             });
             ListaKategoriiWiekowych.Add(new SelectListItem()
             {
-                Text = KategoriaWiekowa.Open.ToString(),
-                Value = KategoriaWiekowa.Open.ToString()
-            });
-            ListaKategoriiWiekowych.Add(new SelectListItem()
-            {
                 Text = KategoriaWiekowa.Senior.ToString(),
                 Value = KategoriaWiekowa.Senior.ToString()
             });

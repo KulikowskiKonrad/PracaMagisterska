@@ -199,7 +199,7 @@ namespace PracaMagisterska.Repozytoria
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
                     rezultat = baza.Gracz.Include(x => x.Klub).Where(x => x.CzyUsuniety == false && x.UzytkownikId == uzytkownikId
-                        && x.KategoriaWiekowa == (byte)kategoriaWiekowa)
+                        && (x.KategoriaWiekowa == (byte)kategoriaWiekowa || kategoriaWiekowa == KategoriaWiekowa.Open))
                     .OrderByDescending(x => x.Nazwisko).ToList();
                 }
                 return rezultat;

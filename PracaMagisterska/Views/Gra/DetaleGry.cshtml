@@ -1,6 +1,19 @@
 ﻿@model EdytujGreViewModel
 
 <script type="text/javascript">
+    $.validator.addMethod("unikalnyGracz", function (value, element) { //value jest to co uzytkownik wybral, element to walidowana kontrolka
+        let rezultat = true; // ustawiam rezultat na true zeby na poczatku bylo ze jest ok
+        if (value != "") { // jezeli wartosc nie jest pusta to
+            $(".wierszUczestnika select").each(function () { // wez mi liste o klasie wiewrszUczestnika i atrybucie select i przejdz po kazdym elemencie na stronie z taka nazwa
+                if ($(this).attr("id") != element.id && $(this).val() == value) { // jezeli select w wierszu uczestnika ma id  rozne od elementu id i wartosc w kontrolce zgadza sie z wartoscia
+                    // w tym co wybral uzytkownik to
+                    rezultat = false; //zwracam falsz
+                }
+            });
+        }
+        return rezultat;
+    }, "Gracz został już wybrany!");
+
     $(document).ready(function () {
         pokazUkryjPrzyciskUsuwaniaGracza();
         pokazUkryjPrzyciskOcenianiaGracza();
@@ -208,7 +221,7 @@
                         <div class=" input-group">
                             <div class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>
                             @Html.DropDownListFor(x => x.ListaUczestnikow[i].GraczId, new SelectList(Model.ListaGraczy, "Value", "Text", Model.ListaUczestnikow[i].GraczId),
-                           "Wybierz gracza", new { @class = "form-control" })
+                           "Wybierz gracza", new { @class = "form-control", data_rule_unikalnyGracz = "true" })
                         </div>
                         @Html.ValidationMessageFor(x => x.ListaUczestnikow[i].GraczId)
                     </div>

@@ -96,11 +96,7 @@ namespace PracaMagisterska.Models
                 Text = KategoriaWiekowa.Weteran.PobierzOpisEnuma(),
                 Value = KategoriaWiekowa.Weteran.ToString()
             });
-            ListaKategoriiWiekowych.Add(new SelectListItem()
-            {
-                Text = KategoriaWiekowa.Open.PobierzOpisEnuma(),
-                Value = KategoriaWiekowa.Open.ToString()
-            });
+
 
             ListaPlci = new List<SelectListItem>();
             ListaPlci.Add(new SelectListItem()
