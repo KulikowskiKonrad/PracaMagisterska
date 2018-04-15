@@ -13,7 +13,8 @@ namespace PracaMagisterska.Repozytoria
     public class GraRepozytorium
     {
 
-        public List<StatystykiZawodnika> PobierzStatytstyki(DateTime dataOd, DateTime dataDo, PlecGracza? plecGracza, KategoriaWiekowa? kategoriaWiekowa, long? klubId)
+        public List<StatystykiZawodnika> PobierzStatytstyki(DateTime dataOd, DateTime dataDo, PlecGracza? plecGracza, KategoriaWiekowa? kategoriaWiekowa, long? klubId,
+                    long uzytkownikId)
         {
             try
             {
@@ -21,15 +22,17 @@ namespace PracaMagisterska.Repozytoria
                 using (PracaMagisterskaEntities baza = new PracaMagisterskaEntities())
                 {
                     List<Gra> listaGier = baza.Gra.Where(g => g.Data >= dataOd
-                                && g.Data <= dataDo && g.Typ != (byte)TypGry.Trening && g.CzyUsuniete == false)
+                                && g.Data <= dataDo && g.Typ != (byte)TypGry.Trening && g.CzyUsuniete == false && g.UzytkownikId == uzytkownikId)
                             .ToList();
                     List<Gracz> listaGraczy = baza.Gracz.Where(g => g.UczestnicyGry.Where(u => u.Gra.Data >= dataOd
                               && u.Gra.Data <= dataDo && u.Gra.Typ != (byte)TypGry.Trening && u.CzyUsuniety == false && u.Gra.CzyUsuniete == false).Any()
                               && g.CzyUsuniety == false && ((PlecGracza)g.Plec == plecGracza || plecGracza == null)
-                              && ((KategoriaWiekowa)g.KategoriaWiekowa == kategoriaWiekowa || kategoriaWiekowa == null) && (g.KlubId == klubId || klubId == null))
+                              && ((KategoriaWiekowa)g.KategoriaWiekowa == kategoriaWiekowa || kategoriaWiekowa == null)
+                              && (g.KlubId == klubId || klubId == null) && g.UzytkownikId == uzytkownikId)
                         .ToList();
                     List<OcenaGracza> listaOcen = baza.OcenaGracza.Where(o => o.UczestnikGry.Gra.Data >= dataOd && o.UczestnikGry.Gra.Data <= dataDo
-                        && o.UczestnikGry.Gra.Typ != (byte)TypGry.Trening && o.UczestnikGry.CzyUsuniety == false && o.UczestnikGry.Gra.CzyUsuniete == false).ToList();
+                        && o.UczestnikGry.Gra.Typ != (byte)TypGry.Trening && o.UczestnikGry.CzyUsuniety == false && o.UczestnikGry.Gra.CzyUsuniete == false
+                        && o.UczestnikGry.Gra.UzytkownikId == uzytkownikId).ToList();
                     foreach (Gracz gracz in listaGraczy)
                     {
                         {

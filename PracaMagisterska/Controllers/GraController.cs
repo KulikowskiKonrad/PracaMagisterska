@@ -29,7 +29,8 @@ namespace PracaMagisterska.Controllers
                     dataDo = DateTime.Today;
                 }
                 GraRepozytorium graRepozytorium = new GraRepozytorium();
-                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value, plec, kategoriaWiekowaGraczy, klubId);
+                List<StatystykiZawodnika> listaStatystykGraczy = graRepozytorium.PobierzStatytstyki(dataOd.Value, dataDo.Value, plec, kategoriaWiekowaGraczy,
+                        klubId, ((Uzytkownik)Session["uzytkownik"]).Id);
                 StatystykiViewModel statystykiViewModel = new StatystykiViewModel()
                 {
                     DataDo = dataDo.Value,
