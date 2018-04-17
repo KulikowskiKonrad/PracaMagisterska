@@ -1,0 +1,38 @@
+﻿@model EdytujNotatkeViewModel
+
+<h2>Detale notatki</h2>
+
+
+@using (Html.BeginForm("ZapiszDetaleNotatki", "Notatka", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.Id)
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Temat)
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></div>
+                    @Html.TextBoxFor(x => x.Temat, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Temat) })
+                </div>
+                @Html.ValidationMessageFor(x => x.Temat)
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Tresc)
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></div>
+                    @Html.TextAreaFor(x => x.Tresc, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Tresc) })
+                </div>
+                @Html.ValidationMessageFor(x => x.Tresc)
+            </div>
+        </div>
+    </div>
+
+
+    <button class="btn btn-default">Zapisz</button>
+    @Html.ActionLink("Anuluj", "ListaNotatek", "Notatka", null, new { @class = "btn btn-default" })
+}

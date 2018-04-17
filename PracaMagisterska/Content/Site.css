@@ -40,3 +40,7 @@ textarea {
     .navbar-inverse .navbar-brand {
         color: white;
     }
+
+textarea {
+    resize: none;
+}

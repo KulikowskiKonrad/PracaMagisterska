@@ -19,6 +19,7 @@ namespace PracaMagisterska.BazaDanych
         {
             this.Gra = new HashSet<Gra>();
             this.Gracz = new HashSet<Gracz>();
+            this.Notatka = new HashSet<Notatka>();
         }
     
         public long Id { get; set; }
@@ -32,5 +33,7 @@ namespace PracaMagisterska.BazaDanych
         public virtual ICollection<Gra> Gra { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gracz> Gracz { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notatka> Notatka { get; set; }
     }
 }

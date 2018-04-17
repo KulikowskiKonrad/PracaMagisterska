@@ -1,0 +1,75 @@
+﻿@model List<Notatka>
+
+<script>
+
+    $(document).ready(function () {
+        $('.btn-usun').click(function () {
+            var btn = $(this);
+
+            swal({
+                title: 'Na pewno chcesz to usunąć?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Tak,chcę to usunąć!',
+                cancelButtonText: 'Anuluj'
+            }).then(function () {
+                $(btn).closest('form').submit();
+            })
+        });
+
+    });
+
+</script>
+
+<h2>Lista notatek</h2>
+
+@Html.ActionLink("Dodaj notatkę", "DetaleNotatki", null, new { @class = "btn btn-default" })
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped" style="margin:20px">
+            <tr>
+                <th class="col-sm-3">
+                    Temat
+                </th>
+                <th class="col-sm-6">
+                    Treść
+                </th>
+                <th class="col-sm-3">
+                    Data
+                </th>
+                <th></th>
+                <th></th>
+
+            </tr>
+            @foreach (Notatka notatka in Model)
+            {
+                <tr>
+                    <td class="col-sm-3">
+                        @notatka.Temat
+                    </td>
+                    <td class="col-sm-6">
+                        @notatka.Tresc
+                    </td>
+                    <td class="col-sm-3">
+                        @notatka.DataDodania
+                    </td>
+                    <td>
+                        <a href="@Url.Action("DetaleNotatki","Notatka", new { id = notatka.Id })" class="btn btn-default btn-sm pull-left" title="Edytuj" style="margin-right:10px;"><span class="glyphicon glyphicon-cog"></span></a>
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("Usun", "Notatka", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", notatka.Id)  @*nazwa ma byc tak jak nazwa parametru w kontrolerze , a wartosc pobieramy z konkretnego elementu modelu*@
+                            <button type="button" title="Usuń" class="btn btn-default btn-sm btn-usun">
+                                <span class="glyphicon glyphicon-trash "></span>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

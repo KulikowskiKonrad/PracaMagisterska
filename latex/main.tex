@@ -1,0 +1,403 @@
+\documentclass{iiuwb}
+\usepackage{graphicx}
+\usepackage[polish]{babel}
+\usepackage[MeX]{polski}
+\usepackage{enumerate}
+\usepackage{graphicx} 
+\usepackage{indentfirst}
+\usepackage{float}
+\usepackage{epstopdf}    % for automatic conversion from eps files to pdf
+\usepackage{hyperref}   % do tworzenia linków zewnętrznych \url{...} oraz wewnętrznych
+\usepackage{systeme}
+
+\usepackage{booktabs}
+
+\renewcommand{\imiona}{Konrad}
+\renewcommand{\nazwiska}{Kulikowski}
+
+\renewcommand{\stopienpromotora}{dr hab.}
+\renewcommand{\imionapromotora}{Artur}
+\renewcommand{\nazwiskapromotora}{Korniłowicz}
+
+%\renewcommand{\profuwb}{TAK}
+\renewcommand{\profuwb}{NIE}
+
+%W przypadku braku asystenta pozostawić PUSTE
+\renewcommand{\stopienasystenta}{}
+\renewcommand{\imionaasystenta}{}
+\renewcommand{\nazwiskaasystenta}{}
+
+\renewcommand{\tytul}{Aplikacja wspomagająca pracę trenera Petanque.}
+\renewcommand{\rok}{2018}
+\renewcommand{\zaklad}{Programowania i Metod Formalnych	}
+\renewcommand{\album}{64380}
+\renewcommand{\rokakademicki}{2017/2018}
+\renewcommand{\kierunek}{Informatyka}
+
+%Wybrać ścieżkę
+%\renewcommand{\sciezka}{Grafika}
+\renewcommand{\sciezka}{Technologie internetowe i mobilne}
+
+
+%%% Wybrać właściwy
+\renewcommand{\rodzaj}{stacjonarne}
+%\renewcommand{\rodzaj}{niestacjonarne}
+
+
+%%% Wybrać właściwy
+%\renewcommand{\poziom}{magisterskie jednolite}
+%\renewcommand{\poziom}{magisterskie uzupełniające}
+%\renewcommand{\poziom}{I stopnia}
+\renewcommand{\poziom}{II stopnia}
+
+\begin{document}
+	%Spis treści
+	\tableofcontents
+	
+	%Spis rysunków
+	%\newpage
+	\listoffigures
+	
+	%Spis tabel
+	%\newpage
+	\listoftables
+	
+	% Właściwa zawartość
+	
+	\cleardoublepage
+	\chapter*{Streszczenie}
+	\addcontentsline{toc}{chapter}{Streszczenie}
+	\label{cha:Streszczenie}
+	
+	Tematem pracy magisterskiej jest ,,Aplikacja wspomagająca pracę trenera Petanque." Jej zadaniem jest ułatwienie pracy dla trenera Petanque. Jej celem jest zastąpienie stosu papierowych notatek, które były używane podczas rozgrywek, treningów formą elektroniczną. Wszystkie niezbędne informacje trener będzie mógł przechowywać w aplikacji webowej. Korzystanie z aplikacji jest szybkie, łatwe, intuicyjne oraz przyjazne pod względem estetycznym. Trener podczas używania aplikacji ma szeroki zakres funkcjonalności np.:
+	
+	\begin{itemize}
+		\item dodawania, modyfikacji, usuwania gry
+		\item dodawania, modyfikacji, usuwania gracza
+		\item oceny gier
+		\item podglądu statystyk graczy oraz gier
+	\end{itemize}
+	
+	Aplikacja może być używana przez smartfony, tablety, komputer. Jest ona dostosowana do każdej wielkości ekranu. Dzięki niej wszystkie potrzebne informacje znajdują się w jednym miejscu. 
+	
+	\cleardoublepage
+	\chapter*{Wstęp}                        %rozdział nienumerowany
+	\label{cha:Wstep}                       %w \label nie używamy polskich znaków
+	\addcontentsline{toc}{chapter}{Wstęp}   %dorzucamy ręcznie do spisu treści
+	
+	Wstęp powinien przedstawić:
+	\begin{enumerate}
+		\item motywację (dlaczego praca/tematyka ma sens i do czego może posłużyć);
+		\item cel pracy (co autor ma zamiar osiągnąć, jakie programy, aplikacje, algorytmy stworzyć/zmodyfikować/przetestować/zinterpretować/połączyć);
+		\item zakres pracy, przeprowadzone czynności (jasno wyszczególniony wkład własny);
+		\item kontekst pracy (co osiągnięto w danej dziedzinie, jaka jest konkurencja, co istnieje, a czego brakuje);
+		\item mini-streszczenie pracy (co znajduje się w którym rozdziale -- jak poniżej).
+	\end{enumerate}
+	
+	W mini-streszczeniu i ogólnie w tekście odnosząc się do (pod)rozdziałów używamy (jeżeli możliwe) bezwzględnej automatycznej rozdziałów/sekcji (,,rozdział 2'', ,,sekcja 4.2.1'', etc.) zamiast relatywnych określeń ,,następny'', ,,kolejny'' czy ,,ostatni''. Jeżeli mamy zdefiniowane etykiety \textbf{$\backslash$label} to możemy dzięki nim niezawodnie odnosić się do takiej numeracji. Do nienumerowanych rozdziałów (Wstęp, Podsumowanie, Streszczenie) odnosimy się bezpośrednio, np. ,,We wstępie pracy...'', ,,W podsumowaniu...''.
+	
+	Rozdział \ref{cha:Dlaczego LaTeX} motywuje obowiązek i korzyści z pisania pracy dyplomowej w \LaTeX-u, rozdział \ref{cha:Zalecenia edycyjne} przedstawia podstawowe i szczegółowe zalecenia edycyjne, rozdział \ref{cha:Przyklady} prezentuje kilka przykładów popularnych formatowań w \LaTeX-u, wreszcie podsumowanie tego dokumentu mówi o treściach, jakie powinny być w podsumowaniu pracy zawarte.
+	
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\cleardoublepage
+	\chapter{Historia Petanque}
+	
+	Gra w bule powstała dzięki ruchowi rzucania który był bardzo potrzebny naszym przodkom podczas polowania.  Ruch ten właśnie zapoczątkował grę. Z upływem setek lat jej forma ewaluowała. Łatwo jest wyobrazić sobie prymitywne początki tej właśnie gry, gdzie nasi  przodkowe grali kamieniami które  kształtem przypominały kule.  Pierwsze ślady Petanque  znaleziono na terenie Anatolii w Azji Mniejszej w osadzie Catal Huyuc. Przedmioty tam odkryte pochodzą z około 6000 roku p.n.e . Przypominały one obecne bule. Jest to jednak tylko teoria. 
+	\\
+	
+	Egipcjanie zostawili po sobie nie tylko wielkie bogactwo kulturowe ale również pamiątki świadczące o zamiłowaniu do rozrywki.  W roku około 3500 przed  Chrystusem został odnaleziony sarkofag. W jego wnętrzu było pochowane dziecko. Razem ze szczątkami w grobie znajdowały się smukłe przedmioty wykonane z marmuru i alabastru oraz zestaw porfirowych kul. Jest to pierwszy ślad gry w kręgle. W innych miejscach prac archeologicznych na terenie Egiptu odnaleziono kamienne kule które swoim kształtem przypominały kule używane do gry  do połowy XX wieku. 
+	\\
+	
+	Grecy słynęli z miłości do sportu. Przykładem mogą być igrzyska w Olimpie podczas których grano np. w: kręgle, dyski, kule. Słynni greccy lekarze np. Hipokrates szerzyli teorie o dobroczynnym działaniu sportu na zdrowie człowieka. 
+	Istnieje wiele przykładów świadczących o graniu w Petanque w starożytności. Jednym z nich może być grecka figurka pochodząca z  V wieku p.n.e. wykonana z brązu.  Przedstawia ona mężczyznę trzymającego w ręku kulę lub bule. Jego postawa ciała przypomina współczesnego gracza przygotowującego się do wykonania rzutu. 
+	
+	Kolejnym przykładem może być attycka waza na której przedstawiona jest zabawa przypominająca dzisiejsza grę w bule. W grze przedstawionej na wspomnianej wazie chodzi o to, aby zbić kamień za pomocą krążka lub kuli. Gracze ustalają odległość z jakiej należy zbić cel. Jeżeli ktoś nie trafi w kamień więcej razy niż  wcześniej ustalono to ponosił karę. Najpopularniejszą z nich było przeniesienie swojego rywala na plecach do nietrafionego kamienia. Pokonany musiał nieść zwycięzcę  z zasłoniętymi oczami.
+	\\
+	
+	Rzymianie dzięki spędzaniu dużej ilości czasu w łaźniach rozwinęli nowe pomysły na aktywne jego wykorzystanie. Dzięki temu udoskonalono wiele nowych gier. Bardzo popularne stało się rzucanie skórzanych kul wypełnionych trocinami.  Wykorzystywane później kamienie zastąpiono drewnem.
+	\\
+	
+	Podobnie jak w przypadku opisanych wyżej powiązań z obecną grą, także w odniesieniu do Rzymu, wiele informacji dają wykopaliska i sarkofagi. Właśnie w jednym z nich odnaleziono płaskorzeźbę. Widać na niej graczy rzucających kulami w sposób i przy zastosowaniu techniki najbardziej zbliżonej do prezentowanej przez aktualnych graczy.
+	\\
+	
+	W przypadku Gali można zauważyć duże powiązania z Rzymem. Niewątpliwie zaadaptowano wiele aspektów rzymskiego dziedzictwa. Wpływ wspomnianego przyswojenia kultury można łatwo było zauważyć poprzez częste używanie kul w rozrywkach mimo ich nieco innych rozmiarów. Walki z barbarzyńcami zmusiły mieszkańców Gali do zaprzestania gier.  Okres ten spowodował dużą niedostępność gier. Stabilizacja polityczna pozwoliła na powrót do gier, a bula była zabawą nawet w niższych klasach społecznych.
+	\\
+	
+	W wieku XIV rozwijające się bardzo szybko uwielbienie do gier powodowało wielokrotnie problemy dla graczy. Pochłonięci swą grą zawodnicy zaniedbywali swe dotychczasowe obowiązki. Dotyczyło to nawet sytuacji szkolenia wojsk. Wielu władców chcąc mieć zabezpieczone granice wydawało tymczasowe zakazy gry. Tak jak w przypadku innych ograniczeń tak i te powodowały powszechne niezadowolenie obywateli.
+	W średniowieczu występowały gry takie jak:
+	\begin{itemize}
+		\item gra w krążek
+		\item gra w kręgle mające różny kształt  w zależności od regionu
+		\item gry w bule.
+	\end{itemize}
+	Coraz większa popularność gry w bulę na terenie Francji spowodowała ekspansję na tereny na przykład Angli gdzie równie szybko stała się ona równie popularna. 
+	\\
+	
+	Okres renesansu to ciągły wzrost zainteresowania grą w bulę i jej odmiany w zależności od regionu. Rozrywka ta przybierała na popularności w tak szybki sposób, że osoby poświęcające jej czas zaczęły skupiać się także na treningu techniki i zręczności. W okresie renesansu gra ta pochłaniała czas osób znajdujących się wysoko w hierarchii społecznej, aż do najniższych jej szczebli.
+	\\
+	
+	Popularność gry w bulę nie traciła na wartości także w czasach nowoczesnych. Mimo tego wciąż nie został sprecyzowany sposób gry. Druga połowa XIX wieku dała początek organizacji tej formie spędzania wolnego czasu. Zaczęto opracowywać dokładne zasady oraz tworzyć federacje czy rozgrywać zawody.
+	\\
+	
+	Ernest Pitiot jest uważany za twórcę petanque.  Rozwinął powszechne zasady ze względu na swojego znajomego, który miał problem z poruszaniem się. Zaproponowane przez niego zmiany znalazły akceptacje i przyjęły się niemal na całym świecie. Gra została ograniczona do małego pola i pokonywania krótkich dystansów.
+	\\
+	
+	Używane najczęściej  do gry kamienie były zastępowane drewnem. Jednak nawet ten materiał nie był doskonały przez co starano się je wzmacniać dodatkową zewnętrzną skorupą.  Właśnie w ten sposób pojawiły się bule ćwiekowe.
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\cleardoublepage
+	\chapter{Zasady gry Petanque}
+	
+	\begin{enumerate}
+		
+		\item
+		Gra zaczyna się  od losowania osoby, drużyny zaczynającej grę.
+		\item
+		Grę zaczyna zawodnik, drużyna która wygrała losowanie.
+		\item
+		Gracz podczas gry stoi w okręgu o średnicy od 35cm do 50cm. Podczas rzutu jego stopy nie mogą się oderwać od podłoża aż do momentu wylądowania kuli. 
+		\item
+		Do gry używa się  metalowych kul oraz jednej drewnianej która jest celem tzw. „świnką” .
+		Parametry które muszą spełniać kule:
+		\begin{itemize}
+			
+			\item -waga: od 650g do 800g
+			\item średnica: od 70,5mm do 80mm
+			Drewniana kulka „świnka” :
+			\item średnica  30mm
+		\end{itemize}
+		\item
+		Możliwe są trzy wielkości drużyn:
+		\begin{itemize}
+			\item jeden na jeden tzw.  „Single” gdzie każdy gracz ma możliwość gry trzema kulami.
+			\item dwa na dwa tzw. „Dwójki”. Każdy z graczy ma do dyspozycji po trzy kule.
+			\item trzy na trzy tzw. „Triplety”. Każdy gracz w drużynie składającej się z  trzech zawodników ma do dyspozycji tylko dwie kule.
+		\end{itemize}
+		\item
+		Celem gry jest umieszczenie swoich kul przez każdą z  drużyn, graczy jak najbliżej kuli drewnianej czyli „świnki” niż przeciwnik.
+		\item
+		Wylosowany gracz, drużyna  rzuca „świnką” na odległość od 6m do 10m. Jeżeli nie uda się to w trzech próbach zgodnie z przepisami to „świnka” jest ustawiana przez przeciwnika/drużynę przeciwną.  
+		\item
+		Kulę należy trzymać jedna ręką od góry kuli nadając jej rotację wsteczną podczas rzutu.
+		\item
+		Po rzucie gracza, zawodnika  drużyny która wygrała losowanie  przychodzi kolej na przeciwnika który ma za zadanie umieszczenie swojej kuli bliżej celu niż gracz poprzedniego zespołu.
+		\item
+		Kulę rywala, znajdującą się bliżej celu można usunąć poprzez wybicie jej.
+		\item
+		Ruch ma ponownie drużyna, osoba która zaczęła mecz. Dzięki temu gra odbywa się przemiennie.
+		\item
+		Po wyrzuceniu wszystkich kul  następuje koniec rozgrywki.
+		\item
+		Po zakończeniu rozgrywki przyznawane są punkty ale tylko po jednym punkcie za każdą z kul będącej bliżej „świnki” niż kule drużyny przeciwnej, rywala.
+		\item
+		Mecz trwa aż jedna z drużyn, zawodników zdobędzie 13 punktów.
+		\item
+		Wygrywa osoba, drużyna która jako pierwsza zdobyła punkty wymagane do zakończenia meczu(13 punktów).
+		\item
+		Wybicie drewnianej kuli nie powoduje zakończenia gry jeżeli pozostaje ona na terenie boiska. Gdy „świnka” zostanie wybita za linie boiska to następuje skasowanie gry. 
+		Jeżeli jedna z drużyn posiada jeszcze kule  to wygrywa zdobywając tyle punktów ile kul miała podczas wybicia drewnianej kuli.
+		
+	\end{enumerate}
+	
+	\begin{center}
+		Boisko do gry
+	\end{center}
+	Boisko nie może być zmienione w trakcie gry i musi spełniać określone poniżej kryteria.
+	Wymiary:
+	\begin{itemize}
+		\item szerokość 4m
+		\item długość 15m
+	\end{itemize}
+	Minimalne wymiary boiska to 3m szerokości oraz 12 m długości.
+	Boisko może przyjmować  praktycznie wszystkie rodzaje  nawierzchni np. trawa, piach , żwir.
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\cleardoublepage
+	\chapter{Opis aplikacji}
+	\label{cha:Zalecenia edycyjne}
+	
+	Rozdział ten przedstawia różne aspekty edycji pracy dyplomowej.
+	
+	\section{Rejestracja użytkownika}
+	\label{sec:Rejestracja użytkownika}
+	%% BoundingBox: 0 0 30 30
+	
+	\begin{figure}
+		
+		\begin{center}
+			
+			\resizebox{250px}{!}{
+				
+				\includegraphics{a.jpg}
+				
+			}
+			
+			\caption{jakis opis pod rysunkiem}
+			
+		\end{center}
+		
+	\end{figure}
+	
+	Pracę dyplomową należy \textbf{drukować dwustronnie} i \textbf{oprawiać w miękkie okładki} (klasa dokumentu ma naprzemiennie 1cm przeznaczony na oprawę). Kolejne rozdziały należy rozpoczynać na stronie ,,prawej'' (na nieparzystych numerach stron), czyli poprzedzać je komendą \textbf{$\backslash$cleardoublepage}. Orientacyjnie: praca licencjacka powinna mieć minimalnie 40 stron (preferowane co najmniej 50). Orientacyjnie: praca magisterska powinna mieć minimalnie 50 stron (preferowane co najmniej 60).
+	
+	Do pracy dołączamy płytę z następującą zawartością (5 folderów):
+	\begin{enumerate}
+		\item dokumentacja: praca dyplomowa w wersji elektronicznej;
+		\item postać wykonywalna aplikacji;
+		\item kody źródłowe aplikacji;
+		\item przykłady (m.in. pliki z danymi do testów).
+		\item zawartość stron www, do których odnosimy się w referencjach, w formie ''archiwum strony www'' (jeden plik z rozszerzeniem .mht, zapisywany z poziomu przeglądarki www).
+	\end{enumerate}
+	
+	\section{Struktura pracy}
+	\label{sec:Struktura pracy}
+	
+	W pracy należy wyróżnić (nieformalnie, bo formalnie to będą po prostu rozdziały) część teoretyczną i praktyczną. W części teoretycznej omawiamy zagadnienia związane z tematem pracy (ujęte w ramce pracy). W części praktycznej prezentujemy koncepcje i rozważania autora oraz jego prace (projektowe, teoretyczne, implementacyjne). Zwykle ostatnim rozdziałem części praktycznej jest ,,Podręcznik użytkownika'' z wymaganiami sprzętowymi i programistycznymi (sprzęt, SO, środowiska uruchomieniowe, serwery aplikacji i baz danych), opisem instalacji systemu/aplikacji, wyliczeniem i opisem zaimplementowanych funkcji oraz ze zrzutami ekranu ilustrującymi poszczególne funkcjonalności.
+	
+	\begin{enumerate}
+		\item Rozdziały nazywamy, co ukierunkowuje od razu treść rozdziału. Nazwa podrozdziału w ideale powinna być samowystarczalna i nie zależeć od kontekstu (np. nie nazywamy podrozdziału ,,Podział'' czy ,,Historia'', ale np. ,,Podział klasyfikatorów'', ,,Historia Internetu'').
+		
+		\item W spisie treści nie pojawią się (zakładając brak modyfikacji proponowanej klasy dokumentu \textbf{iiuwb.cls}) więcej niż trzy poziomy struktury (licząc \textbf{$\backslash$chapter} jako pierwszy z nich, czyli jeszcze \textbf{$\backslash$section} oraz \textbf{$\backslash$subsection}); w samej treści pracy możemy używać też \textbf{$\backslash$subsubsection}, a nawet sporadycznie (\textbf{$\backslash$paragraph}.
+		
+		\item Tytułów (pod)rozdziałów nie kończymy kropką.
+		
+		\item Tytuły (pod)rozdziałów nie powinny być zbyt długie.
+		
+		\item Nie należy tworzyć zbyt długich ani zbyt krótkich akapitów (minimum trzy zdania). Tekst akapitu powinien być zwarty tematycznie, najlepiej by kolejny akapit nawiązywał do poprzedniego i stanowiły w ten sposób logiczną całość wywodu.
+		
+	\end{enumerate}
+	
+	\subsection{Przykładowa subsection}
+	
+	\textit{Subsection} wygląda jak wyżej. Jak widać: jest numerowane trzema liczbami.
+	
+	\subsubsection{Przykładowa subsubsection}
+	
+	\textit{Subsubsection} wygląda jak wyżej. Można dodefiniować jego numerowanie, ale nie będzie to czytelne (cztery liczby).
+	
+	\paragraph{Przykładowy paragraph}
+	
+	Z kolei \textit{paragraph} wygląda jak obok i nie ma po nim domyślnego przeniesienia do kolejnej linii (\textit{line feed}).
+	
+	
+	\section{Ogólne zalecenia pisarskie}
+	\label{sec:Zalecenia ogolne}
+	
+	\begin{enumerate}
+		
+		\item pojęcia wyróżniamy poprzez \textit{kursywę}, a nie same wielkie litery (tzw. CAPSY);
+		\item wyrazy z języka obcego wyróżniamy \textit{kursywą};
+		\item nazwy zmiennych, kontrolek GUI, plików, tabel BD, pól itp. programistycznych elementów wyróżniamy \textit{kursywą};
+		\item nazwy własne lub skróty tych nazw proponuję pisać kursywą, jest czytelniejsze i lepiej widoczne, np. \textit{SSN, ERP, CSS, AJAX}, etc.
+		\item pierwsze wystąpienie ważnego terminu można zaakcentować wytłuszczając go;
+		\item ewentualne cytaty (np. przepisy prawne) proponuję w ,,cudzysłowie'' i \textit{kursywą};
+		\item ważne klasyfikacje podkreślamy \textbf{pogrubieniem}, ułatwia to czytelnikowi zrozumienie istoty podziału; podobnie postępujemy z wyliczanymi etapami procesu;
+		
+		\item każdy rysunek powinien być czytelny (m.in. wielkość tekstu legendy, opisu osi, jednostka, itp.), zapowiedziany i skomentowany w tekście; rysunek powinien być kontrastowy, na jasnym tle;
+		\item wykresy wklejane z MS Excela powinny mieć sensowne zakresy i osie (np. procenty w zakresie [0;100], a nie [-10;120]);
+		\item każda tabela powinna być omówiona w tekście;
+		\item   w tabelach stosujemy sensowne formatowanie liczb, zależnie od kontekstu, np. dwie, trzy cyfry po przecinku;
+		
+		\item najczęściej stawiamy przecinek przed ,,jako'', ,,z czym'', ,,które'', ,,jakie'', ,,od których'', ,,od jakich'', ,,tak więc'',
+		,,na co'', ,,ale'';
+		\item nie stawia się spacji przed znakiem przestankowym: znaki interpunkcyjne (kropkę, przecinek, średnik, wykrzyknik, znak zapytania itp.) stawia się zawsze bezpośrednio po wyrazie;
+		\item przed ,,('' stawiamy spację, po - nie; dla ,,)'' odwrotnie;
+		\item rozróżniamy łączniki ,,-'' oraz półpauzy ,, -- '' i pauzy ,, --- '':
+		
+		
+		\textit{Myślniki, to według powszechnej opinii poziome kreski w tekście. W rzeczywistości myślnik to pauza lub półpauza. Krótka pozioma kreska, to dywiz. W zwykłych programach edycyjnych dywiz traktowany jest równorzędnie ze znakiem minus. Dywiz nie jest oddzielany żadnymi odstępami od tekstu, stanowiąc z nim jedną całość. Zapisujemy zatem: hokus-pokus, XV-lecie, Konstancin-Jeziorna albo ani mru-mru lub bara-bara. Pauza i częściej stosowana półpauza, to kreska oddzielona z obu stron odstępami i stosowana np. między liczbami podającymi wartość przybliżoną np. ,,... co stanowi 56 – 60\% populacji''. Pauzy (półpauzy) używamy również w dialogach literackich na początku wiersza, we wtrąceniach, w wyliczeniach wersowych, między wyrazami przeciwstawnymi np. w wyrażeniu ,,góra – dół to przeciwne krańce''. }
+		\footnote{ Za: \url{http://yestok.pl/gen/y07.php}}
+		
+		Zwykle w \LaTeX-u używamy półpauzy (dwa minusy otoczone spacjami) lub łącznika (jeden minus nieotoczony spacjami);
+		
+		\item wypunktowania rozpoczynane wielką literą (,,wielozdaniowe'') kończymy zawsze kropką;
+		\item wypunktowania rozpoczynane małą literą (jednozdaniowe lub równoważniki zdań) kończymy średnikiem lub przecinkiem, dopiero ostatnie (jak te) kończymy kropką.
+		
+	\end{enumerate}
+	
+	\section{Częste błędy gramatyczne}
+	\label{sec:Czeste bledy}
+	\begin{description}
+		\item[przy pomocy kogoś] -- ,,mając kogoś za pomocnika, korzystając z czyichś usług, poparcia, pomocy''
+		\item[za pomocą czegoś]  -- ,,posługując się czymś, używając czegoś''
+		\item[własność]  -- ,,to, co ktoś posiada; rzecz własna, mienie, majątek''
+		\item[właściwość]  -- częściej w liczbie mnogiej ,,to, co jest charakterystyczne dla danej osoby lub rzeczy; cecha''
+		\item[porównujemy coś z czymś,] a nie coś do czegoś
+	\end{description}
+	
+	\section{Korekta}
+	W końcowej fazie edycji konieczna jest dokładna korekta całości pracy pod kątem ,,literówek'' (szczególnie wyrazów poprawnych językowo, których nie wykrywa sprawdzanie słownikowe),
+	zapomnianych ogonków, ,,zjedzonych'' lub zdublowanych wyrazów, oraz gramatyki i interpunkcji (zasady: \url{http://so.pwn.pl/zasady.php?id=629734}).
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\cleardoublepage
+	\chapter{Użyte technologie w aplikacji}
+	
+	Stworzony system jest aplikacją webową dostępną poprzez przeglądarkę internetową. 
+	\\
+	
+	Część serwerowa aplikacji została napisana z wykorzystanie języka C\#  oraz framework’a ASP.NET MVC, który opiera się na wzorcu projektowym model-widok-kontroler. Warstwa modelu odpowiada za logikę biznesową aplikacji np. pobieranie informacji z bazy danych, wyliczanie statystyk, generowanie składów itp. Warstwa widoku prezentuje użytkownikowi dane np. formularze, tabele z danymi. Ostatnim elementem we wspomnianym wcześniej wzorcu jest kontroler którego zadaniem jest pośredniczenie pomiędzy widokiem a modelem, najczęściej polega to na przekazywaniu do logiki biznesowej danych wprowadzonych przez użytkownika w widoku  oraz zwracaniu dla użytkownika informacji wyznaczonych w modelu. 
+	\\
+	
+	Następną technologią wykorzystaną w mojej aplikacji jest ASP.NET Web API 2, która służy do tworzenia web serwisów. Wspomniana technologia pozwala aplikacji na wysyłanie w tle z przeglądarki użytkownika asynchronicznych żądań. Tego typu rozwiązanie dało możliwość odświeżania fragmentu strony przy jednoczesnym braku konieczności przeładowywania całej strony. Wpłynęło to znacznie na komfort użytkowania systemu, ponieważ osoba korzystająca z aplikacji po wykonaniu danej akcji np. usunięcia gracza z systemu, nie musi ponownie przewijać strony  do miejsca w którym się poprzednio znajdowała. Wykorzystano tutaj głównie żądania http typu GET (pobieranie danych) oraz POST (zapis danych). 
+	\\
+	
+	Główną biblioteką wykorzystywaną po stronie klienta jest jQuery. Jest to narzędzie napisane w języku javascript i będące swego rodzaju nakładką na ten język, znacznie ułatwiającą programiście operacje w przeglądarce użytkownika. W stworzonym systemie jQuery służy głównie do dynamicznego pokazywania bądź ukrywania elementów na stronie w zależności od wybranych przez użytkownika opcji. Wspomniana biblioteka umożliwiła również wykorzystanie technologii Ajax, czyli asynchronicznych wywołań akcji stworzonych we wspomnianym wcześniej web serwisie.  
+	\\
+	
+	Kolejnym narzędziem wykorzystanym w interfejsie użytkownika jest jQery validation. Jest to biblioteka umożliwiająca, w przyjazny dla użytkownika sposób, walidację danych po stronie przeglądarki. Co ważne wspomniane rozwiązanie jest domyślnie zintegrowane z frameworkiem ASP.NET MVC. Programista może określić w kodzie wymagania do danych które ma podać użytkownik, a następnie automatycznie zostanie to zastosowane w danym formularzu.
+	Następnym niezwykle ważnym rozwiązaniem jest bootstrap. Biblioteka ta pozwala tworzyć interfejs użytkownika, który jest zarówno przyjazny dla oka jak i responsywny, czyli poprawnie wyświetlający się na ekranach o różnej rozdzielczości od telefonów komórkowych po monitory. Bootstrap zawiera szereg predefiniowanych klas CSS, które w połączeniu z dokładnie napisaną przez twórców dokumentacją, umożliwia szybkie tworzenie wyglądu aplikacji. 
+	\\
+	
+	Higharts   jest kolejną biblioteką wykorzystaną w interfejsie użytkownika. Jest to zaawansowane rozwiązanie do tworzenia kilkunastu typów interaktywnych wykresów. Zostało ono wykorzystane do prezentowania informacji o najlepszych graczach w systemie. 
+	\\
+	
+	Interakcja użytkownika z aplikacją bardzo często wymaga informowania go o dokonanych zmianach, zaistniałych błędach jak i ostrzeganiu przed wykonaniem danej akcji. Do tego typu operacji wykorzystano bibliotekę SweetAlert2. Zawiera ona kilka zdefiniowanych typów komunikatów, które wyświetlają się z animacją, co pozytywnie wpływa na walory estetyczne aplikacji. 
+	\\
+	
+	Aplikacja przechowuje swoje dane w bazie danych Microsoft SQL Server 2016 Express. Jest to zaawansowany i powszechnie stosowany silnik bazodanowy.  Co ważne wersja Ekspress jest darmowa zarówno do użytku niekomercyjnego jak i komercyjnego. Baza ta jest bardzo dobrze zintegrowana z Microsoft Visual Studio jak i  Microsoft SQL Server Management Studio, dzięki czemu operacje związane z projektowaniem i zmianami struktury bazy danych są  szybkie i intuicyjne.
+	\\
+	
+	Komunikacja aplikacji z bazą danych odbywa się poprzez Entity Framework 6. Jest to biblioteka pozwalająca na mapowanie obiektowo-relacyjne, czyli na odwzorowanie struktury bazy danych w kodzie poprzez wygenerowane klasy i obiekty tych klas. Wykorzystano tutaj podejście datebase first, co oznacza że najpierw stworzono strukturę bazy danych a potem zmapowano ją na odpowiadające jej klasy.
+	\\
+	
+	Wspomniane w poprzednim rozdziale Entity Framework pozwala na tworzenie zapytań do bazy danych nie tylko w języku SQL, ale również w Linq. Jest to technologia dostępna wyłącznie w języku C\#, która posiada prostsza oraz bardziej intuicyjną składnie do pobierania elementów z danego zbioru danych, co ułatwia prace programiście. Ostatecznie zapytanie stworzone w składni Linq jest zamieniane przez Entity Framework na zapytanie SQL zrozumiałe dla bazy danych.
+	\\
+	
+	Autentykacja oraz autoryzacja w stworzonej aplikacji opiera się na technologii Owin. Jest to mechanizm domyślnie zintegrowany z ASP.NET MVC, który pozwala na zalogowanie użytkownika do aplikacji wraz z ustawieniem przypisanej do niego roli w systemie. Rola użytkownika wpływa na dostęp do poszczególnych funkcjonalności aplikacji. Owin dzięki mechanizmowi autoryzacji kontroluje to,  czy dany użytkownik ma dostęp do danego zasobu i danej czynności. Wyręcza to programistę od umieszczania w wielu miejscach kodu  własnej kontroli dostępu.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\cleardoublepage
+	\chapter*{Podsumowanie}
+	\label{cha:Podsumowanie}
+	\addcontentsline{toc}{chapter}{Podsumowanie}
+	
+	Podsumowanie ma treści zbliżone do \textbf{Wstępu}, dodatkowo powinno oceniać pracę wykonaną przez autora (spełnienie założeń i osiągnięcie celu pracy). W miarę możliwości wypada też przedstawić możliwe zastosowania pracy oraz perspektywy rozwoju (aplikacji/algorytmu, ale też i tematyki z tym związanej).
+	
+	Roboczo można sporządzić 5 oddzielnych akapitów z tytułami (do późniejszego usunięcia) jak następuje:
+	\begin{enumerate}
+		\item Motywacja i kontekst
+		\vspace{-10pt}
+		\item Zakres pracy, przeprowadzone czynności (jasno wyszczególniony wkład własny)
+		\vspace{-10pt}
+		\item Osiągnięte wyniki, interpretacja wyników, wnioski, etc.
+		\vspace{-10pt}
+		\item Ocena spełnienia założeń i osiągnięcia celu pracy
+		\vspace{-10pt}
+		\item Perspektywy rozwoju
+	\end{enumerate}
+	
+	Docelowo akapitów może być więcej (jeżeli byłyby zbyt długie).
+	
+	W podsumowaniu pracy proszę używać numerów rozdziałów (,,rozdział 2'', ,,we wstępie pracy'', etc.) zamiast relatywnych określeń ,,następny'', ,,kolejny'' czy ,,ostatni''.
+	
+	% dołączenie bibliografii z pliku biblio.bib (tylko pozycje odwołane w tekście, zgodnie z formatowaniem ,,unsrt'' - numerowane kolejnością wystąpienia)
+	\cleardoublepage
+	\addcontentsline{toc}{chapter}{Bibliografia}
+	\bibliography{biblio}
+	\bibliographystyle{unsrt}
+	
+\end{document}

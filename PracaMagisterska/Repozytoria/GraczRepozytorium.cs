@@ -259,8 +259,8 @@ namespace PracaMagisterska.Repozytoria
                     graczZBazy.CzyUsuniety = true;
                     baza.SaveChanges();
                     rezultat = true;
-                    return rezultat;
                 }
+                return rezultat;
             }
             catch (Exception ex)
             {

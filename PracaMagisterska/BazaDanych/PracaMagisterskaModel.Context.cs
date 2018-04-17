@@ -31,5 +31,6 @@ namespace PracaMagisterska.BazaDanych
         public virtual DbSet<Gra> Gra { get; set; }
         public virtual DbSet<UczestnikGry> UczestnikGry { get; set; }
         public virtual DbSet<OcenaGracza> OcenaGracza { get; set; }
+        public virtual DbSet<Notatka> Notatka { get; set; }
     }
 }

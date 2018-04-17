@@ -19,7 +19,7 @@
                     for (int i = 0; i < Model.StatystykiGry.ListaStatystykGracza[0].OcenyZadan.Length; i++)
                     { //warunek koncowy w petli mowi o tym ze wez pierowszy element z listy List<StatystykiTreninguViewModel>
                       //bo na pewno istnieje bo sprawdzalem w warunku wyzej po czym odwoluje sie do ilosci ocen zadan
-                    <th class="hidden-xs">
+                    <th class="hidden-xs" title="z-nr zadania, r-nr rundy">
 
                         @if (Model.StatystykiGry.TypGry != TypGry.Trening)
                         {
@@ -112,7 +112,7 @@
                         for (int i = 0; i < Model.StatystykiPoprzedniejGry.ListaStatystykGracza[0].OcenyZadan.Length; i++)
                         { //warunek koncowy w petli mowi o tym ze wez pierowszy element z listy List<StatystykiTreninguViewModel>
                           //bo na pewno istnieje bo sprawdzalem w warunku wyzej po czym odwoluje sie do ilosci ocen zadan
-                        <th class="hidden-xs">
+                        <th class="hidden-xs" title="z-nr zadania, r-nr rundy">
                             @if (Model.StatystykiPoprzedniejGry.TypGry != TypGry.Trening)
                         {
                             if (Model.StatystykiPoprzedniejGry.ListaStatystykGracza.Count == 3)

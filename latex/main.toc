@@ -1,0 +1,17 @@
+\babel@toc {polish}{}
+\contentsline {chapter}{Streszczenie}{5}{chapter*.4}
+\contentsline {chapter}{Wst\IeC {\k e}p}{7}{chapter*.5}
+\contentsline {chapter}{\numberline {1}Historia Petanque}{9}{chapter.1}
+\contentsline {chapter}{\numberline {2}Zasady gry Petanque}{13}{chapter.2}
+\contentsline {chapter}{\numberline {3}Opis aplikacji}{15}{chapter.3}
+\contentsline {section}{\numberline {3.1}Rejestracja u\IeC {\.z}ytkownika}{15}{section.3.1}
+\contentsline {section}{\numberline {3.2}Struktura pracy}{16}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Przyk\IeC {\l }adowa subsection}{16}{subsection.3.2.1}
+\contentsline {subsubsection}{Przyk\IeC {\l }adowa subsubsection}{16}{section*.6}
+\contentsline {paragraph}{Przyk\IeC {\l }adowy paragraph}{16}{section*.7}
+\contentsline {section}{\numberline {3.3}Og\IeC {\'o}lne zalecenia pisarskie}{17}{section.3.3}
+\contentsline {section}{\numberline {3.4}Cz\IeC {\k e}ste b\IeC {\l }\IeC {\k e}dy gramatyczne}{18}{section.3.4}
+\contentsline {section}{\numberline {3.5}Korekta}{18}{section.3.5}
+\contentsline {chapter}{\numberline {4}U\IeC {\.z}yte technologie w aplikacji}{19}{chapter.4}
+\contentsline {chapter}{Podsumowanie}{21}{chapter*.8}
+\contentsline {chapter}{Bibliografia}{23}{Item.53}

@@ -203,6 +203,9 @@
     <Compile Include="BazaDanych\Klub.cs">
       <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="BazaDanych\Notatka.cs">
+      <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="BazaDanych\OcenaGracza.cs">
       <DependentUpon>PracaMagisterskaModel.tt</DependentUpon>
     </Compile>
@@ -230,6 +233,7 @@
     <Compile Include="Controllers\GraController.cs" />
     <Compile Include="Controllers\GraczController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotatkaController.cs" />
     <Compile Include="Controllers\UzytkownikController.cs" />
     <Compile Include="Enums\KategoriaWiekowa.cs" />
     <Compile Include="Enums\Decyzja.cs" />
@@ -248,6 +252,7 @@
     <Compile Include="Models\Api\OcenaGraczaModel.cs" />
     <Compile Include="Models\Api\StatystkiNajlepszychGraczyModel.cs" />
     <Compile Include="Models\EdytujGreViewModel.cs" />
+    <Compile Include="Models\EdytujNotatkeViewModel.cs" />
     <Compile Include="Models\EdytujUzytkownikaViewModel.cs" />
     <Compile Include="Models\LogowanieViewModel.cs" />
     <Compile Include="Models\EdytujGraczaViewModel.cs" />
@@ -258,6 +263,7 @@
     <Compile Include="Repozytoria\GraczRepozytorium.cs" />
     <Compile Include="Repozytoria\GraRepozytorium.cs" />
     <Compile Include="Repozytoria\KlubRepozytorium.cs" />
+    <Compile Include="Repozytoria\NotatkaRepozytorium.cs" />
     <Compile Include="Repozytoria\OcenaGraczaRepozytorium.cs" />
     <Compile Include="Repozytoria\UczestnikGryRepozytorium.cs" />
     <Compile Include="Repozytoria\UzytkownikRepozytorium.cs" />
@@ -426,6 +432,8 @@
     <Content Include="Views\Gra\Statystyki.cshtml" />
     <Content Include="Views\Gra\StatystykiGry.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\Notatka\ListaNotatek.cshtml" />
+    <Content Include="Views\Notatka\DetaleNotatki.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

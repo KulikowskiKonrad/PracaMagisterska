@@ -324,3 +324,6 @@ ASALocalRun/
 *.nvuser
 PracaMagisterska/Logs/
 PracaMagisterska/Publish/
+latex/main.pdf
+latex/main.synctex.gz
+latex/main.dvi

@@ -40,6 +40,17 @@
           <Property Name="Nazwa" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Miejscowosc" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Notatka">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Temat" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tresc" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CzyUsuniete" Type="bit" Nullable="false" />
+          <Property Name="DataDodania" Type="datetime" Nullable="false" />
+          <Property Name="UzytkownikId" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="OcenaGracza">
           <Key>
             <PropertyRef Name="Id" />
@@ -99,6 +110,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Notatka_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Notatka" Type="Self.Notatka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notatka">
+              <PropertyRef Name="UzytkownikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OcenaGracza_UczestnikGry">
           <End Role="UczestnikGry" Type="Self.UczestnikGry" Multiplicity="1" />
           <End Role="OcenaGracza" Type="Self.OcenaGracza" Multiplicity="*" />
@@ -139,6 +162,7 @@
           <EntitySet Name="Gra" EntityType="Self.Gra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gracz" EntityType="Self.Gracz" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Klub" EntityType="Self.Klub" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notatka" EntityType="Self.Notatka" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OcenaGracza" EntityType="Self.OcenaGracza" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UczestnikGry" EntityType="Self.UczestnikGry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
@@ -149,6 +173,10 @@
           <AssociationSet Name="FK_Gracz_Uzytkownik" Association="Self.FK_Gracz_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Gracz" EntitySet="Gracz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notatka_Uzytkownik" Association="Self.FK_Notatka_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Notatka" EntitySet="Notatka" />
           </AssociationSet>
           <AssociationSet Name="FK_OcenaGracza_UczestnikGry" Association="Self.FK_OcenaGracza_UczestnikGry">
             <End Role="UczestnikGry" EntitySet="UczestnikGry" />
@@ -198,6 +226,11 @@
             <End EntitySet="UczestnikGry" Role="UczestnikGry" />
             <End EntitySet="OcenaGracza" Role="OcenaGracza" />
           </AssociationSet>
+          <EntitySet Name="Notatka" EntityType="PracaMagisterskaModel.Notatka" />
+          <AssociationSet Name="FK_Notatka_Uzytkownik" Association="PracaMagisterskaModel.FK_Notatka_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Notatka" EntitySet="Notatka" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Gracz">
           <Key>
@@ -238,6 +271,7 @@
           <Property Name="Sol" Type="String" Nullable="false" MaxLength="36" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Gra" Relationship="PracaMagisterskaModel.FK_Gra_Uzytkownik" FromRole="Uzytkownik" ToRole="Gra" />
           <NavigationProperty Name="Gracz" Relationship="PracaMagisterskaModel.FK_Gracz_Uzytkownik" FromRole="Uzytkownik" ToRole="Gracz" />
+          <NavigationProperty Name="Notatka" Relationship="PracaMagisterskaModel.FK_Notatka_Uzytkownik" FromRole="Uzytkownik" ToRole="Notatka" />
         </EntityType>
         <Association Name="FK_Gracz_Klub">
           <End Type="PracaMagisterskaModel.Klub" Role="Klub" Multiplicity="0..1" />
@@ -353,6 +387,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Notatka">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Temat" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tresc" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CzyUsuniete" Type="Boolean" Nullable="false" />
+          <Property Name="DataDodania" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UzytkownikId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Uzytkownik" Relationship="PracaMagisterskaModel.FK_Notatka_Uzytkownik" FromRole="Notatka" ToRole="Uzytkownik" />
+        </EntityType>
+        <Association Name="FK_Notatka_Uzytkownik">
+          <End Type="PracaMagisterskaModel.Uzytkownik" Role="Uzytkownik" Multiplicity="1" />
+          <End Type="PracaMagisterskaModel.Notatka" Role="Notatka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notatka">
+              <PropertyRef Name="UzytkownikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -431,6 +489,18 @@
                 <ScalarProperty Name="NumerZadania" ColumnName="NumerZadania" />
                 <ScalarProperty Name="UczestnikGryId" ColumnName="UczestnikGryId" />
                 <ScalarProperty Name="Ocena" ColumnName="Ocena" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notatka">
+            <EntityTypeMapping TypeName="PracaMagisterskaModel.Notatka">
+              <MappingFragment StoreEntitySet="Notatka">
+                <ScalarProperty Name="UzytkownikId" ColumnName="UzytkownikId" />
+                <ScalarProperty Name="DataDodania" ColumnName="DataDodania" />
+                <ScalarProperty Name="CzyUsuniete" ColumnName="CzyUsuniete" />
+                <ScalarProperty Name="Tresc" ColumnName="Tresc" />
+                <ScalarProperty Name="Temat" ColumnName="Temat" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
