@@ -149,7 +149,7 @@
                         Klub
                     </th>
                 </tr>
-                @if (Model.ListaStatystykZawodnikow.Count == 0)
+                @if (Model.ListaStatystykZawodnikow == null || Model.ListaStatystykZawodnikow.Count == 0)
                 {
                     <tr>
                         <td></td>
@@ -159,31 +159,34 @@
                         <td></td>
                     </tr>
                 }
-                @foreach (StatystykiZawodnika statystyki in Model.ListaStatystykZawodnikow)
+                @if (Model.ListaStatystykZawodnikow != null)
                 {
-                    <tr>
-                        <td>
-                            @statystyki.Imie @statystyki.Nazwisko
-                        </td>
-                        <td>
-                            @statystyki.SredniaOcen
-                        </td>
-                        <td>
-                            @statystyki.Pozycja
-                        </td>
-                        <td>
-                            @statystyki.IloscSpotkan
-                        </td>
-                        <td>
-                            @statystyki.Plec.PobierzOpisEnuma()
-                        </td>
-                        <td>
-                            @statystyki.KategoriaWiekowaGraczy.PobierzOpisEnuma()
-                        </td>
-                        <td>
-                            @statystyki.NazwaKlubu
-                        </td>
-                    </tr>
+                    foreach (StatystykiZawodnika statystyki in Model.ListaStatystykZawodnikow)
+                    {
+                        <tr>
+                            <td>
+                                @statystyki.Imie @statystyki.Nazwisko
+                            </td>
+                            <td>
+                                @statystyki.SredniaOcen
+                            </td>
+                            <td>
+                                @statystyki.Pozycja
+                            </td>
+                            <td>
+                                @statystyki.IloscSpotkan
+                            </td>
+                            <td>
+                                @statystyki.Plec.PobierzOpisEnuma()
+                            </td>
+                            <td>
+                                @statystyki.KategoriaWiekowaGraczy.PobierzOpisEnuma()
+                            </td>
+                            <td>
+                                @statystyki.NazwaKlubu
+                            </td>
+                        </tr>
+                    }
                 }
             </table>
         </div>

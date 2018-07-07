@@ -89,6 +89,16 @@
                     </tr>
                 }
             }
+            else
+            {
+                <tr>
+                    <td></td>
+                    <td class="text-center">
+                        Brak danych.
+                    </td>
+                    <td></td>
+                </tr>
+            }
         </table>
     </div>
 </div>
@@ -106,7 +116,7 @@
                     <th>
                         Przeciwnik
                     </th>
-                    @if (Model.StatystykiPoprzedniejGry.ListaStatystykGracza.Count != 0 && Model.StatystykiPoprzedniejGry.ListaStatystykGracza[0].OcenyZadan != null)
+                    @if (Model.StatystykiPoprzedniejGry.ListaStatystykGracza != null && Model.StatystykiPoprzedniejGry.ListaStatystykGracza[0].OcenyZadan != null)
                     {  //warunek sprawdza czy nasz model ktory jest lista zawiera elementy i czy pierwszy
                        //element listy oceny zadan nie jest nullem
                         for (int i = 0; i < Model.StatystykiPoprzedniejGry.ListaStatystykGracza[0].OcenyZadan.Length; i++)
@@ -141,26 +151,38 @@
                         Średnia punktów
                     </th>
                 </tr>
-
-                @foreach (StatystykiGracza statystyki in Model.StatystykiPoprzedniejGry.ListaStatystykGracza)
+                @if (Model.StatystykiPoprzedniejGry.ListaStatystykGracza != null)
+                {
+                    foreach (StatystykiGracza statystyki in Model.StatystykiPoprzedniejGry.ListaStatystykGracza)
+                    {
+                        <tr>
+                            <td>
+                                @statystyki.Imie @statystyki.Nazwisko
+                            </td>
+                            <td>
+                                @statystyki.ImiePrzeciwnika @statystyki.NazwiskoPrzeciwnika
+                            </td>
+                            @if (statystyki.OcenyZadan != null)
+                        {
+                            for (int i = 0; i < statystyki.OcenyZadan.Length; i++)
+                            {
+                                    <td class="hidden-xs">@statystyki.OcenyZadan[i]</td>
+                                }
+                            }
+                            <td>
+                                @statystyki.SredniaOcen
+                            </td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td>
-                            @statystyki.Imie @statystyki.Nazwisko
+                        <td></td>
+                        <td class="text-center">
+                            Brak danych.
                         </td>
-                        <td>
-                            @statystyki.ImiePrzeciwnika @statystyki.NazwiskoPrzeciwnika
-                        </td>
-                        @if (statystyki.OcenyZadan != null)
-                    {
-                        for (int i = 0; i < statystyki.OcenyZadan.Length; i++)
-                        {
-                                <td class="hidden-xs">@statystyki.OcenyZadan[i]</td>
-                            }
-                        }
-                        <td>
-                            @statystyki.SredniaOcen
-                        </td>
+                        <td></td>
                     </tr>
                 }
             </table>

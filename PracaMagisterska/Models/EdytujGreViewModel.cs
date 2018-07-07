@@ -19,7 +19,7 @@ namespace PracaMagisterska.Models
         [Display(Name = "Typ gry")]
         public TypGry TypGry { get; set; }
 
-        [StringLength(200, ErrorMessage = "Niepoprawna ilość znaków", MinimumLength = 3)]
+        [StringLength(100, ErrorMessage = "Niepoprawna ilość znaków", MinimumLength = 3)]
         [Required(ErrorMessage = "Pole wymagane")]
         public string Miejsce { get; set; }
 
@@ -42,6 +42,8 @@ namespace PracaMagisterska.Models
         public int IloscZadanWTreningu { get; set; }
 
         public int IloscRund { get; set; }
+
+        //public WidokCzesciowyViewModel ABC { get;  set; }
 
         public EdytujGreViewModel()
         {
@@ -128,13 +130,13 @@ namespace PracaMagisterska.Models
         public long? Id { get; set; }
 
         [Display(Name = "Imię przeciwnika")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Niepoprawna ilość znaków")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Niepoprawna ilość znaków")]
         [Required(ErrorMessage = "Pole wymagane")]
         public string ImiePrzeciwnika { get; set; }
 
         [Display(Name = "Nazwisko przeciwnika")]
         [Required(ErrorMessage = "Pole wymagane")]
-        [StringLength(20, MinimumLength = 4, ErrorMessage = "Niepoprawna ilość znaków")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Niepoprawna ilość znaków")]
         public string NazwiskoPrzeciwnika { get; set; }
 
         [Display(Name = "Gracz")]

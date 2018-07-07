@@ -1,11 +1,7 @@
 ﻿<script>
     let uczestnikGryId = null; //tworze zmienna ktora bedzie przechowywac danego uczestniaka gry
     function pokazPopapZawodnika(kliknietyPrzycisk) {  // tworze funkcje z parametrem klikniety przycisk (dodany jest parametr zeby wiedziec gdzie kliknieto)
-        if ($(".wierszUczestnika").length == 3) {  //robie warunek ze jezeli iloesc wierszy jest rowna 3 to
-            $(".ostatniWierszOcenaZawodnika").hide(); // schowaj mi ostatni wiersz oceny zawodnika
-        } else {    //w innym wypadku
-            $(".ostatniWierszOcenaZawodnika").show(); // pokaz wiersz
-        }
+
         let gracz = $(kliknietyPrzycisk).closest(".wierszUczestnika").find("select option:selected").text(); // robie zmienna gracz ktora mowi : wez klikniety przycisk ;
         // wez rodzica .wierszUczestnika ; nastepnie wyszukuje dziecko ktore jest zaznaczone
         uczestnikGryId = $(kliknietyPrzycisk).closest(".wierszUczestnika").find(".uczestnikGryId").val(); //pobieram uzcestnika gry id w wierszu uczestnika
@@ -97,6 +93,13 @@
     function wstawWierszZRunda(numerRundy) {
         let pojedynczaRunda = $($("#templateRunda").html()); // do pojedynczejRundy przypisuje zawartosc szblonu w postaci html
         $(pojedynczaRunda).find(".numerRundy").text(numerRundy);
+
+        if ($(".wierszUczestnika").length == 3) {  //robie warunek ze jezeli iloesc wierszy jest rowna 3 to
+            $(pojedynczaRunda).find(".ostatniWierszOcenaZawodnika").hide(); // schowaj mi ostatni wiersz oceny zawodnika
+        } else {    //w innym wypadku
+            $(pojedynczaRunda).find(".ostatniWierszOcenaZawodnika").show(); // pokaz wiersz
+        }
+
         $("#popapOcenaZawodnika .modal-body").append(pojedynczaRunda);
     }
 
@@ -248,7 +251,7 @@
             </div>
         </div>
         <br />
-        <div class="row wierszOcenaZawodnika">
+        <div class="row wierszOcenaZawodnika ostatniWierszOcenaZawodnika">
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Zadanie 3</label>

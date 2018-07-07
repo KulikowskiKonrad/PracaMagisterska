@@ -16,7 +16,7 @@ namespace PracaMagisterska.Models
         public long? Id { get; set; }
 
         [Display(Name = "Imię")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Niepoprawna ilość znaków")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Niepoprawna ilość znaków")]
         [Required(ErrorMessage = "Pole wymagane")]
         public string Imie { get; set; }
 
@@ -25,6 +25,7 @@ namespace PracaMagisterska.Models
         public string Nazwisko { get; set; }
 
         [Display(Name = "Numer licencji")]
+        [StringLength(15, MinimumLength = 0, ErrorMessage = "Niepoprawna ilość znaków")]
         public string NrLicencji { get; set; }
 
         [Display(Name = "Klub")]

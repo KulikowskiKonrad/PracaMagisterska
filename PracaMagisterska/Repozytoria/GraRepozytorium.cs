@@ -33,6 +33,21 @@ namespace PracaMagisterska.Repozytoria
                     List<OcenaGracza> listaOcen = baza.OcenaGracza.Where(o => o.UczestnikGry.Gra.Data >= dataOd && o.UczestnikGry.Gra.Data <= dataDo
                         && o.UczestnikGry.Gra.Typ != (byte)TypGry.Trening && o.UczestnikGry.CzyUsuniety == false && o.UczestnikGry.Gra.CzyUsuniete == false
                         && o.UczestnikGry.Gra.UzytkownikId == uzytkownikId).ToList();
+
+                    //switch (listaOcen.Count)
+                    //{
+                    //    case 0:
+                    //        zrobCosGdyPusta();
+                    //        break;
+                    //    case 1:
+                    //    case 2:
+                    //        zrobCosInnegoGdy1Element();
+                    //        break;
+                    //    default:
+                    //        zrobCosJeszczeInnego();
+                    //        break;
+                    //}
+
                     foreach (Gracz gracz in listaGraczy)
                     {
                         {
@@ -46,8 +61,18 @@ namespace PracaMagisterska.Repozytoria
                                 //wez liste ocen danego gracza , pobierz wszystkie id gier i  usun ich powtorzenia(distinct) dodaj na liste i zlicz
                                 SredniaOcen = Math.Round(listaOcen.Where(x => x.UczestnikGry.GraczId == gracz.Id).Average(x => (byte?)x.Ocena).GetValueOrDefault(0), 2), //wez liste ocen danego gracza i wylicz srednia z ocen
                                 KategoriaWiekowaGraczy = (KategoriaWiekowa)gracz.KategoriaWiekowa,
-                                NazwaKlubu = gracz.Klub.Nazwa
+                                NazwaKlubu = gracz.KlubId.HasValue ? gracz.Klub.Nazwa : ""
                             };
+
+                            //if (gracz.KlubId.HasValue)
+                            //{
+                            //    statystykiZawodnika.NazwaKlubu = ...
+                            //}
+                            //else
+                            //{
+
+                            //}
+
                             listaStatystyk.Add(statystykiZawodnika);
                         }
                     }

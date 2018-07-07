@@ -28,6 +28,10 @@ namespace PracaMagisterska.Controllers
                 LogHelper.Log.Error(ex);
                 return View("Error");
             }
+            finally
+            {
+
+            }
         }
 
         [HttpPost]
@@ -39,7 +43,8 @@ namespace PracaMagisterska.Controllers
                 {
                     NotatkaRepozytorium notatkaRepozytorium = new NotatkaRepozytorium();
                     bool rezultatUsuniecia = notatkaRepozytorium.Usun(id);
-                    return RedirectToAction("ListaGier", "Gra");
+
+                    return RedirectToAction("ListaNotatek");
                 }
                 catch (Exception ex)
                 {

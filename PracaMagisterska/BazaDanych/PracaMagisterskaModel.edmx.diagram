@@ -5,12 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a50c37131a7c422ab3414a73fc94d9d3" Name="Diagram1">
-        <EntityTypeShape EntityType="PracaMagisterskaModel.Gracz" Width="1.5" PointX="3.875" PointY="0.5" />
+        <EntityTypeShape EntityType="PracaMagisterskaModel.Gracz" Width="1.5" PointX="4.625" PointY="0.875" />
         <EntityTypeShape EntityType="PracaMagisterskaModel.Klub" Width="1.5" PointX="0.75" PointY="1.375" />
         <EntityTypeShape EntityType="PracaMagisterskaModel.Uzytkownik" Width="1.5" PointX="2.125" PointY="3.875" />
         <AssociationConnector Association="PracaMagisterskaModel.FK_Gracz_Klub" />
         <EntityTypeShape EntityType="PracaMagisterskaModel.Gra" Width="1.5" PointX="7.5" PointY="4.125" />
-        <EntityTypeShape EntityType="PracaMagisterskaModel.UczestnikGry" PointX="9.75" PointY="0.5" Width="1.5" />
+        <EntityTypeShape EntityType="PracaMagisterskaModel.UczestnikGry" PointX="9.75" PointY="0.75" Width="1.5" />
         <AssociationConnector Association="PracaMagisterskaModel.FK_UczestnikGry_Gra" />
         <AssociationConnector Association="PracaMagisterskaModel.FK_UczestnikGry_Gracz" />
         <AssociationConnector Association="PracaMagisterskaModel.FK_Gra_Uzytkownik" />
@@ -18,7 +18,7 @@
         <AssociationConnector Association="PracaMagisterskaModel.FK_Gracz_Uzytkownik" />
         <EntityTypeShape EntityType="PracaMagisterskaModel.OcenaGracza" Width="1.5" PointX="12" PointY="0.875" />
         <AssociationConnector Association="PracaMagisterskaModel.FK_OcenaGracza_UczestnikGry" />
-        <EntityTypeShape EntityType="PracaMagisterskaModel.Notatka" Width="1.5" PointX="4.375" PointY="5.125" />
+        <EntityTypeShape EntityType="PracaMagisterskaModel.Notatka" Width="1.5" PointX="4.375" PointY="4.875" />
         <AssociationConnector Association="PracaMagisterskaModel.FK_Notatka_Uzytkownik" />
         </Diagram>
     </edmx:Diagrams>

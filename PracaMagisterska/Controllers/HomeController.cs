@@ -28,6 +28,8 @@ namespace PracaMagisterska.Controllers
             //    LogHelper.Log.Error(ex);
             //}
 
+            //ViewBag.Test = "asdasd";
+
             if (Request.IsAuthenticated == true && Session["uzytkownik"] == null)
             {
                 //long idUzytkownika=long.Parse(Request.LogonUserIdentity.UserClaims.Where(x => x.Type == "UserId").Single().Value);
